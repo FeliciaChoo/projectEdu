@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<div th:fragment="content">
+    <div class="text-center mb-5">
+        <h1 class="display-4">Welcome to ProjectEdu!</h1>
+        <p class="lead">Funding educational innovation for a better tomorrow</p>
+        <a th:href="@{/apply}" class="btn btn-primary btn-lg mt-3">
+            <i class="bi bi-pencil-square"></i> Apply Now
+        </a>
+    </div>
+
+    <div class="row">
+        <div class="col-md-4 mb-4">
+            <div class="card h-100">
+                <div class="card-body">
+                    <h3><i class="bi bi-lightbulb text-primary"></i> Innovative Projects</h3>
+                    <p>Support groundbreaking educational initiatives</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 mb-4">
+            <div class="card h-100">
+                <div class="card-body">
+                    <h3><i class="bi bi-people text-primary"></i> Student Support</h3>
+                    <p>Help students bring their ideas to life</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 mb-4">
+            <div class="card h-100">
+                <div class="card-body">
+                    <h3><i class="bi bi-award text-primary"></i> Impactful Results</h3>
+                    <p>See the difference your support makes</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
