@@ -1,15 +1,8 @@
 package com.example.projectEdu.controller;
 
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import com.example.projectEdu.model.Project;
-import com.example.projectEdu.repository.ProjectRepository;
 
 @Controller
 public class MainController {
@@ -31,5 +24,10 @@ public class MainController {
     @GetMapping("/login")
     public String loginPage() {
         return "logIn";
+    }
+
+    @GetMapping("/register")
+    public String registerPage() {
+        return "registration";
     }
 }
