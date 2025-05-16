@@ -27,4 +27,9 @@ public class MainController {
         model.addAttribute("content", "application");
         return "layout";
     }
+
+    @GetMapping("/login")
+    public String loginPage() {
+        return "logIn";
+    }
 }
