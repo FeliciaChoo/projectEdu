@@ -73,15 +73,15 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav me-auto">
                     <!-- Navigation links -->
-                    <li class="nav-item"><a class="nav-link active" href="#">Home</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#">Projects</a></li>
+                    <li class="nav-item"><a class="nav-link active" href="/">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/project">Projects</a></li>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="fundingDropdown" role="button" data-bs-toggle="dropdown">
                             Funding
                         </a>
                         <!-- Dropdown menu -->
                         <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="#">Apply for Funding</a></li>
+                            <li><a class="dropdown-item" href="/apply">Apply for Funding</a></li>
                             <li><a class="dropdown-item" href="#">Funding Guidelines</a></li>
                         </ul>
                     </li>
@@ -160,8 +160,20 @@
             <th></th>
         </tr>
         </thead>
-        <tbody>
-        <!-- Data rows here -->
+        <tbody th:if="${projects != null}">
+        <tr th:each="project : ${projects}">
+            <td th:text="${project.title}">Project Title</td>
+            <td th:text="${project.status}">Status</td>
+            <td th:text="${project.currentAmount}">0.00</td>
+            <td th:text="${project.goalAmount}">0.00</td>
+            <td th:text="${project.endDate}">2025-01-01</td>
+            <td>
+                <a class="btn btn-outline-primary btn-sm align-items-center"
+                   th:href="@{/project/{id}(id=${project.projectId})}">
+                    View
+                </a>
+            </td>
+        </tr>
         </tbody>
     </table>
 </div>
