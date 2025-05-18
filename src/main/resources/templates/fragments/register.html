@@ -1,0 +1,170 @@
+<!-- fragments/register.html -->
+<div th:fragment="content">
+    <style>
+        /* Registration specific styles */
+        .form-control, .form-select {
+            border: 2px solid #3478db;
+            border-radius: 8px;
+        }
+
+        .btn-register {
+            background-color: #3478db;
+            color: white;
+            font-weight: bold;
+            border: none;
+            border-radius: 15px;
+            box-shadow: 4px 4px 6px rgba(0, 0, 0, 0.2);
+            padding: 10px 20px;
+        }
+
+        .btn-register:hover {
+            background-color: #2a62b3;
+        }
+    </style>
+
+    <div class="container d-flex justify-content-center align-items-center" style="min-height: 80vh;">
+        <div class="col-md-8 login-card text-center">
+            <h2 class="mb-4 fw-bold pt-4">REGISTER FORM</h2>
+
+            <!-- User type radio buttons -->
+            <div class="mb-4">
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="userType" id="studentRadio" value="student" checked>
+                    <label class="form-check-label" for="studentRadio">Student</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="userType" id="funderRadio" value="funder">
+                    <label class="form-check-label" for="funderRadio">Funder</label>
+                </div>
+            </div>
+
+            <form action="/register" method="post" id="registerForm">
+                <!-- Student fields -->
+                <div id="studentFields">
+                    <div class="mb-3 row align-items-center">
+                        <label for="fullNameStudent" class="col-sm-3 col-form-label fw-semibold">Full Name</label>
+                        <div class="col-sm-9">
+                            <input type="text" name="fullNameStudent" class="form-control" id="fullNameStudent" placeholder="Enter your full name" required>
+                        </div>
+                    </div>
+
+                    <div class="mb-3 row align-items-center">
+                        <label for="studentId" class="col-sm-3 col-form-label fw-semibold">Student Id</label>
+                        <div class="col-sm-9">
+                            <input type="text" name="studentId" class="form-control" id="studentId" placeholder="Enter your student Id" required>
+                        </div>
+                    </div>
+
+                    <div class="mb-3 row align-items-center">
+                        <label for="university" class="col-sm-3 col-form-label fw-semibold">Name of Institution</label>
+                        <div class="col-sm-9">
+                            <select class="form-select" id="university" name="university" required onchange="toggleOtherUniversity(this)">
+                                <option value="" disabled selected>Select university</option>
+
+                                <optgroup label="Public Universities">
+                                    <option value="Universiti Malaya (UM)">Universiti Malaya (UM)</option>
+                                    <option value="Universiti Kebangsaan Malaysia (UKM)">Universiti Kebangsaan Malaysia (UKM)</option>
+                                    <option value="Universiti Putra Malaysia (UPM)">Universiti Putra Malaysia (UPM)</option>
+                                    <option value="Universiti Sains Malaysia (USM)">Universiti Sains Malaysia (USM)</option>
+                                    <option value="Universiti Teknologi Malaysia (UTM)">Universiti Teknologi Malaysia (UTM)</option>
+                                </optgroup>
+
+                                <optgroup label="Private Universities">
+                                    <option value="Taylor's University">Taylor's University</option>
+                                    <option value="Monash University Malaysia">Monash University Malaysia</option>
+                                    <option value="Sunway University">Sunway University</option>
+                                    <option value="INTI International University">INTI International University</option>
+                                    <option value="HELP University">HELP University</option>
+                                </optgroup>
+
+                                <option value="Other">Other</option>
+                            </select>
+
+                            <input type="text" class="form-control mt-2" id="otherUniversity" name="otherUniversity" placeholder="Please specify your university" style="display:none;">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Funder fields -->
+                <div id="funderFields" style="display:none;">
+                    <div class="mb-3 row align-items-center">
+                        <label for="fullNameFunder" class="col-sm-3 col-form-label fw-semibold">Full Name</label>
+                        <div class="col-sm-9">
+                            <input type="text" name="fullNameFunder" class="form-control" id="fullNameFunder" placeholder="Enter your full name" required>
+                        </div>
+                    </div>
+
+                    <div class="mb-3 row align-items-center">
+                        <label for="funderId" class="col-sm-3 col-form-label fw-semibold">Funder Id</label>
+                        <div class="col-sm-9">
+                            <input type="text" name="funderId" class="form-control" id="funderId" placeholder="Enter your funder Id" required>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Common fields -->
+                <div class="mb-3 row align-items-center">
+                    <label for="email" class="col-sm-3 col-form-label fw-semibold">Email</label>
+                    <div class="col-sm-9">
+                        <input type="email" name="email" class="form-control" id="email" placeholder="Enter your email" required>
+                    </div>
+                </div>
+
+                <div class="mb-3 row align-items-center">
+                    <label for="password" class="col-sm-3 col-form-label fw-semibold">Password</label>
+                    <div class="col-sm-9">
+                        <input type="password" name="password" class="form-control" id="password" placeholder="Enter your password" required>
+                    </div>
+                </div>
+
+                <div class="mb-3 row align-items-center">
+                    <label for="confirmPassword" class="col-sm-3 col-form-label fw-semibold">Confirm Password</label>
+                    <div class="col-sm-9">
+                        <input type="password" name="confirmPassword" class="form-control" id="confirmPassword" placeholder="Confirm your password" required>
+                    </div>
+                </div>
+
+                <!-- Submit button -->
+                <div class="d-flex justify-content-center">
+                    <button type="submit" class="btn btn-register px-4">Register Now</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Toggle form fields based on radio selection
+        document.querySelectorAll('input[name="userType"]').forEach(radio => {
+            radio.addEventListener('change', function () {
+                if (this.value === 'student') {
+                    document.getElementById('studentFields').style.display = 'block';
+                    document.getElementById('funderFields').style.display = 'none';
+
+                    document.querySelectorAll('#studentFields input').forEach(i => i.required = true);
+                    document.querySelectorAll('#funderFields input').forEach(i => i.required = false);
+                } else {
+                    document.getElementById('studentFields').style.display = 'none';
+                    document.getElementById('funderFields').style.display = 'block';
+
+                    document.querySelectorAll('#studentFields input').forEach(i => i.required = false);
+                    document.querySelectorAll('#funderFields input').forEach(i => i.required = true);
+                }
+            });
+        });
+
+        // Trigger change on page load to set initial required attributes
+        document.querySelector('input[name="userType"]:checked').dispatchEvent(new Event('change'));
+
+        function toggleOtherUniversity(select) {
+            const otherInput = document.getElementById('otherUniversity');
+            if (select.value === 'Other') {
+                otherInput.style.display = 'block';
+                otherInput.required = true;
+            } else {
+                otherInput.style.display = 'none';
+                otherInput.required = false;
+                otherInput.value = '';
+            }
+        }
+    </script>
+</div>

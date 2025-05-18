@@ -1,0 +1,201 @@
+<!-- fragments/project-list.html -->
+      <div th:fragment="content(projects)">
+        <div class="container py-4">
+
+          <!-- Navigation Tabs -->
+          <ul class="nav nav-tabs mb-4">
+            <li class="nav-item">
+              <a class="nav-link"
+                 th:classappend="${activeTab == 'all'} ? ' active' : ''"
+                 th:href="@{/projects}">All</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link"
+                 th:classappend="${activeTab == 'upcoming'} ? ' active' : ''"
+                 th:href="@{/projects(status='upcoming')}">Upcoming</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link"
+                 th:classappend="${activeTab == 'successful'} ? ' active' : ''"
+                 th:href="@{/projects(status='successful')}">Successful</a>
+            </li>
+          </ul>
+
+          <!-- Search and Filter -->
+          <div class="d-flex justify-content-between mb-4">
+
+            <!-- Search Form -->
+            <form th:action="@{/projects}" method="get" class="d-flex search-box">
+              <input type="hidden" name="status" th:value="${activeTab}">
+              <input type="hidden" name="category" th:value="${selectedCategory}">
+              <div class="input-group rounded-pill shadow-sm">
+                <input type="text"
+                       class="form-control border-0"
+                       placeholder="Search Project"
+                       name="search"
+                       th:value="${searchTerm}">
+                <button class="input-group-text bg-white border-0" type="submit">
+                  <i class="bi bi-search text-secondary"></i>
+                </button>
+              </div>
+            </form>
+
+            <!-- Category Dropdown -->
+            <div class="dropdown">
+              <button class="btn btn-light dropdown-toggle rounded-pill shadow-sm"
+                      type="button" data-bs-toggle="dropdown"
+                      style="padding: 8px 16px;">
+                <span th:text="${selectedCategory ?: 'Search Category'}">Search Category</span>
+              </button>
+              <ul class="dropdown-menu">
+                <li>
+                  <a class="dropdown-item"
+                     th:href="@{/projects(status=${activeTab}, search=${searchTerm})}">
+                    All Categories
+                  </a>
+                </li>
+                <li th:each="category : ${categories}">
+                  <a class="dropdown-item"
+                     th:href="@{/projects(status=${activeTab}, category=${category}, search=${searchTerm})}"
+                     th:text="${category}">Category</a>
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- Project Cards -->
+          <div class="row g-4">
+
+            <div class="col-12" th:if="${#lists.isEmpty(projects)}">
+              <div class="alert alert-info">No projects found matching your criteria</div>
+            </div>
+
+            <div class="col-md-4 col-lg-3" th:each="project : ${projects}">
+              <div class="card h-100 shadow-sm">
+                <div class="ratio ratio-16x9">
+                  <img th:src="@{${project.imageUrl != null ? project.imageUrl : '/images/default-project.png'}}"
+                       class="card-img-top object-fit-cover"
+                       alt="Project image" />
+
+
+
+                </div>
+                <div class="card-body">
+                  <h5 class="card-title" th:text="${project.title}">Project Title</h5>
+                  <div class="progress mb-2" style="height: 6px;">
+                    <div class="progress-bar"
+                         th:classappend="${project.fundedPercentage >= 100} ? ' bg-success' : ' bg-primary'"
+                         th:style="'width:' + ${project.fundedPercentage} + '%'">
+                    </div>
+                  </div>
+                  <div class="text-center fw-bold mb-3"
+                       th:text="${project.fundedPercentage + '% FUNDED'}">
+                  </div>
+                  <p class="text-muted" th:text="${project.shortDescription}">Project description</p>
+                  <div class="d-flex justify-content-between small text-muted">
+                    <span th:text="${#temporals.format(project.endDate, 'MMM dd, yyyy')}"></span>
+                    <span th:text="'$' + ${#numbers.formatDecimal(project.currentAmount, 1, 2)} + ' raised'"></span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+      <li class="nav-item">
+        <a class="nav-link"
+           th:classappend="${activeTab == 'upcoming'} ? ' active' : ''"
+           th:href="@{/projects(status='upcoming')}">Upcoming</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link"
+           th:classappend="${activeTab == 'successful'} ? ' active' : ''"
+           th:href="@{/projects(status='successful')}">Successful</a>
+      </li>
+    </ul>
+
+    <!-- Search and Filter -->
+    <div class="d-flex justify-content-between mb-4">
+
+      <!-- Search Form -->
+      <form th:action="@{/projects}" method="get" class="d-flex search-box">
+        <input type="hidden" name="status" th:value="${activeTab}">
+        <input type="hidden" name="category" th:value="${selectedCategory}">
+        <div class="input-group rounded-pill shadow-sm">
+          <input type="text"
+                 class="form-control border-0"
+                 placeholder="Search Project"
+                 name="search"
+                 th:value="${searchTerm}">
+          <button class="input-group-text bg-white border-0" type="submit">
+            <i class="bi bi-search text-secondary"></i>
+          </button>
+        </div>
+      </form>
+
+      <!-- Category Dropdown -->
+      <div class="dropdown">
+        <button class="btn btn-light dropdown-toggle rounded-pill shadow-sm"
+                type="button" data-bs-toggle="dropdown"
+                style="padding: 8px 16px;">
+          <span th:text="${selectedCategory ?: 'Search Category'}">Search Category</span>
+        </button>
+        <ul class="dropdown-menu">
+          <li>
+            <a class="dropdown-item"
+               th:href="@{/projects(status=${activeTab}, search=${searchTerm})}">
+              All Categories
+            </a>
+          </li>
+          <li th:each="category : ${categories}">
+            <a class="dropdown-item"
+               th:href="@{/projects(status=${activeTab}, category=${category}, search=${searchTerm})}"
+               th:text="${category}">Category</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Project Cards -->
+    <div class="row g-4">
+
+      <div class="col-12" th:if="${#lists.isEmpty(projects)}">
+        <div class="alert alert-info">No projects found matching your criteria</div>
+      </div>
+
+      <div class="col-md-4 col-lg-3" th:each="project : ${projects}">
+        <div class="card h-100 shadow-sm">
+          <!-- Make the image clickable -->
+          <a th:href="@{/donor/{id}(id=${project.projectId})}">
+            <img th:src="@{${project.imageUrl}}"
+                 onerror="this.onerror=null; this.src='/images/default-project.png';"
+                 class="card-img-top object-fit-cover"
+                 alt="Project image">
+          </a>
+
+        </div>
+          <div class="card-body">
+            <h5 class="card-title" th:text="${project.title}">Project Title</h5>
+            <div class="progress mb-2" style="height: 6px;">
+              <div class="progress-bar"
+                   th:classappend="${project.fundedPercentage >= 100} ? ' bg-success' : ' bg-primary'"
+                   th:style="'width:' + ${project.fundedPercentage} + '%'">
+              </div>
+            </div>
+            <div class="text-center fw-bold mb-3"
+                 th:text="${project.fundedPercentage + '% FUNDED'}">
+            </div>
+            <p class="text-muted" th:text="${project.shortDescription}">Project description</p>
+            <div class="d-flex justify-content-between small text-muted">
+              <span th:text="${#temporals.format(project.endDate, 'MMM dd, yyyy')}"></span>
+              <span th:text="'$' + ${#numbers.formatDecimal(project.currentAmount, 1, 2)} + ' raised'"></span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>

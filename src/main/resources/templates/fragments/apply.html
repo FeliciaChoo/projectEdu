@@ -1,7 +1,5 @@
-<!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-<body>
-<div th:fragment="content">
+<!-- apply.html -->
+<div th:fragment="content (projects)">
     <div class="row justify-content-center">
         <div class="col-lg-10">
             <div class="card shadow">
@@ -9,53 +7,45 @@
                     <h2 class="h4 mb-0"><i class="bi bi-cash-stack"></i> Project Funding Application</h2>
                 </div>
                 <div class="card-body bg-white">
-                    <form th:action="@{/apply}" method="post">
+                    <form th:action="@{/apply}" method="post" enctype="multipart/form-data" th:object="${project}">
                         <!-- Student Info -->
                         <div class="mb-4">
                             <h3 class="h5 section-header"><i class="bi bi-person-vcard text-primary"></i> Student Information</h3>
                             <div class="row g-3">
                                 <div class="col-md-6">
                                     <label for="studentName" class="form-label">Full Name</label>
-                                    <input type="text" class="form-control" id="studentName" name="studentName" required>
+                                    <input type="text" class="form-control" id="studentName" th:field="*{student.name}" required />
                                 </div>
                                 <div class="col-md-6">
                                     <label for="studentID" class="form-label">Student ID</label>
-                                    <input type="text" class="form-control" id="studentID" name="studentID" required>
+                                    <input type="text" class="form-control" id="studentID" th:field="*{student.id}" required />
                                 </div>
-
                                 <!-- University Dropdown with Other Option -->
                                 <div class="col-md-6">
                                     <label for="university" class="form-label">University</label>
-                                    <select class="form-select" id="university" name="university" required onchange="toggleOtherUniversity(this)">
-                                        <option selected disabled>Select university</option>
-
+                                    <select class="form-select" id="university" th:field="*{student.university}" required onchange="toggleOtherUniversity(this)">
+                                        <option value="" selected disabled>Select university</option>
                                         <optgroup label="Public Universities">
                                             <option value="Universiti Malaya (UM)">Universiti Malaya (UM)</option>
                                             <option value="Universiti Kebangsaan Malaysia (UKM)">Universiti Kebangsaan Malaysia (UKM)</option>
                                             <option value="Universiti Putra Malaysia (UPM)">Universiti Putra Malaysia (UPM)</option>
                                             <option value="Universiti Sains Malaysia (USM)">Universiti Sains Malaysia (USM)</option>
                                             <option value="Universiti Teknologi Malaysia (UTM)">Universiti Teknologi Malaysia (UTM)</option>
-                                            <!-- Add more public unis as needed -->
                                         </optgroup>
-
                                         <optgroup label="Private Universities">
                                             <option value="Taylor's University">Taylor's University</option>
                                             <option value="Monash University Malaysia">Monash University Malaysia</option>
                                             <option value="Sunway University">Sunway University</option>
                                             <option value="INTI International University">INTI International University</option>
                                             <option value="HELP University">HELP University</option>
-                                            <!-- Add more private unis as needed -->
                                         </optgroup>
-
                                         <option value="Other">Other</option>
                                     </select>
-
-                                    <input type="text" class="form-control mt-2" id="otherUniversity" name="otherUniversity" placeholder="Please specify your university" style="display:none;">
+                                    <input type="text" class="form-control mt-2" id="otherUniversity" th:field="*{student.otherUniversity}" placeholder="Please specify your university" style="display:none;" />
                                 </div>
-
                                 <div class="col-md-6">
                                     <label for="email" class="form-label">Email</label>
-                                    <input type="email" class="form-control" id="email" name="email" required>
+                                    <input type="email" class="form-control" id="email" th:field="*{student.email}" required />
                                 </div>
                             </div>
                         </div>
@@ -67,16 +57,17 @@
                             </h3>
                             <div class="mb-3">
                                 <label for="projectTitle" class="form-label">Project Title</label>
-                                <input type="text" class="form-control" id="projectTitle" name="projectTitle" required>
+                                <input type="text" class="form-control" id="projectTitle" th:field="*{title}" required />
+
                             </div>
                             <div class="mb-3">
                                 <label for="projectDesc" class="form-label">Project Description</label>
-                                <textarea class="form-control" id="projectDesc" name="projectDesc" rows="4" required></textarea>
+                                <textarea class="form-control" id="projectDesc" th:field="*{description}" rows="4" required></textarea>
                             </div>
                             <div class="mb-3">
                                 <label for="category" class="form-label">Category</label>
-                                <select class="form-select" id="category" name="category" required onchange="toggleOtherCategory(this)">
-                                    <option selected disabled>Select category</option>
+                                <select class="form-select" id="category" th:field="*{category}" required onchange="toggleOtherCategory(this)">
+                                    <option value="" selected disabled>Select category</option>
                                     <option value="Technology">Technology</option>
                                     <option value="Science">Science</option>
                                     <option value="Social Impact">Social Impact</option>
@@ -85,14 +76,18 @@
                                     <option value="Environment">Environment</option>
                                     <option value="Arts & Culture">Arts & Culture</option>
                                     <option value="Business & Entrepreneurship">Business & Entrepreneurship</option>
-                                    <option value="Others">Other</option>
+                                    <option value="Other">Other</option>
                                 </select>
-                                <input type="text" class="form-control mt-2" id="otherCategory" name="otherCategory" placeholder="Please specify category" style="display:none;">
+                                <input type="text" class="form-control mt-2" id="otherCategory" placeholder="Please specify category" style="display:none;" />
                             </div>
                             <div class="mb-3">
                                 <label for="surveyLink" class="form-label">Survey Link (if any):</label>
-                                <input type="text" class="form-control" id="surveyLink" name="surveyLink" required>
+                                <input type="text" class="form-control" id="surveyLink" th:field="*{surveyLink}" />
                             </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="imageFile" class="form-label">Upload Project Image</label>
+                            <input type="file" class="form-control" id="imageFile" name="imageFile" accept="image/*" />
                         </div>
 
                         <!-- Funding Request Section -->
@@ -102,27 +97,24 @@
                             </h3>
                             <div class="mb-3">
                                 <label for="amountRequested" class="form-label">Amount Requested (MYR)</label>
-                                <input type="number" class="form-control" id="amountRequested" name="amountRequested" required>
+                                <input type="number" class="form-control" id="amountRequested" th:field="*{goalAmount}" required />
                             </div>
                             <div class="mb-3">
                                 <label for="bankName" class="form-label">Bank Name</label>
-                                <input type="text" class="form-control" id="bankName" name="bankName" required>
+                                <input type="text" class="form-control" id="bankName" th:field="*{bankName}" required />
                             </div>
                             <div class="mb-3">
                                 <label for="bankAccount" class="form-label">Account No.</label>
-                                <input type="number" class="form-control" id="bankAccount" name="bankAccount" required>
+                                <input type="number" class="form-control" id="bankAccount" th:field="*{accountNo}" required />
                             </div>
                             <div class="mb-3">
                                 <label for="accHName" class="form-label">Account Holder Name</label>
-                                <input type="text" class="form-control" id="accHName" name="accHName">
+                                <input type="text" class="form-control" id="accHName" th:field="*{accountHolderName}" />
                             </div>
                         </div>
 
                         <!-- Buttons -->
                         <div class="d-flex justify-content-between mt-4">
-                            <button type="button" class="btn btn-outline-secondary">
-                                <i class="bi bi-file-earmark"></i> Save Draft
-                            </button>
                             <button type="submit" class="btn btn-primary">
                                 <i class="bi bi-send-check"></i> Submit Application
                             </button>
@@ -132,33 +124,47 @@
             </div>
         </div>
     </div>
+
+    <script>
+        function toggleOtherUniversity(select) {
+            var otherInput = document.getElementById('otherUniversity');
+            if (select.value === 'Other') {
+                otherInput.style.display = 'block';
+                otherInput.required = true;
+            } else {
+                otherInput.style.display = 'none';
+                otherInput.required = false;
+                otherInput.value = '';
+            }
+        }
+        function toggleOtherCategory(select) {
+            var otherCatInput = document.getElementById('otherCategory');
+            if (select.value === 'Other') {
+                otherCatInput.style.display = 'block';
+                otherCatInput.required = true;
+            } else {
+                otherCatInput.style.display = 'none';
+                otherCatInput.required = false;
+                otherCatInput.value = '';
+            }
+        }
+        document.querySelector('form').addEventListener('submit', function () {
+            const uniSelect = document.getElementById('university');
+            const otherUni = document.getElementById('otherUniversity');
+            if (uniSelect.value === 'Other' && otherUni.value) {
+                uniSelect.value = otherUni.value;
+            }
+        });
+
+
+        // Update category field before form submission
+        document.querySelector('form').addEventListener('submit', function () {
+            const categorySelect = document.getElementById('category');
+            const otherCategory = document.getElementById('otherCategory');
+            if (categorySelect.value === 'Other' && otherCategory.value) {
+                categorySelect.value = otherCategory.value;
+            }
+        });
+
+    </script>
 </div>
-
-<script>
-    function toggleOtherUniversity(select) {
-        var otherInput = document.getElementById('otherUniversity');
-        if (select.value === 'Other') {
-            otherInput.style.display = 'block';
-            otherInput.required = true;
-        } else {
-            otherInput.style.display = 'none';
-            otherInput.required = false;
-            otherInput.value = '';
-        }
-    }
-
-    function toggleOtherCategory(select) {
-        var otherCatInput = document.getElementById('otherCategory');
-        if (select.value === 'Other') {
-            otherCatInput.style.display = 'block';
-            otherCatInput.required = true;
-        } else {
-            otherCatInput.style.display = 'none';
-            otherCatInput.required = false;
-            otherCatInput.value = '';
-        }
-    }
-</script>
-
-</body>
-</html>

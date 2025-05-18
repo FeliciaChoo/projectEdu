@@ -1,0 +1,31 @@
+<!-- fragments/login.html -->
+<div th:fragment="content" class="container d-flex justify-content-center align-items-center login-container" style="min-height:80vh; margin-top:35px;">
+    <div class="row bg-white rounded-4 p-5 shadow w-100" style="max-width: 900px;">
+        <!-- Image + Title -->
+        <div class="col-md-6 text-center d-flex flex-column align-items-center justify-content-center">
+            <h2 class="fw-bold">ProjectFunder</h2>
+            <img th:src="@{/images/planning.png}" alt="Project Image" class="img-fluid login-image mb-4" style="max-height:300px;">
+        </div>
+
+        <!-- Login Form -->
+        <div class="col-md-6">
+            <form>
+                <div class="mb-3">
+                    <label for="email" class="form-label fw-semibold">Email</label>
+                    <input type="email" class="form-control" id="email" placeholder="Enter your email">
+                </div>
+                <div class="mb-2">
+                    <label for="password" class="form-label fw-semibold">Password</label>
+                    <input type="password" class="form-control" id="password" placeholder="Enter your password">
+                </div>
+                <div class="text-end mb-4">
+                    <a href="#">Forgot Password?</a>
+                </div>
+                <button type="submit" class="btn btn-signin w-100" style="background-color:#3478db; color:white; font-weight:bold; border:none; border-radius:15px; box-shadow:4px 4px 6px rgba(0,0,0,0.2); padding:10px 0;">Sign In</button>
+            </form>
+            <div class="mt-4 text-center">
+                New User? <a href="#"><strong>Sign Up Here</strong></a>
+            </div>
+        </div>
+    </div>
+</div>
