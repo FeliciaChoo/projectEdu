@@ -1,15 +1,9 @@
 package com.example.projectEdu.controller;
 
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import com.example.projectEdu.model.Project;
-import com.example.projectEdu.repository.ProjectRepository;
 
 @Controller
 public class MainController {
@@ -28,7 +22,6 @@ public class MainController {
         return "layout";
     }
 
-
     @GetMapping("/apply")
     public String showApplicationForm(Model model) {
         model.addAttribute("title", "Apply for Funding");
@@ -38,7 +31,6 @@ public class MainController {
 
     @GetMapping("/login")
     public String loginPage() {
-
         return "logIn";
     }
 
@@ -51,5 +43,10 @@ public class MainController {
     @GetMapping("/application")
     public String applicationPage() {
         return "application";
+    }
+
+    @PostMapping("/successful-payment")
+    public String successfulPayment() {
+        return "paymentSuccessful";
     }
 }
