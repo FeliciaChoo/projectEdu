@@ -21,6 +21,14 @@ public class MainController {
         return "layout";
     }
 
+    @GetMapping("/donation-form")
+    public String donationForm(Model model) {
+        model.addAttribute("title", "Project Funding Application");
+        model.addAttribute("content", "donationForm");
+        return "layout";
+    }
+
+
     @GetMapping("/apply")
     public String showApplicationForm(Model model) {
         model.addAttribute("title", "Apply for Funding");
@@ -30,11 +38,18 @@ public class MainController {
 
     @GetMapping("/login")
     public String loginPage() {
+
         return "logIn";
     }
 
     @GetMapping("/register")
     public String registerPage() {
+
         return "registration";
+    }
+
+    @GetMapping("/application")
+    public String applicationPage() {
+        return "application";
     }
 }
