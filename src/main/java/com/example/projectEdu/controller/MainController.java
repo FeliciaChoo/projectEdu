@@ -29,6 +29,13 @@ public class MainController {
         return "layout";
     }
 
+    @GetMapping("/student-dashboard")
+    public String studentDashboard(Model model) {
+        model.addAttribute("title", "Student Dashboard");
+        model.addAttribute("content", "studentDashboard");
+        return "layout";
+    }
+
     @GetMapping("/login")
     public String loginPage() {
         return "logIn";
