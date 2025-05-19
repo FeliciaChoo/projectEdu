@@ -36,6 +36,13 @@ public class MainController {
         return "layout";
     }
 
+    @GetMapping("/funder-dashboard")
+    public String funderDashboard(Model model) {
+        model.addAttribute("title", "Funder Dashboard");
+        model.addAttribute("content", "funderDashboard");
+        return "layout";
+    }
+
     @GetMapping("/login")
     public String loginPage() {
         return "logIn";
