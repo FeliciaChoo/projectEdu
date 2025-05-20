@@ -50,6 +50,19 @@ public class MainController {
         return "layout";
     }
 
+    @GetMapping("/donor")
+    public String showDonationForm(Model model, HttpServletRequest request) {
+        model.addAttribute("title", "");
+        model.addAttribute("content", "fragments/donor");
+        model.addAttribute("currentUri", request.getRequestURI());
+        return "layout";
+    }
+
+    @PostMapping("/payment-success")
+    public String showPaymentSuccess(Model model, HttpServletRequest request) {
+        return "payment-success";
+    }
+
 
     @GetMapping("/login")
     public String loginPage(Model model) {
@@ -65,7 +78,6 @@ public class MainController {
         model.addAttribute("content", "fragments/register");
         return "layout"; // Your main layout template
     }
-
 
     @PostMapping("/apply")
     public String submitApplication(@Valid @ModelAttribute("project") Project project,

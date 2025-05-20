@@ -1,10 +1,108 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+<div th:fragment="content">
+    <div class="row justify-content-center">
+        <div class="col-lg-10">
+            <div class="card shadow">
+                <div class="card-header text-white" style="background:#3a7bd5;">
+                    <h2 class="h4 mb-0"><i class="bi bi-cash-stack"></i> Project Funding Application</h2>
+                </div>
+                <div class="card-body bg-white">
+                    <form th:action="@{/payment-success}" method="post">
+                        <!-- Funder Info -->
+                        <div class="mb-4">
+                            <h3 class="h5 section-header"><i class="bi bi-person-vcard text-primary"></i> Student Information</h3>
+                            <div class="row g-3">
+                                <div class="col-md-6">
+                                    <label for="funderName" class="form-label">Full Name</label>
+                                    <input type="text" class="form-control" id="funderName" name="funderName" required>
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="funderEmail" class="form-label">Email</label>
+                                    <input type="email" class="form-control" id="funderEmail" name="funderEmail" required>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Project Details Section -->
+                        <div class="mb-4">
+                            <h3 class="h5 mb-3 section-header">
+                                <i class="bi bi-clipboard2-pulse text-primary"></i> Donation Information
+                            </h3>
+                            <div class="mb-3">
+                                <label for="projectId" class="form-label">Project ID</label>
+                                <input type="text" class="form-control" id="projectId" name="projectId" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="donationAmount" class="form-label">Donation Amount (MYR)</label>
+                                <div class="input-group">
+                                    <span class="input-group-text">MYR</span>
+                                    <input type="number" min="1" class="form-control" id="donationAmount" name="donationAmount" required>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mb-4">
+                            <h3 class="h5 mb-3 section-header">
+                                <i class="bi bi-wallet2 text-primary"></i> Payment Methods
+                            </h3>
+                            <div class="accordion mb-4" id="paymentAccordion">
+                                <!-- Online Banking -->
+                                <div class="accordion-item">
+                                    <h2 class="accordion-header" id="onlineBankingHeading">
+                                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#onlineBanking" aria-expanded="true" aria-controls="onlineBanking">
+                                            Online Banking
+                                        </button>
+                                    </h2>
+                                    <div id="onlineBanking" class="accordion-collapse collapse show" aria-labelledby="onlineBankingHeading" data-bs-parent="#paymentAccordion">
+                                        <div class="accordion-body">
+                                            <div class="mb-3">
+                                                <label for="bankName" class="form-label">Select Bank:</label>
+                                                <select class="form-select" id="bankName" name="bankName">
+                                                    <option value="">-- Select Bank --</option>
+                                                    <option value="maybank">Maybank</option>
+                                                    <option value="cimb">CIMB</option>
+                                                    <option value="rhb">RHB</option>
+                                                    <option value="publicBank">Public Bank</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
 
-</body>
-</html>
+                                <!-- E-Wallet -->
+                                <div class="accordion-item">
+                                    <h2 class="accordion-header" id="ewalletHeading">
+                                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#ewallet" aria-expanded="false" aria-controls="ewallet">
+                                            E-Wallet
+                                        </button>
+                                    </h2>
+                                    <div id="ewallet" class="accordion-collapse collapse" aria-labelledby="ewalletHeading" data-bs-parent="#paymentAccordion">
+                                        <div class="accordion-body">
+                                            <div class="mb-3">
+                                                <label for="ewalletOption" class="form-label">Select E-Wallet:</label>
+                                                <select class="form-select" id="ewalletOption" name="ewalletOption">
+                                                    <option value="">-- Select E-Wallet --</option>
+                                                    <option value="tng">Touch 'n Go</option>
+                                                    <option value="boost">Boost</option>
+                                                    <option value="grabpay">GrabPay</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Buttons -->
+                        <div class="d-flex justify-content-between mt-4">
+                            <button type="button" class="btn btn-outline-secondary">
+                                <i class="bi bi-x"></i> Cancel Payment
+                            </button>
+                            <button type="submit" class="btn btn-primary">
+                                <i class="bi bi-credit-card"></i> Submit Application
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
