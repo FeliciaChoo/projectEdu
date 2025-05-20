@@ -23,39 +23,30 @@
         <div class="d-flex align-items-center gap-3">
             <img src="https://cdn-icons-png.flaticon.com/128/3177/3177440.png" alt="Profile Picture" class="profile-img rounded-circle shadow" />
             <div>
-                <h2 class="mb-1">Student's Name</h2>
+                <h2 class="mb-1">Funder's Name</h2>
                 <p class="mb-0">
                     <i class="bi bi-envelope"></i> student@example.com
-                </p>
-                <p class="mb-0">
-                    <i class="bi bi-mortarboard"></i> University of Malaya
                 </p>
             </div>
         </div>
 
         <div class="row mb-4 mt-4">
-            <div class="col-md-3">
+            <div class="col-md-4">
                 <div class="card p-3 text-center bg-success text-white">
-                    <h5 class="card-title">Total Projects</h5>
+                    <h5 class="card-title">Funded Projects</h5>
                     <p class="card-text fs-5 fw-bold">1</p>
                 </div>
             </div>
-            <div class="col-md-3">
+            <div class="col-md-4">
                 <div class="card p-3 text-center bg-primary text-white">
-                    <h5 class="card-title">Active Projects</h5>
-                    <p class="card-text fs-5 fw-bold">1</p>
+                    <h5 class="card-title">Total Donation</h5>
+                    <p class="card-text fs-5 fw-bold">MYR</p>
                 </div>
             </div>
-            <div class="col-md-3">
-                <div class="card p-3 text-center bg-info text-white">
+            <div class="col-md-4">
+                <div class="card p-3 text-center bg-warning text-black">
                     <h5 class="card-title">Completed Projects</h5>
                     <p class="card-text fs-5 fw-bold">1</p>
-                </div>
-            </div>
-            <div class="col-md-3">
-                <div class="card p-3 text-center bg-warning text-black">
-                    <h5 class="card-title">Fund Raised</h5>
-                    <p class="card-text fs-5 fw-bold">MYR</p>
                 </div>
             </div>
         </div>
@@ -65,27 +56,30 @@
             <tr>
                 <th colspan="6" class="text-center">
                     <div class="d-flex justify-content-between align-items-center">
-                        <span>My Projects</span>
-                        <a th:href="@{/apply}" class="btn btn-success btn-sm">+ Add Project</a>
+                        <span>Donation History</span>
+                        <a th:href="@{/projects}" class="btn btn-primary btn-sm">
+                            <i class="bi bi-search me-1"></i> Browse Projects
+                        </a>
                     </div>
                 </th>
             </tr>
             <tr>
-                <th>Title</th>
-                <th>Status</th>
-                <th>Raised</th>
-                <th>Goal</th>
-                <th>End Date</th>
+                <th>Project Title</th>
+                <th>Project Owner</th>
+                <th>Category</th>
+                <th>Amount Donated</th>
+                <th>Date Donated</th>
                 <th></th>
             </tr>
+
             </thead>
             <tbody th:if="${projects != null}">
             <tr th:each="project : ${projects}">
                 <td th:text="${project.title}">Project Title</td>
-                <td th:text="${project.status}">Status</td>
-                <td th:text="'MYR'${project.currentAmount}">0.00</td>
-                <td th:text="'MYR'${project.goalAmount}">0.00</td>
-                <td th:text="${project.endDate}">2025-01-01</td>
+                <td th:text="${project.ownerName}">Owner Name</td>
+                <td th:text="${project.category}">Agriculture</td>
+                <td th:text="'MYR ' + ${project.amountDonated}">MYR 100</td>
+                <td th:text="${project.donationDate}">2025-01-01</td>
                 <td>
                     <a class="btn btn-outline-primary btn-sm align-items-center"
                        th:href="@{/project/{id}(id=${project.projectId})}">
