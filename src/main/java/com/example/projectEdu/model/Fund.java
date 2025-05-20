@@ -12,11 +12,11 @@ public class Fund {
     private Long fundId;
 
     @ManyToOne
-    @JoinColumn(name = "funder_id", nullable = false)
+    @JoinColumn(name = "funder_id")
     private Funder funder;
 
     @ManyToOne
-    @JoinColumn(name = "project_id", nullable = false)
+    @JoinColumn(name = "project_id")
     private Project project;
 
     private double amount;
@@ -26,7 +26,9 @@ public class Fund {
     private LocalDateTime transactionDate;
 
     // Constructors
-    public Fund() {}
+    public Fund() {
+
+    }
 
     public Fund(Funder funder, Project project, double amount, String paymentMethod, LocalDateTime transactionDate) {
         this.funder = funder;

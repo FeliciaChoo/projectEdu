@@ -24,6 +24,9 @@ public class Funder {
     @Column(nullable = false, unique = true)
     private String email;
 
+    @Column(name = "profile_url")
+    private String profileUrl;
+
     @OneToMany(mappedBy = "funder", cascade = CascadeType.ALL)
     private List<Fund> funds;
 
@@ -62,7 +65,17 @@ public class Funder {
         this.email = email;
     }
 
-    // toString (optional, helpful for debugging)
+    public String getProfileUrl() {
+        if (profileUrl == null || profileUrl.isBlank()) {
+            return "https://cdn-icons-png.flaticon.com/128/3177/3177440.png"; // default profile picture URL
+        }
+        return profileUrl;
+    }
+
+    public void setProfileUrl(String profileUrl) {
+        this.profileUrl = profileUrl;
+    }
+
     @Override
     public String toString() {
         return "Funder{" +
