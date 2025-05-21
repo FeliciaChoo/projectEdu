@@ -43,17 +43,12 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     @Override
-    public Integer countProjectsByStudentId(Long id) {
-        return projectRepository.countProjectsByStudentId(id);
+    public int countByStudentId(Long id) {
+        return projectRepository.countByStudentId(id);
     }
 
     @Override
-    public Integer countCompletedProjectsByStudentId(Long id) {
-        return projectRepository.countCompletedProjectsByStudentId(id);
-    }
-
-    @Override
-    public Integer countActiveProjectsByStudentId(Long id) {
-        return projectRepository.countActiveProjectsByStudentId(id);
+    public int countByStudentIdAndStatus(Long id, String status) {
+        return projectRepository.countByStudentIdAndStatus(id, status);
     }
 }

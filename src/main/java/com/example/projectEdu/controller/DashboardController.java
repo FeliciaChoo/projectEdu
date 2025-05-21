@@ -1,6 +1,5 @@
 package com.example.projectEdu.controller;
 
-import com.example.projectEdu.model.Project;
 import com.example.projectEdu.service.ProjectService;
 import com.example.projectEdu.service.StudentService;
 import org.springframework.stereotype.Controller;
@@ -24,9 +23,9 @@ public class DashboardController {
         Long id = 1L;
 
         model.addAttribute("student", studentService.findById(id).orElse(null));
-        model.addAttribute("totalProjects", projectService.countProjectsByStudentId(id));
-        model.addAttribute("completedProjects", projectService.countCompletedProjectsByStudentId(id));
-        model.addAttribute("activeProjects", projectService.countActiveProjectsByStudentId(id));
+        model.addAttribute("totalProjects", projectService.countByStudentId(id));
+        model.addAttribute("completedProjects", projectService.countByStudentIdAndStatus(id, "completed"));
+        model.addAttribute("activeProjects", projectService.countByStudentIdAndStatus(id, "active"));
         model.addAttribute("projects", projectService.findByStudentId(id));
         model.addAttribute("content", "fragments/student-dashboard");
 

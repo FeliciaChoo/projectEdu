@@ -12,7 +12,6 @@ public interface ProjectService {
     List<String> getAllCategories();
     List<Project> findByStudentId(Long id);
     Optional<Project> findById(Long projectId);
-    Integer countProjectsByStudentId(Long id);
-    Integer countCompletedProjectsByStudentId(Long id);
-    Integer countActiveProjectsByStudentId(Long id);
+    int countByStudentId(Long id);
+    int countByStudentIdAndStatus(Long id, String status);
 }

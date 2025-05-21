@@ -21,7 +21,7 @@
     <!-- Main content container -->
     <div class="main-content-container">
         <div class="d-flex align-items-center gap-3">
-            <img th:src="${student.studentProfileUrl}" alt="Profile Picture" class="profile-img rounded-circle shadow" />
+            <img th:src="${student.profileUrl != null ? student.profileUrl : 'https://cdn-icons-png.flaticon.com/128/3177/3177440.png'}" />
             <div>
                 <h2 class="mb-1" th:text="${student.name}"></h2>
 

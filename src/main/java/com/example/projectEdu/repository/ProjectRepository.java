@@ -20,12 +20,7 @@ public interface ProjectRepository extends JpaRepository<Project, Long> {
     @Query("SELECT DISTINCT p.category FROM Project p")
     List<String> findAllCategories();
 
-    @Query(value = "SELECT COUNT(*) FROM project WHERE student_id = :id", nativeQuery = true)
-    Integer countProjectsByStudentId(Long studentId);
+    Integer countByStudentId(Long id);
+    Integer countByStudentIdAndStatus(Long id, String status);
 
-    @Query(value = "SELECT COUNT(*) FROM project WHERE student_id = :id AND status = 'completed'", nativeQuery = true)
-    Integer countCompletedProjectsByStudentId(Long id);
-
-    @Query(value = "SELECT COUNT(*) FROM project WHERE student_id = :id AND status = 'active'", nativeQuery = true)
-    Integer countActiveProjectsByStudentId(Long id);
 }
