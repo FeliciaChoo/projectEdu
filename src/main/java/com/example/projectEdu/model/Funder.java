@@ -35,9 +35,10 @@ public class Funder {
     public Funder() {
     }
 
-    public Funder(String funderName, String email) {
+    public Funder(String funderName, String email, String profileUrl) {
         this.funderName = funderName;
         this.email = email;
+        this.profileUrl = profileUrl;
     }
 
     // Getters and Setters
@@ -84,4 +85,13 @@ public class Funder {
                 ", email='" + email + '\'' +
                 '}';
     }
+
+    public List<Fund> getFunds() {
+        return funds;
+    }
+
+    public void setFunds(List<Fund> funds) {
+        this.funds = funds;
+    }
+
 }

@@ -3,7 +3,6 @@ package com.example.projectEdu.model;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import org.hibernate.validator.constraints.URL;
-
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.LocalDate;
@@ -13,7 +12,6 @@ import java.util.List;
 @Entity
 @Table(name = "project")
 public class Project {
-
     @Embedded
     private Student student;
 
@@ -26,12 +24,9 @@ public class Project {
     @Column(nullable = false)
     private String title;
 
-    @Column(nullable = false, columnDefinition = "VARCHAR(255) DEFAULT 'active'")
-    private String status = "active";
-
-    @NotNull(message = "End date is required")
+    @NotBlank(message = "Status is required")
     @Column(nullable = false)
-    private LocalDate endDate = LocalDate.now().plusMonths(3);
+    private String status;
 
     @NotBlank(message = "Description is required")
     @Lob
@@ -49,6 +44,11 @@ public class Project {
     @Column(precision = 19, scale = 2)
     private BigDecimal currentAmount = BigDecimal.ZERO;
 
+    @NotNull(message = "End date is required")
+    @Future(message = "End date must be in the future")
+    @Column(nullable = false)
+    private LocalDate endDate;
+
     @NotBlank(message = "Bank name is required")
     private String bankName;
 
@@ -63,8 +63,6 @@ public class Project {
     @Column(nullable = false)
     private String category;
 
-    private String otherCategory;
-
     @Column(name = "image_url")
     private String imageUrl;
 
@@ -76,9 +74,10 @@ public class Project {
     @OneToMany(mappedBy = "project", cascade = CascadeType.ALL)
     private List<Fund> funds;
 
-    // Constructors
+    // Default constructor
     public Project() {}
 
+    // Constructor with essential fields
     public Project(String title, String status, String description, String category,
                    BigDecimal goalAmount, LocalDate endDate) {
         this.title = title;
@@ -89,6 +88,7 @@ public class Project {
         this.endDate = endDate;
     }
 
+    // Constructor with all major fields
     public Project(String title, String status, String description, String surveyLink,
                    BigDecimal goalAmount, BigDecimal currentAmount, LocalDate endDate,
                    String bankName, String accountNo, String accountHolderName, String imageUrl) {
@@ -105,6 +105,7 @@ public class Project {
         this.imageUrl = imageUrl;
     }
 
+
     // Getters and Setters
     public Student getStudent() {
         return student;
@@ -114,10 +115,13 @@ public class Project {
         this.student = student;
     }
 
+    // Getters and Setters
     public Long getProjectId() {
         return projectId;
     }
-
+    public String getImageUrl() {
+        return imageUrl;
+    }
     public void setProjectId(Long projectId) {
         this.projectId = projectId;
     }
@@ -210,17 +214,6 @@ public class Project {
         this.category = category;
     }
 
-    public String getOtherCategory() {
-        return otherCategory;
-    }
-
-    public void setOtherCategory(String otherCategory) {
-        this.otherCategory = otherCategory;
-    }
-
-    public String getImageUrl() {
-        return imageUrl;
-    }
 
     public void setImageUrl(String imageUrl) {
         this.imageUrl = imageUrl;
@@ -242,20 +235,12 @@ public class Project {
         this.updatedAt = updatedAt;
     }
 
-    public List<Fund> getFunds() {
-        return funds;
-    }
-
-    public void setFunds(List<Fund> funds) {
-        this.funds = funds;
-    }
-
     // Transient methods
     @Transient
     public int getFundedPercentage() {
         if (goalAmount != null && goalAmount.compareTo(BigDecimal.ZERO) > 0) {
             return currentAmount.multiply(BigDecimal.valueOf(100))
-                    .divide(goalAmount, 0, RoundingMode.DOWN)
+                    .divide(goalAmount, 0, BigDecimal.ROUND_DOWN)
                     .intValue();
         }
         return 0;
@@ -270,6 +255,7 @@ public class Project {
                 ? description.substring(0, 100) + "..."
                 : description;
     }
+
 
     // JPA lifecycle callback
     @PreUpdate
@@ -293,10 +279,11 @@ public class Project {
                 ", accountNo='" + accountNo + '\'' +
                 ", accountHolderName='" + accountHolderName + '\'' +
                 ", category='" + category + '\'' +
-                ", otherCategory='" + otherCategory + '\'' +
-                ", imageUrl='" + imageUrl + '\'' +
                 ", createdAt=" + createdAt +
                 ", updatedAt=" + updatedAt +
+                ", imageUrl='" + imageUrl + '\'' +
                 '}';
     }
+
+
 }

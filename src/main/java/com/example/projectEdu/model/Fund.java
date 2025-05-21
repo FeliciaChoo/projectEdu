@@ -16,7 +16,8 @@ public class Fund {
     private Funder funder;
 
     @ManyToOne
-    @JoinColumn(name = "project_id")
+    @JoinColumn(name = "project_id"
+    )
     private Project project;
 
     private double amount;
@@ -27,7 +28,6 @@ public class Fund {
 
     // Constructors
     public Fund() {
-
     }
 
     public Fund(Funder funder, Project project, double amount, String paymentMethod, LocalDateTime transactionDate) {
