@@ -5,9 +5,10 @@ import com.example.projectEdu.repository.ProjectRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
-public class ProjectServiceImpl implements ProjectService {  // use implements, not extends
+public class ProjectServiceImpl implements ProjectService {
 
     private final ProjectRepository projectRepository;
 
@@ -32,32 +33,27 @@ public class ProjectServiceImpl implements ProjectService {  // use implements, 
 
 
     @Override
-    public List<Project> findByStudentStudentId(Long studentId) {
-        return projectRepository.findByStudentStudentId(studentId);
+    public List<Project> findByStudentId(Long id) {
+        return projectRepository.findByStudentId(id);
     }
 
     @Override
-    public Project saveProject(Project project) {
-        return projectRepository.save(project);
+    public Optional<Project> findById(Long projectId){
+        return projectRepository.findById(projectId);
     }
 
     @Override
-    public Project findProjectById(Long projectId) {
-        return projectRepository.findById(projectId).orElse(null);
+    public Integer countProjectsByStudentId(Long id) {
+        return projectRepository.countProjectsByStudentId(id);
     }
 
     @Override
-    public Integer countProjectsByStudentId(Long studentId) {
-        return projectRepository.countProjectsByStudentId(studentId);
+    public Integer countCompletedProjectsByStudentId(Long id) {
+        return projectRepository.countCompletedProjectsByStudentId(id);
     }
 
     @Override
-    public Integer countCompletedProjectsByStudentId(Long studentId) {
-        return projectRepository.countCompletedProjectsByStudentId(studentId);
-    }
-
-    @Override
-    public Integer countActiveProjectsByStudentId(Long studentId) {
-        return projectRepository.countActiveProjectsByStudentId(studentId);
+    public Integer countActiveProjectsByStudentId(Long id) {
+        return projectRepository.countActiveProjectsByStudentId(id);
     }
 }

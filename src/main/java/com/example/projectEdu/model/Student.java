@@ -13,23 +13,25 @@ public class Student {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "student_id")
-    private Long studentId;
+    private Long id;
 
     @NotBlank(message = "Student name is required")
-    @Column(name = "student_name", nullable = false)
-    private String studentName;
+    @Column(name = "student_name")
+    private String name;
 
     @NotBlank(message = "Email is required")
     @Email(message = "Email should be valid")
     @Column(name="email")
-    private String studentEmail;
+    private String email;
 
     @NotBlank(message = "University is required")
     @Column(name = "institution")
-    private String institution;
+    private String university;
+
+    private String otherUniversity;
 
     @Column(name = "profile_url")
-    private String studentProfileUrl;
+    private String profileUrl;
 
     @OneToMany(mappedBy = "student", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Project> projects;
@@ -38,55 +40,64 @@ public class Student {
     public Student() {
     }
 
-    public Student(String studentNamename, String studentEmail, String institution, String studentProfileUrl) {
-        this.studentName = studentName;
-        this.studentEmail = studentEmail;
-        this.institution = institution;
-        this.studentProfileUrl = studentProfileUrl;
+    public Student(String name, String email, String university, String otherUniversity, String profileUrl) {
+        this.name = name;
+        this.email = email;
+        this.university = university;
+        this.otherUniversity = otherUniversity;
+        this.profileUrl = profileUrl;
     }
 
     // Getters and Setters
-    public Long getStudentId() {
-        return studentId;
+    public Long getId() {
+        return id;
     }
 
-    public void setStudentId(Long studentId) {
-        this.studentId = studentId;
+    public void setId(Long id) {
+        this.id = id;
     }
 
-    public String getStudentName() {
-        return studentName;
+    public String getName() {
+        return name;
     }
 
-    public void setStudentName(String name) {
-        this.studentName = name;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public String getInstitution() {
-        return institution;
+    public String getUniversity() {
+        return university;
     }
 
-    public void setInstitution(String institution) {
-        this.institution = institution;
+    public void setUniversity(String university) {
+        this.university = university;
     }
 
-    public String getStudentEmailEmail() {
-        return studentEmail;
+    public String getOtherUniversity() {
+        return otherUniversity;
     }
 
-    public void setStudentEmail(String studentEmail) {
-        this.studentEmail = studentEmail;
+    public void setOtherUniversity(String otherUniversity) {
+        this.otherUniversity = otherUniversity;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public String getStudentProfileUrl() {
-        if (studentProfileUrl == null || studentProfileUrl.isBlank()) {
+        if (profileUrl == null || profileUrl.isBlank()) {
             return "https://cdn-icons-png.flaticon.com/128/3177/3177440.png"; // default profile picture URL
         }
-        return studentProfileUrl;
+        return profileUrl;
     }
 
-    public void setStudentProfileUrl(String studentProfileUrl) {
-        this.studentProfileUrl = studentProfileUrl;
+    public void setProfileUrl(String profileUrl) {
+        this.profileUrl = profileUrl;
     }
 
     public List<Project> getProjects() {
@@ -100,11 +111,12 @@ public class Student {
     @Override
     public String toString() {
         return "Student{" +
-                "studentId=" + studentId +
-                ", studentName='" + studentName + '\'' +
-                ", studentEmail='" + studentEmail + '\'' +
-                ", institution='" + institution + '\'' +
-                ", studentProfileUrl='" + studentProfileUrl + '\'' +
+                "studentId=" + id +
+                ", studentName='" + name + '\'' +
+                ", studentEmail='" + email + '\'' +
+                ", institution='" + university + '\'' +
+                ", otherUniversity='" + otherUniversity + '\'' +
+                ", studentProfileUrl='" + profileUrl + '\'' +
                 '}';
     }
 }

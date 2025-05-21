@@ -268,6 +268,7 @@ public class Project {
         return funds;
     }
 
+
     public void setFunds(List<Fund> funds) {
         this.funds = funds;
     }
