@@ -21,10 +21,11 @@
     <!-- Main content container -->
     <div class="main-content-container">
         <div class="d-flex align-items-center gap-3">
-            <img th:src="${student.profileUrl != null ? student.profileUrl : 'https://cdn-icons-png.flaticon.com/128/3177/3177440.png'}" />
+            <img th:src="${student.profileUrl != null ? student.profileUrl : 'https://cdn-icons-png.flaticon.com/128/3177/3177440.png'}"
+                 alt="Profile Picture"
+                 class = "profile-img rounded-circle shadow"/>
             <div>
                 <h2 class="mb-1" th:text="${student.name}"></h2>
-
                 <p class="mb-0">
                     <i class="bi bi-envelope"></i>
                     <span th:text="${student.email}"></span>
@@ -59,6 +60,7 @@
             <div class="col-md-3">
                 <div class="card p-3 text-center bg-warning text-black">
                     <h5 class="card-title">Fund Raised</h5>
+                    <p class="card-text fs-5 fw-bold" th:text="${completedProjects}"></p>
                 </div>
             </div>
         </div>
@@ -86,8 +88,8 @@
             <tr th:each="project : ${projects}">
                 <td th:text="${project.title}">Project Title</td>
                 <td th:text="${project.status}">Status</td>
-                <td th:text="'MYR' + ${project.currentAmount}">0.00</td>
-                <td th:text="'MYR' + ${project.goalAmount}">0.00</td>
+                <td th:text="'MYR ' + ${project.currentAmount}">0.00</td>
+                <td th:text="'MYR ' + ${project.goalAmount}">0.00</td>
                 <td th:text="${project.endDate}">2025-01-01</td>
                 <td>
                     <a class="btn btn-outline-primary btn-sm align-items-center"

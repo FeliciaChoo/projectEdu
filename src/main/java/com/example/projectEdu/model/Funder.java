@@ -13,19 +13,19 @@ public class Funder {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "funder_id")
-    private Long funderId;
+    private Long id;
 
     @NotBlank(message = "Funder name is required")
     @Column(name = "funder_name", nullable = false)
-    private String funderName;
+    private String name;
 
     @NotBlank(message = "Email is required")
     @Email(message = "Email should be valid")
     @Column(name="email")
-    private String funderEmail;
+    private String email;
 
     @Column(name = "profile_url")
-    private String funderProfileUrl;
+    private String profileUrl;
 
     @OneToMany(mappedBy = "funder", cascade = CascadeType.ALL)
     private List<Fund> funds;
@@ -35,59 +35,61 @@ public class Funder {
     public Funder() {
     }
 
-    public Funder(String funderName, String email, String profileUrl) {
-        this.funderName = funderName;
-        this.funderEmail = funderEmail;
-        this.funderProfileUrl = funderProfileUrl;
+    public Funder(String name, String email, String profileUrl) {
+        this.name = name;
+        this.email = email;
+        this.profileUrl = profileUrl;
     }
 
     // Getters and Setters
-    public Long getFunderId() {
-        return funderId;
+    public Long getId() {
+        return id;
     }
 
-    public void setFunderId(Long funderId) {
+    public void setId(Long id) {
 
-        this.funderId = funderId;
+        this.id = id;
     }
 
-    public String getFunderName() {
+    public String getName() {
 
-        return funderName;
+        return name;
     }
 
-    public void setFunderName(String funderName) {
+    public void setName(String name) {
 
-        this.funderName = funderName;
+        this.name = name;
     }
 
-    public String getFunderEmail() {
+    public String getEmail() {
 
-        return funderEmail;
+        return email;
     }
 
-    public void setFunderEmail(String email) {
+    public void setEmail(String email) {
 
-        this.funderEmail = funderEmail;
+        this.email = email;
     }
 
-    public String getFunderProfileUrl() {
-        if (funderProfileUrl == null || funderProfileUrl.isBlank()) {
+    public String getProfileUrl() {
+        if (profileUrl == null || profileUrl.isBlank()) {
             return "https://cdn-icons-png.flaticon.com/128/3177/3177440.png"; // default profile picture URL
         }
-        return funderProfileUrl;
+        return profileUrl;
     }
 
-    public void setFunderProfileUrl(String profileUrl) {
-        this.funderProfileUrl = funderProfileUrl;
+    public void setProfileUrl(String profileUrl) {
+
+        this.profileUrl = profileUrl;
     }
 
     @Override
     public String toString() {
         return "Funder{" +
-                "funderId=" + funderId +
-                ", funderName='" + funderName + '\'' +
-                ", email='" + funderEmail + '\'' +
+                "funderId=" + id +
+                ", funderName='" + name + '\'' +
+                ", email='" + email + '\'' +
+                ", profileUrl='" + profileUrl + '\'' +
                 '}';
     }
 

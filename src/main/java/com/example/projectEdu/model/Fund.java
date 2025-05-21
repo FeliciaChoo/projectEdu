@@ -1,6 +1,8 @@
 package com.example.projectEdu.model;
 
 import jakarta.persistence.*;
+
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Entity
@@ -9,7 +11,8 @@ public class Fund {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long fundId;
+    @Column(name = "fund_id")
+    private Long id;
 
     @ManyToOne
     @JoinColumn(name = "funder_id")
@@ -19,7 +22,7 @@ public class Fund {
     @JoinColumn(name = "project_id")
     private Project project;
 
-    private double amount;
+    private BigDecimal amount;
 
     private String paymentMethod;
 
@@ -29,7 +32,7 @@ public class Fund {
     public Fund() {
     }
 
-    public Fund(Funder funder, Project project, double amount, String paymentMethod, LocalDateTime transactionDate) {
+    public Fund(Funder funder, Project project, BigDecimal amount, String paymentMethod, LocalDateTime transactionDate) {
         this.funder = funder;
         this.project = project;
         this.amount = amount;
@@ -39,11 +42,11 @@ public class Fund {
 
     // Getters and Setters
     public Long getFundId() {
-        return fundId;
+        return id;
     }
 
     public void setFundId(Long fundId) {
-        this.fundId = fundId;
+        this.id = fundId;
     }
 
     public Funder getFunder() {
@@ -62,11 +65,11 @@ public class Fund {
         this.project = project;
     }
 
-    public double getAmount() {
+    public BigDecimal getAmount() {
         return amount;
     }
 
-    public void setAmount(double amount) {
+    public void setAmount(BigDecimal amount) {
         this.amount = amount;
     }
 
@@ -84,5 +87,17 @@ public class Fund {
 
     public void setTransactionDate(LocalDateTime transactionDate) {
         this.transactionDate = transactionDate;
+    }
+
+    @Override
+    public String toString() {
+        return "Fund{" +
+                "id=" + id +
+                ", funder=" + funder +
+                ", project=" + project +
+                ", amount=" + amount +
+                ", paymentMethod='" + paymentMethod + '\'' +
+                ", transactionDate=" + transactionDate +
+                '}';
     }
 }

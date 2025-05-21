@@ -14,4 +14,5 @@ public interface ProjectService {
     Optional<Project> findById(Long projectId);
     int countByStudentId(Long id);
     int countByStudentIdAndStatus(Long id, String status);
+
 }
