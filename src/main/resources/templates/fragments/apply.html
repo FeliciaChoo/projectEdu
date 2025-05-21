@@ -1,5 +1,10 @@
 <!-- apply.html -->
 <div th:fragment="content (projects)">
+    <!-- Success Message Alert -->
+    <div th:if="${successMessage}" class="alert alert-success alert-dismissible fade show" role="alert">
+        <span th:text="${successMessage}"></span>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
     <div class="row justify-content-center">
         <div class="col-lg-10">
             <div class="card shadow">
@@ -78,7 +83,7 @@
                                     <option value="Business & Entrepreneurship">Business & Entrepreneurship</option>
                                     <option value="Other">Other</option>
                                 </select>
-                                <input type="text" class="form-control mt-2" id="otherCategory" placeholder="Please specify category" style="display:none;" />
+                                <input type="text" class="form-control mt-2" id="otherCategory" th:field="*{otherCategory}" placeholder="Please specify category" style="display:none;" />
                             </div>
                             <div class="mb-3">
                                 <label for="surveyLink" class="form-label">Survey Link (if any):</label>
@@ -119,52 +124,70 @@
                                 <i class="bi bi-send-check"></i> Submit Application
                             </button>
                         </div>
+
                     </form>
-                </div>
-            </div>
-        </div>
-    </div>
 
     <script>
-        function toggleOtherUniversity(select) {
+
+            // University handling
+            function toggleOtherUniversity(select) {
             var otherInput = document.getElementById('otherUniversity');
             if (select.value === 'Other') {
-                otherInput.style.display = 'block';
-                otherInput.required = true;
-            } else {
-                otherInput.style.display = 'none';
-                otherInput.required = false;
-                otherInput.value = '';
-            }
+            otherInput.style.display = 'block';
+            otherInput.required = true;
+        } else {
+            otherInput.style.display = 'none';
+            otherInput.required = false;
+            otherInput.value = '';
         }
-        function toggleOtherCategory(select) {
-            var otherCatInput = document.getElementById('otherCategory');
-            if (select.value === 'Other') {
-                otherCatInput.style.display = 'block';
-                otherCatInput.required = true;
-            } else {
-                otherCatInput.style.display = 'none';
-                otherCatInput.required = false;
-                otherCatInput.value = '';
-            }
         }
-        document.querySelector('form').addEventListener('submit', function () {
+
+            // Category handling
+            document.addEventListener('DOMContentLoaded', function() {
+            const categorySelect = document.getElementById('category');
+            const otherCategoryInput = document.getElementById('otherCategory');
+
+            if (categorySelect && otherCategoryInput) {
+            // Initial check on page load
+            if (categorySelect.value === 'Other') {
+            otherCategoryInput.style.display = 'block';
+            otherCategoryInput.required = true;
+        }
+
+            // Change handler
+            categorySelect.addEventListener('change', function() {
+            if (this.value === 'Other') {
+            otherCategoryInput.style.display = 'block';
+            otherCategoryInput.required = true;
+        } else {
+            otherCategoryInput.style.display = 'none';
+            otherCategoryInput.required = false;
+            otherCategoryInput.value = '';
+        }
+        });
+        }
+
+            // Form submission handling
+            document.querySelector('form').addEventListener('submit', function(e) {
+            // Handle university
             const uniSelect = document.getElementById('university');
             const otherUni = document.getElementById('otherUniversity');
             if (uniSelect.value === 'Other' && otherUni.value) {
-                uniSelect.value = otherUni.value;
-            }
-        });
+            uniSelect.value = otherUni.value;
+        }
 
-
-        // Update category field before form submission
-        document.querySelector('form').addEventListener('submit', function () {
+            // Handle category
             const categorySelect = document.getElementById('category');
             const otherCategory = document.getElementById('otherCategory');
             if (categorySelect.value === 'Other' && otherCategory.value) {
-                categorySelect.value = otherCategory.value;
-            }
+            // Create hidden input to ensure the value is submitted
+            const hiddenInput = document.createElement('input');
+            hiddenInput.type = 'hidden';
+            hiddenInput.name = 'category';
+            hiddenInput.value = otherCategory.value;
+            this.appendChild(hiddenInput);
+        }
         });
-
+        });
     </script>
-</div>
+                </div>

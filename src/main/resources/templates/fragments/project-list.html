@@ -190,7 +190,7 @@
             <p class="text-muted" th:text="${project.shortDescription}">Project description</p>
             <div class="d-flex justify-content-between small text-muted">
               <span th:text="${#temporals.format(project.endDate, 'MMM dd, yyyy')}"></span>
-              <span th:text="'$' + ${#numbers.formatDecimal(project.currentAmount, 1, 2)} + ' raised'"></span>
+              <span th:text="'RM' + ${#numbers.formatDecimal(project.currentAmount, 1, 2)} + ' raised'"></span>
             </div>
           </div>
         </div>

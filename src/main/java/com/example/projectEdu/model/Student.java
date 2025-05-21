@@ -29,6 +29,7 @@ public class Student {
     public String getUniversity() {
         return university;
     }
+
     public void setUniversity(String university) {
         this.university = university;
     }

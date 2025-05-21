@@ -7,6 +7,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -63,17 +64,29 @@ public class ProjectListController {
                     .toList();
         }
 
-        // Fetch all categories for the dropdown (make sure this method never returns null too)
+        // Fetch and clean all categories for the dropdown
         List<String> categories = projectService.getAllCategories();
         if (categories == null) {
             categories = Collections.emptyList();
         }
+
+        List<String> cleanedCategories = new ArrayList<>();
+        for (String categoryEntry : categories) {
+            String[] split = categoryEntry.split(",");
+            for (String c : split) {
+                c = c.trim();
+                if (!c.equalsIgnoreCase("Other") && !cleanedCategories.contains(c)) {
+                    cleanedCategories.add(c);
+                }
+            }
+        }
+
         System.out.println("Loaded projects count: " + projects.size());
         projects.forEach(p -> System.out.println(p.getTitle()));
 
         // Add attributes to model for Thymeleaf view
         model.addAttribute("projects", projects);
-        model.addAttribute("categories", categories);
+        model.addAttribute("categories", cleanedCategories);
         model.addAttribute("selectedCategory", category);
         model.addAttribute("searchTerm", search);
         model.addAttribute("activeTab", status != null ? status : "all");

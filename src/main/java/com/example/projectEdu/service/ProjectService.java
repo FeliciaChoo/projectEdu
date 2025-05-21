@@ -4,8 +4,9 @@ import com.example.projectEdu.model.Project;
 import com.example.projectEdu.repository.ProjectRepository;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
-import java.util.stream.Collectors;
+
 
 @Service
 public class ProjectService {
@@ -27,4 +28,10 @@ public class ProjectService {
     public List<String> getAllCategories() {
         return projectRepository.findAllCategories();
     }
+    public List<Project> findUpcomingProjects() {
+        return projectRepository.findByStatusAndEndDateAfter("active", LocalDate.now());
+    }
+
+
+
 }
