@@ -16,8 +16,7 @@ public class Fund {
     private Funder funder;
 
     @ManyToOne
-    @JoinColumn(name = "project_id"
-    )
+    @JoinColumn(name = "project_id")
     private Project project;
 
     private double amount;

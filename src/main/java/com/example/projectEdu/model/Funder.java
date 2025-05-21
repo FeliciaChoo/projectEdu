@@ -21,11 +21,11 @@ public class Funder {
 
     @NotBlank(message = "Email is required")
     @Email(message = "Email should be valid")
-    @Column(nullable = false, unique = true)
-    private String email;
+    @Column(name="email")
+    private String funderEmail;
 
     @Column(name = "profile_url")
-    private String profileUrl;
+    private String funderProfileUrl;
 
     @OneToMany(mappedBy = "funder", cascade = CascadeType.ALL)
     private List<Fund> funds;
@@ -37,8 +37,8 @@ public class Funder {
 
     public Funder(String funderName, String email, String profileUrl) {
         this.funderName = funderName;
-        this.email = email;
-        this.profileUrl = profileUrl;
+        this.funderEmail = funderEmail;
+        this.funderProfileUrl = funderProfileUrl;
     }
 
     // Getters and Setters
@@ -47,34 +47,39 @@ public class Funder {
     }
 
     public void setFunderId(Long funderId) {
+
         this.funderId = funderId;
     }
 
     public String getFunderName() {
+
         return funderName;
     }
 
     public void setFunderName(String funderName) {
+
         this.funderName = funderName;
     }
 
-    public String getEmail() {
-        return email;
+    public String getFunderEmail() {
+
+        return funderEmail;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setFunderEmail(String email) {
+
+        this.funderEmail = funderEmail;
     }
 
-    public String getProfileUrl() {
-        if (profileUrl == null || profileUrl.isBlank()) {
+    public String getFunderProfileUrl() {
+        if (funderProfileUrl == null || funderProfileUrl.isBlank()) {
             return "https://cdn-icons-png.flaticon.com/128/3177/3177440.png"; // default profile picture URL
         }
-        return profileUrl;
+        return funderProfileUrl;
     }
 
-    public void setProfileUrl(String profileUrl) {
-        this.profileUrl = profileUrl;
+    public void setFunderProfileUrl(String profileUrl) {
+        this.funderProfileUrl = funderProfileUrl;
     }
 
     @Override
@@ -82,7 +87,7 @@ public class Funder {
         return "Funder{" +
                 "funderId=" + funderId +
                 ", funderName='" + funderName + '\'' +
-                ", email='" + email + '\'' +
+                ", email='" + funderEmail + '\'' +
                 '}';
     }
 

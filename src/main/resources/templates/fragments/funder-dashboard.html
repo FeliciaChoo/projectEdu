@@ -65,7 +65,6 @@
             </tr>
             <tr>
                 <th>Project Title</th>
-                <th>Project Owner</th>
                 <th>Category</th>
                 <th>Amount Donated</th>
                 <th>Date Donated</th>
@@ -76,10 +75,9 @@
             <tbody th:if="${projects != null}">
             <tr th:each="project : ${projects}">
                 <td th:text="${project.title}">Project Title</td>
-                <td th:text="${project.ownerName}">Owner Name</td>
                 <td th:text="${project.category}">Agriculture</td>
-                <td th:text="'MYR ' + ${project.amountDonated}">MYR 100</td>
-                <td th:text="${project.donationDate}">2025-01-01</td>
+                <td th:text="'MYR ' + ${fund.amount}">MYR 100</td>
+                <td th:text="${fund.donationDate}">2025-01-01</td>
                 <td>
                     <a class="btn btn-outline-primary btn-sm align-items-center"
                        th:href="@{/project/{id}(id=${project.projectId})}">
