@@ -56,13 +56,6 @@ public class MainController {
     }
 
 
-
-    @PostMapping("/payment-success")
-    public String showPaymentSuccess(Model model, HttpServletRequest request) {
-        return "payment-success";
-    }
-
-
     @GetMapping("/login")
     public String loginPage(Model model) {
         model.addAttribute("title", "Log In Page");

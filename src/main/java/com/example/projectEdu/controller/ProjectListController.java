@@ -1,7 +1,7 @@
 package com.example.projectEdu.controller;
 
 import com.example.projectEdu.model.Project;
-import com.example.projectEdu.service.ProjectService;
+import com.example.projectEdu.service.ProjectServiceImpl;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,16 +16,16 @@ import java.util.Optional;
 @Controller
 public class ProjectListController {
 
-    private final ProjectService projectService;
+    private final ProjectServiceImpl projectService;
 
-    public ProjectListController(ProjectService projectService) {
+    public ProjectListController(ProjectServiceImpl projectService) {
         this.projectService = projectService;
     }
 
     @GetMapping("/project/{id}")
-    public String getProjectById(@PathVariable("id") Long id, Model model) {
-        System.out.println("Project controller called with id = " + id);
-        Optional<Project> optionalProject = projectService.findProjectById(id);
+    public String getProjectById(@PathVariable("id") Long projectId, Model model) {
+        System.out.println("Project controller called with id = " + projectId);
+        Optional<Project> optionalProject = projectService.findById(projectId);
         if (optionalProject == null) {
             return "error/404";
         }

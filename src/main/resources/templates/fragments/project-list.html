@@ -72,6 +72,7 @@
 
             <div class="col-md-4 col-lg-3" th:each="project : ${projects}">
               <div class="card h-100 shadow-sm">
+
                 <!-- Wrap the ratio div with the anchor tag instead -->
                 <a th:href="@{/project/{id}(id=${project.projectId})}" class="text-decoration-none">
                   <div class="ratio ratio-16x9">

@@ -6,7 +6,8 @@
                     <h2 class="h4 mb-0"><i class="bi bi-cash-stack"></i> Project Funding Application</h2>
                 </div>
                 <div class="card-body bg-white">
-                    <form th:action="@{/payment-success}" method="post">
+                    <form action ="#" th:action="@{/fund/add}" th:object="${fund}" method="post">
+
                         <!-- Funder Info -->
                         <div class="mb-4">
                             <h3 class="h5 section-header"><i class="bi bi-person-vcard text-primary"></i> Student Information</h3>
@@ -21,6 +22,7 @@
                                 </div>
                             </div>
                         </div>
+
                         <!-- Project Details Section -->
                         <div class="mb-4">
                             <h3 class="h5 mb-3 section-header">
@@ -28,8 +30,7 @@
                             </h3>
                             <div class="mb-3">
                                 <label for="projectId" class="form-label">Project ID</label>
-                                <input type="text" class="form-control" id="projectId" name="project.projectId"
-                                       th:value="*{project.projectId}" readonly>
+                                <input type="text" class="form-control" id="projectId" name="projectId" th:value="${project.projectId}" readonly>
                             </div>
                             <div class="mb-3">
                                 <label for="donationAmount" class="form-label">Donation Amount (MYR)</label>
@@ -93,7 +94,7 @@
 
                         <!-- Buttons -->
                         <div class="d-flex justify-content-between mt-4">
-                            <a th:href="@{/projects}" class="btn btn-outline-secondary">
+                            <a th:href="@{/project/{id}(id=${project.projectId})}" class="btn btn-outline-secondary">
                                 <i class="bi bi-x"></i> Cancel Payment
                             </a>
                             <button type="submit" class="btn btn-primary">

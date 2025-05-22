@@ -21,8 +21,6 @@ public interface ProjectService {
 
     int countByStudentIdAndStatus(Long id, String status);
 
-    Optional<Project> findProjectById(Long id);
-
     void deleteProject(Project project);
 
 }

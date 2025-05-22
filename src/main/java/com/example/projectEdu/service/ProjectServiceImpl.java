@@ -53,11 +53,6 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     @Override
-    public Optional<Project> findProjectById(Long id) {
-        return projectRepository.findById(id);
-    }
-
-    @Override
     public void deleteProject(Project project) {
         projectRepository.delete(project);
     }

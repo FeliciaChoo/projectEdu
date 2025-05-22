@@ -82,8 +82,13 @@
             </div>
 
             <!-- Call to Action -->
-            <div class="d-grid mb-4">
-              <a href="#" class="btn btn-primary btn-lg donate-button py-3">Donate Now</a>
+            <div class="d-grid mb-4" th:if="${project != null}">
+              <a th:href="@{/donor/{id}(id=${project.projectId})}"
+                 class="btn btn-primary btn-lg py-3 donate-button"
+                 role="button"
+                 aria-label="Donate Now">
+                Donate Now
+              </a>
             </div>
 
             <!-- Survey Box -->

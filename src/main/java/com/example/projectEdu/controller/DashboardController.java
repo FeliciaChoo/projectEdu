@@ -56,12 +56,19 @@ public class DashboardController {
         return "layout";
     }
 
-    @GetMapping("/donor/{projectId}")
-    public String showDonationForm(@PathVariable("projectId") Long projectId, Model model) {
+    @GetMapping("/donor/{id}")
+    public String showDonationForm(@PathVariable("id") Long projectId, Model model) {
         Long id = 1L;
+
+        var funder = funderService.findById(id).orElse(null);
+        var project = projectService.findById(projectId).orElse(null);
+
+        System.out.println("Funder: " + funder);   // print funder object or null
+        System.out.println("Project: " + project); // print project object or null
 
         model.addAttribute("funder", funderService.findById(id).orElse(null));
         model.addAttribute("project", projectService.findById(projectId).orElse(null));
+        model.addAttribute("fund", new Fund());
         model.addAttribute("content", "fragments/donor");
 
         return "layout";
