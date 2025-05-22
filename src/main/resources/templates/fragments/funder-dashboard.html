@@ -68,17 +68,18 @@
             </tr>
             <tr>
                 <th>Project Title</th>
+                <th>Project Owner</th>
                 <th>Category</th>
                 <th>Amount Donated</th>
                 <th>Date Donated</th>
                 <th>Project Status</th>
-                <th></th>
             </tr>
 
             </thead>
             <tbody th:if="${fund != null}">
             <tr th:each="fund : ${fund}">
                 <td th:text="${fund.project.title}"></td>
+                <td th:text="${fund.project.student.name}"></td>
                 <td th:text="${fund.project.category}"></td>
                 <td th:text="'MYR ' + ${fund.amount}"></td>
                 <td th:text="${fund.transactionDate}"></td>
@@ -89,12 +90,6 @@
                                     (${fund.project.status == 'Completed'} ? 'btn-primary' :
                                     (${fund.project.status == 'Pending'} ? 'btn-warning' : 'btn-secondary'))">
                 </span>
-                </td>
-                <td>
-                    <a class="btn btn-outline-primary btn-sm align-items-center"
-                       th:href="@{'/projects/' + ${fund.project.projectId}}">
-                        View
-                    </a>
                 </td>
             </tr>
             </tbody>

@@ -12,7 +12,7 @@ public interface FundService {
 
     int countByFunderId(Long id);
 
-    Fund saveFund (Fund fund);
+    Fund addNewFund (Fund fund);
 
     List<Fund> findByFunderId(Long id);
 
