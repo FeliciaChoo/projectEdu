@@ -13,15 +13,15 @@ public class Funder {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "funder_id")
-    private Long funderId;
+    private Long id;
 
     @NotBlank(message = "Funder name is required")
     @Column(name = "funder_name", nullable = false)
-    private String funderName;
+    private String name;
 
     @NotBlank(message = "Email is required")
     @Email(message = "Email should be valid")
-    @Column(nullable = false, unique = true)
+    @Column(name="email")
     private String email;
 
     @Column(name = "profile_url")
@@ -35,34 +35,39 @@ public class Funder {
     public Funder() {
     }
 
-    public Funder(String funderName, String email, String profileUrl) {
-        this.funderName = funderName;
+    public Funder(String name, String email, String profileUrl) {
+        this.name = name;
         this.email = email;
         this.profileUrl = profileUrl;
     }
 
     // Getters and Setters
-    public Long getFunderId() {
-        return funderId;
+    public Long getId() {
+        return id;
     }
 
-    public void setFunderId(Long funderId) {
-        this.funderId = funderId;
+    public void setId(Long id) {
+
+        this.id = id;
     }
 
-    public String getFunderName() {
-        return funderName;
+    public String getName() {
+
+        return name;
     }
 
-    public void setFunderName(String funderName) {
-        this.funderName = funderName;
+    public void setName(String name) {
+
+        this.name = name;
     }
 
     public String getEmail() {
+
         return email;
     }
 
     public void setEmail(String email) {
+
         this.email = email;
     }
 
@@ -74,15 +79,17 @@ public class Funder {
     }
 
     public void setProfileUrl(String profileUrl) {
+
         this.profileUrl = profileUrl;
     }
 
     @Override
     public String toString() {
         return "Funder{" +
-                "funderId=" + funderId +
-                ", funderName='" + funderName + '\'' +
+                "funderId=" + id +
+                ", funderName='" + name + '\'' +
                 ", email='" + email + '\'' +
+                ", profileUrl='" + profileUrl + '\'' +
                 '}';
     }
 

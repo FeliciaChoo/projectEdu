@@ -5,20 +5,22 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
-import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface ProjectRepository extends JpaRepository<Project, Long> {
 
     List<Project> findByStatus(String status);
 
+    List<Project> findByStudentId(Long id);
+
+    Optional<Project> findById(Long projectId);
+
     @Query("SELECT DISTINCT p.category FROM Project p")
     List<String> findAllCategories();
 
-    List<Project> findByStatusAndEndDateAfter(String status, LocalDate date);
-
-    @Query("SELECT p FROM Project p WHERE p.endDate > CURRENT_DATE")
-    List<Project> findUpcomingProjects();
+    Integer countByStudentId(Long id);
+    Integer countByStudentIdAndStatus(Long id, String status);
 
 }

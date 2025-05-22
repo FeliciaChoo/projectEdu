@@ -13,11 +13,11 @@
                             <div class="row g-3">
                                 <div class="col-md-6">
                                     <label for="funderName" class="form-label">Full Name</label>
-                                    <input type="text" class="form-control" id="funderName" name="funderName" required>
+                                    <input type="text" class="form-control" th:value = "${funder.name}" id="funderName" name="funderName" readonly>
                                 </div>
                                 <div class="col-md-6">
                                     <label for="funderEmail" class="form-label">Email</label>
-                                    <input type="email" class="form-control" id="funderEmail" name="funderEmail" required>
+                                    <input type="email" class="form-control" th:value = "${funder.email}" id="funderEmail" name="funderEmail" readonly>
                                 </div>
                             </div>
                         </div>
@@ -28,7 +28,8 @@
                             </h3>
                             <div class="mb-3">
                                 <label for="projectId" class="form-label">Project ID</label>
-                                <input type="text" class="form-control" id="projectId" name="projectId" required>
+                                <input type="text" class="form-control" id="projectId" name="project.projectId"
+                                       th:value="*{project.projectId}" readonly>
                             </div>
                             <div class="mb-3">
                                 <label for="donationAmount" class="form-label">Donation Amount (MYR)</label>

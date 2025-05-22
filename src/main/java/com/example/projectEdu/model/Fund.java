@@ -1,7 +1,9 @@
 package com.example.projectEdu.model;
 
 import jakarta.persistence.*;
-import java.time.LocalDateTime;
+
+import java.math.BigDecimal;
+import java.time.LocalDate;
 
 @Entity
 @Table(name = "Fund")
@@ -9,28 +11,28 @@ public class Fund {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long fundId;
+    @Column(name = "fund_id")
+    private Long id;
 
     @ManyToOne
     @JoinColumn(name = "funder_id")
     private Funder funder;
 
     @ManyToOne
-    @JoinColumn(name = "project_id"
-    )
+    @JoinColumn(name = "project_id")
     private Project project;
 
-    private double amount;
+    private BigDecimal amount;
 
     private String paymentMethod;
 
-    private LocalDateTime transactionDate;
+    private LocalDate transactionDate;
 
     // Constructors
     public Fund() {
     }
 
-    public Fund(Funder funder, Project project, double amount, String paymentMethod, LocalDateTime transactionDate) {
+    public Fund(Funder funder, Project project, BigDecimal amount, String paymentMethod, LocalDate transactionDate) {
         this.funder = funder;
         this.project = project;
         this.amount = amount;
@@ -40,11 +42,11 @@ public class Fund {
 
     // Getters and Setters
     public Long getFundId() {
-        return fundId;
+        return id;
     }
 
     public void setFundId(Long fundId) {
-        this.fundId = fundId;
+        this.id = fundId;
     }
 
     public Funder getFunder() {
@@ -63,11 +65,11 @@ public class Fund {
         this.project = project;
     }
 
-    public double getAmount() {
+    public BigDecimal getAmount() {
         return amount;
     }
 
-    public void setAmount(double amount) {
+    public void setAmount(BigDecimal amount) {
         this.amount = amount;
     }
 
@@ -79,11 +81,23 @@ public class Fund {
         this.paymentMethod = paymentMethod;
     }
 
-    public LocalDateTime getTransactionDate() {
+    public LocalDate getTransactionDate() {
         return transactionDate;
     }
 
-    public void setTransactionDate(LocalDateTime transactionDate) {
+    public void setTransactionDate(LocalDate transactionDate) {
         this.transactionDate = transactionDate;
+    }
+
+    @Override
+    public String toString() {
+        return "Fund{" +
+                "id=" + id +
+                ", funder=" + funder +
+                ", project=" + project +
+                ", amount=" + amount +
+                ", paymentMethod='" + paymentMethod + '\'' +
+                ", transactionDate=" + transactionDate +
+                '}';
     }
 }

@@ -21,11 +21,14 @@
     <!-- Main content container -->
     <div class="main-content-container">
         <div class="d-flex align-items-center gap-3">
-            <img src="https://cdn-icons-png.flaticon.com/128/3177/3177440.png" alt="Profile Picture" class="profile-img rounded-circle shadow" />
+            <img th:src="${funder.profileUrl != null ? funder.profileUrl : 'https://cdn-icons-png.flaticon.com/128/3177/3177440.png'}"
+                 alt="Profile Picture"
+                 class = "profile-img rounded-circle shadow"/>
             <div>
-                <h2 class="mb-1">Funder's Name</h2>
+                <h2 class="mb-1" th:text="${funder.name}"></h2>
                 <p class="mb-0">
-                    <i class="bi bi-envelope"></i> student@example.com
+                    <i class="bi bi-envelope"></i>
+                    <span th:text="${funder.email}"></span>
                 </p>
             </div>
         </div>
@@ -34,13 +37,13 @@
             <div class="col-md-4">
                 <div class="card p-3 text-center bg-success text-white">
                     <h5 class="card-title">Funded Projects</h5>
-                    <p class="card-text fs-5 fw-bold">1</p>
+                    <p class="card-text fs-5 fw-bold" th:text="${totalProjectsFunded}"></p>
                 </div>
             </div>
             <div class="col-md-4">
                 <div class="card p-3 text-center bg-primary text-white">
-                    <h5 class="card-title">Total Donation</h5>
-                    <p class="card-text fs-5 fw-bold">MYR</p>
+                    <h5 class="card-title">Total Donations</h5>
+                    <p class="card-text fs-5 fw-bold" th:text="'MYR ' + ${totalAmountFunded}"></p>
                 </div>
             </div>
             <div class="col-md-4">
@@ -65,24 +68,31 @@
             </tr>
             <tr>
                 <th>Project Title</th>
-                <th>Project Owner</th>
                 <th>Category</th>
                 <th>Amount Donated</th>
                 <th>Date Donated</th>
+                <th>Project Status</th>
                 <th></th>
             </tr>
 
             </thead>
-            <tbody th:if="${projects != null}">
-            <tr th:each="project : ${projects}">
-                <td th:text="${project.title}">Project Title</td>
-                <td th:text="${project.ownerName}">Owner Name</td>
-                <td th:text="${project.category}">Agriculture</td>
-                <td th:text="'MYR ' + ${project.amountDonated}">MYR 100</td>
-                <td th:text="${project.donationDate}">2025-01-01</td>
+            <tbody th:if="${fund != null}">
+            <tr th:each="fund : ${fund}">
+                <td th:text="${fund.project.title}"></td>
+                <td th:text="${fund.project.category}"></td>
+                <td th:text="'MYR ' + ${fund.amount}"></td>
+                <td th:text="${fund.transactionDate}"></td>
+                <td>
+                <span class="btn btn-sm"
+                    th:text="${fund.project.status}"
+                    th:classappend="${fund.project.status == 'Active'} ? 'btn-success' :
+                                    (${fund.project.status == 'Completed'} ? 'btn-primary' :
+                                    (${fund.project.status == 'Pending'} ? 'btn-warning' : 'btn-secondary'))">
+                </span>
+                </td>
                 <td>
                     <a class="btn btn-outline-primary btn-sm align-items-center"
-                       th:href="@{/project/{id}(id=${project.projectId})}">
+                       th:href="@{'/projects/' + ${fund.project.projectId}}">
                         View
                     </a>
                 </td>

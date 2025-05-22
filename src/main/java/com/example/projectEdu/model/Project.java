@@ -12,7 +12,8 @@ import java.util.List;
 @Entity
 @Table(name = "project")
 public class Project {
-    @Embedded
+    @ManyToOne
+    @JoinColumn(name = "student_id")
     private Student student;
 
     @Id
@@ -261,6 +262,14 @@ public class Project {
     @PreUpdate
     protected void onUpdate() {
         this.updatedAt = LocalDateTime.now();
+    }
+
+    public List<Fund> getFunds() {
+        return funds;
+    }
+
+    public void setFunds(List<Fund> funds) {
+        this.funds = funds;
     }
 
     // toString method
