@@ -1,9 +1,11 @@
 package com.example.projectEdu.service;
 
+import com.example.projectEdu.model.Fund;
 import com.example.projectEdu.repository.FundRepository;
 import com.example.projectEdu.repository.FunderRepository;
 import org.springframework.stereotype.Service;
 import java.math.BigDecimal;
+import java.util.List;
 
 @Service
 public class FundServiceImpl implements FundService {
@@ -27,4 +29,17 @@ public class FundServiceImpl implements FundService {
         Integer count = fundRepository.countProjectsByFunderId(id);
         return count != null ? count : 0;
     }
+
+    @Override
+    public Fund saveFund (Fund fund){
+        return fundRepository.save(fund);
+    }
+
+    @Override
+    public List<Fund> findByFunderId(Long id) {
+        return fundRepository.findByFunderId(id);
+    }
+
+
+
 }

@@ -3,7 +3,7 @@ package com.example.projectEdu.model;
 import jakarta.persistence.*;
 
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 @Entity
 @Table(name = "Fund")
@@ -26,13 +26,13 @@ public class Fund {
 
     private String paymentMethod;
 
-    private LocalDateTime transactionDate;
+    private LocalDate transactionDate;
 
     // Constructors
     public Fund() {
     }
 
-    public Fund(Funder funder, Project project, BigDecimal amount, String paymentMethod, LocalDateTime transactionDate) {
+    public Fund(Funder funder, Project project, BigDecimal amount, String paymentMethod, LocalDate transactionDate) {
         this.funder = funder;
         this.project = project;
         this.amount = amount;
@@ -81,11 +81,11 @@ public class Fund {
         this.paymentMethod = paymentMethod;
     }
 
-    public LocalDateTime getTransactionDate() {
+    public LocalDate getTransactionDate() {
         return transactionDate;
     }
 
-    public void setTransactionDate(LocalDateTime transactionDate) {
+    public void setTransactionDate(LocalDate transactionDate) {
         this.transactionDate = transactionDate;
     }
 

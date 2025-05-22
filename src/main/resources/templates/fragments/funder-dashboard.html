@@ -43,7 +43,7 @@
             <div class="col-md-4">
                 <div class="card p-3 text-center bg-primary text-white">
                     <h5 class="card-title">Total Donations</h5>
-                    <p class="card-text fs-5 fw-bold" th:text="${totalAmountFunded}"></p>
+                    <p class="card-text fs-5 fw-bold" th:text="'MYR ' + ${totalAmountFunded}"></p>
                 </div>
             </div>
             <div class="col-md-4">
@@ -71,19 +71,28 @@
                 <th>Category</th>
                 <th>Amount Donated</th>
                 <th>Date Donated</th>
+                <th>Project Status</th>
                 <th></th>
             </tr>
 
             </thead>
-            <tbody th:if="${projects != null}">
-            <tr th:each="project : ${projects}">
-                <td th:text="${project.title}">Project Title</td>
-                <td th:text="${project.category}">Agriculture</td>
-                <td th:text="'MYR ' + ${fund.amount}">100.00</td>
-                <td th:text="${fund.donationDate}">2025-01-01</td>
+            <tbody th:if="${fund != null}">
+            <tr th:each="fund : ${fund}">
+                <td th:text="${fund.project.title}"></td>
+                <td th:text="${fund.project.category}"></td>
+                <td th:text="'MYR ' + ${fund.amount}"></td>
+                <td th:text="${fund.transactionDate}"></td>
+                <td>
+                <span class="btn btn-sm"
+                    th:text="${fund.project.status}"
+                    th:classappend="${fund.project.status == 'Active'} ? 'btn-success' :
+                                    (${fund.project.status == 'Completed'} ? 'btn-primary' :
+                                    (${fund.project.status == 'Pending'} ? 'btn-warning' : 'btn-secondary'))">
+                </span>
+                </td>
                 <td>
                     <a class="btn btn-outline-primary btn-sm align-items-center"
-                       th:href="@{/}">
+                       th:href="@{'/projects/' + ${fund.project.projectId}}">
                         View
                     </a>
                 </td>

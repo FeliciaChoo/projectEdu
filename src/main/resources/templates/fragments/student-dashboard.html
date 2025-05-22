@@ -86,15 +86,22 @@
             </thead>
             <tbody th:if="${projects != null}">
             <tr th:each="project : ${projects}">
-                <td th:text="${project.title}">Project Title</td>
-                <td th:text="${project.status}">Status</td>
+                <td th:text="${project.title}"></td>
+                <td>
+                <span class="btn btn-sm"
+                      th:text="${project.status}"
+                      th:classappend="${project.status == 'Active'} ? 'btn-success' :
+                                    (${project.status == 'Completed'} ? 'btn-primary' :
+                                    (${project.status == 'Pending'} ? 'btn-warning' : 'btn-secondary'))">
+                </span>
+                </td>
                 <td th:text="'MYR ' + ${project.currentAmount}">0.00</td>
                 <td th:text="'MYR ' + ${project.goalAmount}">0.00</td>
                 <td th:text="${project.endDate}">2025-01-01</td>
                 <td>
-                    <a class="btn btn-outline-primary btn-sm align-items-center"
+                    <a class="btn btn-outline-danger btn-sm align-items-center"
                        th:href="@{/}">
-                        View
+                        Delete
                     </a>
                 </td>
             </tr>

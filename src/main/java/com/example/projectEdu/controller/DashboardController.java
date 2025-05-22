@@ -40,10 +40,27 @@ public class DashboardController {
     public String showFunderDashboard(Model model) {
         Long id = 1L;
 
+        var funder = funderService.findById(id).orElse(null);
         model.addAttribute("funder", funderService.findById(id).orElse(null));
+        System.out.println("Funder: " + funder);
+
+        var fund = fundService.findByFunderId(id);
+        model.addAttribute("fund", fundService.findByFunderId(id));
+        System.out.println("Fund: " + fund);
         model.addAttribute("totalProjectsFunded", fundService.countByFunderId(id));
         model.addAttribute("totalAmountFunded", fundService.sumByFunderId(id));
         model.addAttribute("content", "fragments/funder-dashboard");
+
+        return "layout";
+    }
+
+    @GetMapping("/donor")
+    public String showDonationForm(Model model) {
+        Long id = 1L;
+
+        model.addAttribute("funder", funderService.findById(id).orElse(null));
+        model.addAttribute("project", projectService.findById(id).orElse(null));
+        model.addAttribute("content", "fragments/donor");
 
         return "layout";
     }
