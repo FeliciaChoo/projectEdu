@@ -51,4 +51,10 @@ public class ProjectServiceImpl implements ProjectService {
     public int countByStudentIdAndStatus(Long id, String status) {
         return projectRepository.countByStudentIdAndStatus(id, status);
     }
+
+    @Override
+    public Optional<Project> findProjectById(Long id) {
+        return projectRepository.findById(id);
+    }
+
 }

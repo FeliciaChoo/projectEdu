@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 public class ProjectListController {
@@ -24,10 +25,11 @@ public class ProjectListController {
     @GetMapping("/project/{id}")
     public String getProjectById(@PathVariable("id") Long id, Model model) {
         System.out.println("Project controller called with id = " + id);
-        Project project = projectService.findProjectById(id);
-        if (project == null) {
+        Optional<Project> optionalProject = projectService.findProjectById(id);
+        if (optionalProject == null) {
             return "error/404";
         }
+        Project project = optionalProject.get();
         model.addAttribute("project", project);
         model.addAttribute("content", "fragments/project");  // Tell layout which fragment to use
         model.addAttribute("title", project.getTitle());    // Optional: set page title
@@ -108,4 +110,11 @@ public class ProjectListController {
 
         return "layout";
     }
+    @GetMapping("/projects/upcoming")
+    public String showUpcomingProjects(Model model) {
+        List<Project> upcoming = projectService.getProjectsByStatus("Upcoming");
+        model.addAttribute("projects", upcoming);
+        return "upcoming-projects";
+    }
+
 }

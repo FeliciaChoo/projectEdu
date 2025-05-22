@@ -11,6 +11,7 @@ import java.util.List;
 public class Student {
 
 
+    private  String otherUniversity;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "student_id")
@@ -33,7 +34,6 @@ public class Student {
     @Column(name = "institution")
     private String university;
 
-    private String otherUniversity;
 
     @Column(name = "profile_url")
     private String profileUrl;
@@ -45,7 +45,11 @@ public class Student {
     public Student() {
     }
 
-    public Student(String name, String email, String university, String otherUniversity, String profileUrl) {
+
+
+
+    // Updated constructor to include studentUniId
+    public Student( String name, String email, String university, String otherUniversity, String profileUrl) {
         this.name = name;
         this.email = email;
         this.university = university;

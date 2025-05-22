@@ -28,12 +28,11 @@ import java.util.List;
 public class MainController {
 
     private final ProjectRepository projectRepository;
-    private final ProjectRepository projectService;
+   ;
 
     // Constructor injection
-    public MainController(ProjectRepository projectRepository,ProjectRepository projectService) {
+    public MainController(ProjectRepository projectRepository) {
         this.projectRepository = projectRepository;
-        this.projectService = projectService;
     }
 
     @GetMapping("/")
@@ -56,13 +55,7 @@ public class MainController {
         return "layout";
     }
 
-    @GetMapping("/donor")
-    public String showDonationForm(Model model, HttpServletRequest request) {
-        model.addAttribute("title", "");
-        model.addAttribute("content", "fragments/donor");
-        model.addAttribute("currentUri", request.getRequestURI());
-        return "layout";
-    }
+
 
     @PostMapping("/payment-success")
     public String showPaymentSuccess(Model model, HttpServletRequest request) {
@@ -152,11 +145,7 @@ public class MainController {
             return "redirect:/apply";
 
         }
-    @GetMapping("/projects/upcoming")
-    public ResponseEntity<List<Project>> getUpcomingProjects() {
-        List<Project> upcoming = projectService.findUpcomingProjects();
-        return ResponseEntity.ok(upcoming);
-    }
+
 
 
 

@@ -24,7 +24,7 @@ public interface ProjectRepository extends JpaRepository<Project, Long> {
     Integer countByStudentId(Long id);
     Integer countByStudentIdAndStatus(Long id, String status);
 
-    List<Project> findUpcomingProjects();
 
-    List<Project> findByStatusAndEndDateAfter(String active, LocalDate now);
+
+
 }

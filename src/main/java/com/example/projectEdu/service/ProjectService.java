@@ -1,39 +1,26 @@
 package com.example.projectEdu.service;
 
 import com.example.projectEdu.model.Project;
-import com.example.projectEdu.repository.ProjectRepository;
-import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
+public interface ProjectService {
 
-@Service
-public class ProjectService {
+    List<Project> getAllProjects();
 
-    private final ProjectRepository projectRepository;
+    List<Project> getProjectsByStatus(String status);
 
-    public ProjectService(ProjectRepository projectRepository) {
-        this.projectRepository = projectRepository;
-    }
+    List<String> getAllCategories();
 
-    public List<Project> getAllProjects() {
-        return projectRepository.findAll();
-    }
+    List<Project> findByStudentId(Long id);
 
-    public List<Project> getProjectsByStatus(String status) {
-        return projectRepository.findByStatus(status);
-    }
+    Optional<Project> findById(Long projectId);
 
-    public List<String> getAllCategories() {
-        return projectRepository.findAllCategories();
-    }
-    public List<Project> findUpcomingProjects() {
-        return projectRepository.findByStatusAndEndDateAfter("active", LocalDate.now());
-    }
+    int countByStudentId(Long id);
 
+    int countByStudentIdAndStatus(Long id, String status);
 
-    public Project findProjectById(Long projectId) {
-        return projectRepository.findById(projectId).orElse(null);
-    }
+    Optional<Project> findProjectById(Long id);
+
 }
