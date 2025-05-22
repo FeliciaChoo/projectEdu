@@ -60,7 +60,6 @@ public class DashboardController {
     public String showDonationForm(@PathVariable("projectId") Long projectId, Model model) {
         Long id = 1L;
 
-        //model.addAttribute("fund", funderService.findById(id).orElse(null));
         model.addAttribute("funder", funderService.findById(id).orElse(null));
         model.addAttribute("project", projectService.findById(projectId).orElse(null));
         model.addAttribute("content", "fragments/donor");
@@ -76,12 +75,18 @@ public class DashboardController {
         return "redirect:/student-dashboard";
     }
 
+    @PostMapping("/fund/{id}")
+    public String addNewFund(@Valid Fund fund, BindingResult result, Model model) {
+        if (result.hasErrors()) {
+            return "/donor/{projectId}";
+        }
+        return "redirect:/payment-success";
+    }
+
     @PostMapping("/payment-success")
     public String processFund() {
         return "payment-success";
     }
-
-
 
 
 }

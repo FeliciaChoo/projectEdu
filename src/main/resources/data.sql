@@ -56,6 +56,33 @@ INSERT INTO fund (amount, payment_method, transaction_date) VALUES
 (1500.00, 'Online Banking', '2024-10-12'),
 (1000.00, 'e-Wallet', '2024-07-13');
 
+UPDATE project
+SET student_id = 1
+WHERE project_id = 1;
+
+UPDATE project
+SET student_id = 2
+WHERE project_id = 2;
+
+UPDATE project
+SET student_id = 3
+WHERE project_id = 3;
+
+UPDATE fund
+SET funder_id = 1, project_id = 1
+WHERE fund_id = 1;
+
+UPDATE fund
+SET funder_id = 2, project_id = 1
+WHERE fund_id = 2;
+
+UPDATE fund
+SET funder_id = 3, project_id = 3
+WHERE fund_id = 3;
+
+UPDATE fund
+SET funder_id = 1, project_id = 2
+WHERE fund_id = 4;
 
 
 

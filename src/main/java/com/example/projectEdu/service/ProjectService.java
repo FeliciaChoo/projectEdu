@@ -23,4 +23,6 @@ public interface ProjectService {
 
     Optional<Project> findProjectById(Long id);
 
+    void deleteProject(Project project);
+
 }

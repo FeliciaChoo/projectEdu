@@ -57,4 +57,8 @@ public class ProjectServiceImpl implements ProjectService {
         return projectRepository.findById(id);
     }
 
+    @Override
+    public void deleteProject(Project project) {
+        projectRepository.delete(project);
+    }
 }
