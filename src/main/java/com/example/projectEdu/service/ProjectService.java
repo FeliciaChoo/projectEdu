@@ -15,4 +15,6 @@ public interface ProjectService {
     int countByStudentId(Long id);
     int countByStudentIdAndStatus(Long id, String status);
 
+    void deleteProject(Project project);
+    void updateProject(Project project);
 }

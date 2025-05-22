@@ -51,4 +51,14 @@ public class ProjectServiceImpl implements ProjectService {
     public int countByStudentIdAndStatus(Long id, String status) {
         return projectRepository.countByStudentIdAndStatus(id, status);
     }
+
+    @Override
+    public void deleteProject(Project project) {
+        projectRepository.delete(project);
+    }
+
+    @Override
+    public void updateProject(Project project) {
+        projectRepository.save(project);
+    }
 }
