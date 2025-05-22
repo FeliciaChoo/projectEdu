@@ -23,7 +23,7 @@
                                 </div>
                                 <div class="col-md-6">
                                     <label for="studentID" class="form-label">Student ID</label>
-                                    <input type="text" class="form-control" id="studentID" th:field="*{student.id}" required />
+                                    <input type="text" class="form-control" id="studentID" th:field="*{student.studentUniId}" required />
                                 </div>
                                 <!-- University Dropdown with Other Option -->
                                 <div class="col-md-6">
@@ -83,9 +83,10 @@
                                     <option value="Business & Entrepreneurship">Business & Entrepreneurship</option>
                                     <option value="Other">Other</option>
                                 </select>
-                                <input type="text" class="form-control mt-2" id="otherCategory" th:field="*{otherCategory}" placeholder="Please specify category" style="display:none;" />
-                            </div>
-                            <div class="mb-3">
+
+                                <input type="text" class="form-control mt-2" id="otherCategory" name="otherCategory" placeholder="Please specify category" style="display:none;" />
+
+                                <div class="mb-3">
                                 <label for="surveyLink" class="form-label">Survey Link (if any):</label>
                                 <input type="text" class="form-control" id="surveyLink" th:field="*{surveyLink}" />
                             </div>
@@ -176,17 +177,24 @@
             uniSelect.value = otherUni.value;
         }
 
-            // Handle category
-            const categorySelect = document.getElementById('category');
-            const otherCategory = document.getElementById('otherCategory');
-            if (categorySelect.value === 'Other' && otherCategory.value) {
-            // Create hidden input to ensure the value is submitted
-            const hiddenInput = document.createElement('input');
-            hiddenInput.type = 'hidden';
-            hiddenInput.name = 'category';
-            hiddenInput.value = otherCategory.value;
-            this.appendChild(hiddenInput);
-        }
+                function toggleOtherCategory(selectElement) {
+                    var otherInput = document.getElementById("otherCategory");
+                    if (selectElement.value === "Other") {
+                        otherInput.style.display = "block";
+                        otherInput.required = true;
+                    } else {
+                        otherInput.style.display = "none";
+                        otherInput.value = "";
+                        otherInput.required = false;
+                    }
+                }
+
+                // Call on page load to set correct state if editing existing data
+                document.addEventListener("DOMContentLoaded", function() {
+                    var select = document.getElementById("category");
+                    toggleOtherCategory(select);
+                });
+
         });
         });
     </script>

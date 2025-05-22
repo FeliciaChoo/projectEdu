@@ -10,6 +10,7 @@ import java.util.List;
 @Table(name = "student")
 public class Student {
 
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "student_id")
@@ -18,6 +19,10 @@ public class Student {
     @NotBlank(message = "Student name is required")
     @Column(name = "student_name")
     private String name;
+
+    @NotBlank(message = "Password is required")
+    @Column(nullable = false)
+    private String password;
 
     @NotBlank(message = "Email is required")
     @Email(message = "Email should be valid")

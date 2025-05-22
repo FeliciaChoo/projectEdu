@@ -1,3 +1,10 @@
+INSERT INTO student (student_name, student_uni_id, email, password, university, other_university)
+VALUES
+    ('Aina Khalid', 'STU001', 'aina.k@upm.edu.my', 'pass1234', 'Universiti Putra Malaysia', NULL),
+    ('Daniel Wong', 'STU002', 'danielw@um.edu.my', 'dw2024', 'Universiti Malaya', NULL),
+    ('Nurul Syafiqah', 'STU003', 'syafiqah@upm.edu.my', 'flower88', 'Universiti Putra Malaysia', NULL)
+    ;
+
 
 INSERT INTO project (
     title,
@@ -11,14 +18,15 @@ INSERT INTO project (
     bank_name,
     account_no,
     account_holder_name,
-    image_url
+    image_url,
+    student_id
 ) VALUES
       (
           'Smart Hydroponics System', 'Active',
           'IoT-based system for vertical farming','Agriculture', 'http://bit.ly/survey001',
           5000.00, 1200.00, '2025-07-15', 'CIMB',
           '1234-56-789', 'Aina Khalid',
-          '/images/p1img.jpg'
+          '/images/p1img.jpg',1
       ),
 
       (
@@ -26,7 +34,7 @@ INSERT INTO project (
           'Promoting eco-friendly fertilisers', 'Technology','http://bit.ly/survey002',
           3000.00, 3000.00, '2025-04-10', 'MAYBANK',
           '0987-45-123', 'Wong Kai Qi',
-          '/images/p2img.jpg'
+          '/images/p2img.jpg',2
       ),
 
       (
@@ -34,7 +42,7 @@ INSERT INTO project (
           'Educational app for urban agriculture', 'Environment','http://bit.ly/survey003',
           7000.00, 4200.00, '2025-08-20', 'OCBC',
           '4466-23-466', 'Nurul Syafiqah',
-          '/images/p3img.png'
+          '/images/p3img.png',3
       );
 
 INSERT INTO funder (funder_name, email, profile_url) VALUES

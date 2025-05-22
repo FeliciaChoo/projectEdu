@@ -12,9 +12,10 @@ import java.util.List;
 @Entity
 @Table(name = "project")
 public class Project {
-    @ManyToOne
-    @JoinColumn(name = "student_id")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "student_id", nullable = false)
     private Student student;
+
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -80,7 +81,7 @@ public class Project {
 
     // Constructor with essential fields
     public Project(String title, String status, String description, String category,
-                   BigDecimal goalAmount, LocalDate endDate) {
+                   BigDecimal goalAmount, LocalDate endDate, String otherCategory) {
         this.title = title;
         this.status = status;
         this.description = description;
@@ -262,14 +263,6 @@ public class Project {
     @PreUpdate
     protected void onUpdate() {
         this.updatedAt = LocalDateTime.now();
-    }
-
-    public List<Fund> getFunds() {
-        return funds;
-    }
-
-    public void setFunds(List<Fund> funds) {
-        this.funds = funds;
     }
 
     // toString method

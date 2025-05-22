@@ -90,11 +90,11 @@ public class MainController {
                                     BindingResult bindingResult,
                                     @RequestParam(value = "otherCategoryInput", required = false) String otherCategoryInput,
                                     @RequestParam("imageFile") MultipartFile imageFile,
-                                    Model model, RedirectAttributes redirectAttributes) {
+                                    Model model, RedirectAttributes redirectAttributes, @RequestParam(required = false) String otherCategory) {
 
         // Handle 'Others' category input
-        if ("Other".equals(project.getCategory()) && otherCategoryInput != null && !otherCategoryInput.isEmpty()) {
-            project.setCategory(otherCategoryInput);
+        if (otherCategory != null && !otherCategory.trim().isEmpty()) {
+            project.setCategory(otherCategory.trim());
         }
 
         // Set default status if not set

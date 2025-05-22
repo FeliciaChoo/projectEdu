@@ -5,6 +5,7 @@ import com.example.projectEdu.service.ProjectService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.ArrayList;
@@ -18,6 +19,19 @@ public class ProjectListController {
 
     public ProjectListController(ProjectService projectService) {
         this.projectService = projectService;
+    }
+
+    @GetMapping("/project/{id}")
+    public String getProjectById(@PathVariable("id") Long id, Model model) {
+        System.out.println("Project controller called with id = " + id);
+        Project project = projectService.findProjectById(id);
+        if (project == null) {
+            return "error/404";
+        }
+        model.addAttribute("project", project);
+        model.addAttribute("content", "fragments/project");  // Tell layout which fragment to use
+        model.addAttribute("title", project.getTitle());    // Optional: set page title
+        return "layout";  // Return your main Thymeleaf template
     }
 
 

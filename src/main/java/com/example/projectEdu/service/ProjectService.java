@@ -33,5 +33,7 @@ public class ProjectService {
     }
 
 
-
+    public Project findProjectById(Long projectId) {
+        return projectRepository.findById(projectId).orElse(null);
+    }
 }

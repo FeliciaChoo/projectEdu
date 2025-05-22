@@ -1,0 +1,116 @@
+<div th:fragment="content(projects)">
+  <div class="container project-detail-container">
+    <!-- Back Navigation with more spacing -->
+    <div class="mb-4 pt-3">
+      <a th:href="@{/projects}" class="back-link text-decoration-none d-inline-flex align-items-center">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="me-2">
+          <path d="m15 18-6-6 6-6"/>
+        </svg>
+        Back to all projects
+      </a>
+    </div>
+
+    <!-- Main Project Card -->
+    <div class="card project-card border-0 shadow-sm">
+      <div class="row g-0">
+        <!-- Project Image Column (Left) -->
+        <div class="col-md-7 p-3 bg-light">
+          <div class="h-100 d-flex align-items-center justify-content-center">
+            <div class="overflow-hidden rounded" style="width: 95%; height: 95%;">
+              <img th:src="@{${project.imageUrl}}"
+                   th:alt="${project.title}"
+                   class="project-image img-fluid h-100 w-100"
+                   style="object-fit: cover;
+                          border-radius: 0.5rem;
+                          box-shadow: 0 0 8px rgba(0,0,0,0.1);">
+            </div>
+          </div>
+        </div>
+
+        <!-- Project Content Column (Right) -->
+        <div class="col-md-5">
+          <div class="card-body project-content p-4 h-100">
+            <!-- Project Header -->
+            <div class="project-header mb-4">
+              <span class="badge bg-secondary mb-2" th:text="${project.category}">Category</span>
+              <h1 class="project-title" th:text="${project.title}">Project Title</h1>
+              <p class="project-description text-muted" th:text="${project.description}">Project Description</p>
+            </div>
+
+            <!-- Funding Progress -->
+            <div class="funding-progress mb-4">
+              <div class="progress mb-2" style="height: 8px;">
+                <div class="progress-bar bg-success"
+                     role="progressbar"
+                     th:attr="aria-valuenow=${(project.currentAmount/project.goalAmount)*100}, aria-valuemin=0, aria-valuemax=100"
+                     th:style="'width:' + ${(project.currentAmount/project.goalAmount)*100} + '%'">
+                </div>
+              </div>
+              <div class="d-flex justify-content-between align-items-center">
+                <span class="fw-bold"
+                      th:text="${#numbers.formatDecimal((project.currentAmount/project.goalAmount)*100, 0, 0)} + '% FUNDED'">
+                  24% FUNDED
+                </span>
+                <span class="text-muted small">
+                  <span th:text="${#temporals.format(project.endDate, 'MMM dd, yyyy')}"></span>
+                </span>
+              </div>
+            </div>
+
+            <!-- Stats Grid -->
+            <div class="stats-grid row g-3 mb-4">
+              <div class="col-4">
+                <div class="stat text-center">
+                  <div class="stat-value fw-bold"
+                       th:text="'RM' + ${#numbers.formatDecimal(project.currentAmount, 1, 2)}">RM 0.00</div>
+                  <div class="stat-label small text-muted"
+                       th:text="'of RM' + ${#numbers.formatDecimal(project.goalAmount, 1, 2)}">of RM 0.00</div>
+                </div>
+              </div>
+              <div class="col-4">
+                <div class="stat text-center">
+                  <div class="stat-value fw-bold">45</div>
+                  <div class="stat-label small text-muted">Backers</div>
+                </div>
+              </div>
+              <div class="col-4">
+                <div class="stat text-center">
+                  <div class="stat-value fw-bold">21</div>
+                  <div class="stat-label small text-muted">Days left</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Call to Action -->
+            <div class="d-grid mb-4">
+              <a href="#" class="btn btn-primary btn-lg donate-button py-3">Donate Now</a>
+            </div>
+
+            <!-- Survey Box -->
+            <div class="survey-box p-3 mb-4 bg-light rounded">
+              <h5 class="survey-title mb-2">Help us improve this project</h5>
+              <p class="survey-description small mb-3">We value your feedback! Please take a moment to complete our survey.</p>
+              <a th:href="${project.surveyLink}" class="survey-link small" target="_blank">
+                Take our survey
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
+                  <polyline points="15 3 21 3 21 9"/>
+                  <line x1="10" y1="14" x2="21" y2="3"/>
+                </svg>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Project Footer -->
+    <div class="project-footer mt-4 pt-3 border-top text-muted small">
+      <div class="row">
+        <div class="col-md-6">
+          <span th:text="'Campaign ended on ' + ${#temporals.format(project.endDate, 'MMM dd, yyyy')}"></span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

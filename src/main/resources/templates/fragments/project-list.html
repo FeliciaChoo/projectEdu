@@ -72,14 +72,14 @@
 
             <div class="col-md-4 col-lg-3" th:each="project : ${projects}">
               <div class="card h-100 shadow-sm">
-                <div class="ratio ratio-16x9">
-                  <img th:src="@{${project.imageUrl != null ? project.imageUrl : '/images/default-project.png'}}"
-                       class="card-img-top object-fit-cover"
-                       alt="Project image" />
-
-
-
-                </div>
+                <!-- Wrap the ratio div with the anchor tag instead -->
+                <a th:href="@{/project/{id}(id=${project.projectId})}" class="text-decoration-none">
+                  <div class="ratio ratio-16x9">
+                    <img th:src="@{${project.imageUrl != null ? project.imageUrl : '/images/default-project.png'}}"
+                         class="card-img-top object-fit-cover"
+                         alt="Project image" />
+                  </div>
+                </a>
                 <div class="card-body">
                   <h5 class="card-title" th:text="${project.title}">Project Title</h5>
                   <div class="progress mb-2" style="height: 6px;">
@@ -94,7 +94,7 @@
                   <p class="text-muted" th:text="${project.shortDescription}">Project description</p>
                   <div class="d-flex justify-content-between small text-muted">
                     <span th:text="${#temporals.format(project.endDate, 'MMM dd, yyyy')}"></span>
-                    <span th:text="'$' + ${#numbers.formatDecimal(project.currentAmount, 1, 2)} + ' raised'"></span>
+                    <span th:text="'RM' + ${#numbers.formatDecimal(project.currentAmount, 1, 2)} + ' raised'"></span>
                   </div>
                 </div>
               </div>
@@ -158,44 +158,3 @@
       </div>
     </div>
 
-    <!-- Project Cards -->
-    <div class="row g-4">
-
-      <div class="col-12" th:if="${#lists.isEmpty(projects)}">
-        <div class="alert alert-info">No projects found matching your criteria</div>
-      </div>
-
-      <div class="col-md-4 col-lg-3" th:each="project : ${projects}">
-        <div class="card h-100 shadow-sm">
-          <!-- Make the image clickable -->
-          <a th:href="@{/donor/{id}(id=${project.projectId})}">
-            <img th:src="@{${project.imageUrl}}"
-                 onerror="this.onerror=null; this.src='/images/default-project.png';"
-                 class="card-img-top object-fit-cover"
-                 alt="Project image">
-          </a>
-
-        </div>
-          <div class="card-body">
-            <h5 class="card-title" th:text="${project.title}">Project Title</h5>
-            <div class="progress mb-2" style="height: 6px;">
-              <div class="progress-bar"
-                   th:classappend="${project.fundedPercentage >= 100} ? ' bg-success' : ' bg-primary'"
-                   th:style="'width:' + ${project.fundedPercentage} + '%'">
-              </div>
-            </div>
-            <div class="text-center fw-bold mb-3"
-                 th:text="${project.fundedPercentage + '% FUNDED'}">
-            </div>
-            <p class="text-muted" th:text="${project.shortDescription}">Project description</p>
-            <div class="d-flex justify-content-between small text-muted">
-              <span th:text="${#temporals.format(project.endDate, 'MMM dd, yyyy')}"></span>
-              <span th:text="'RM' + ${#numbers.formatDecimal(project.currentAmount, 1, 2)} + ' raised'"></span>
-            </div>
-          </div>
-        </div>
-      </div>
-
-    </div>
-  </div>
-</div>
