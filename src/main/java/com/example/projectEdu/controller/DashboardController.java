@@ -81,8 +81,38 @@ public class DashboardController {
         if (result.hasErrors()) {
             return "/donor/{projectId}";
         }
-        return "redirect:/payment-success";
+        return "payment-success";
     }
+
+    @GetMapping("/edit-project/{id}")
+    public String showUpdateForm(@PathVariable("id") long projectId, Model model) {
+        Project project = projectService.findById(projectId).orElseThrow(()-> new IllegalArgumentException("Invalid project Id:" + projectId));
+        model.addAttribute("project", project);
+        model.addAttribute("content", "fragments/edit-project");
+        return "layout";
+    }
+
+    @PostMapping("/update/{id}")
+    public String updateProject(@PathVariable("id") long projectId,
+                                @Valid Project project,
+                                BindingResult result,
+                                Model model) {
+        Long id = 1L;
+
+        if (result.hasErrors()) {
+            System.out.println("Validation errors:");
+            result.getAllErrors().forEach(error -> System.out.println(error));
+            model.addAttribute("content", "fragments/edit-project");
+            model.addAttribute("project", project);
+            return "redirect:/student-dashboard";
+        }
+
+        model.addAttribute("student", studentService.findById(id).orElse(null));
+        project.setProjectId(projectId);
+        projectService.updateProject(project);
+        return "redirect:/student-dashboard";
+    }
+
 
     @PostMapping("/payment-success")
     public String processFund() {

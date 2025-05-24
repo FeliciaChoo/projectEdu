@@ -100,7 +100,7 @@
                 <td th:text="${project.endDate}">2025-01-01</td>
                 <td>
                     <a class="btn btn-primary btn-sm align-items-center text-white"
-                       th:href="@{/}" style="width: 80px">
+                       th:href="@{/edit-project/{id}(id=${project.projectId})}" style="width: 80px">
                         <i class="bi bi-pencil me-1"></i>
                         Edit
                     </a>
