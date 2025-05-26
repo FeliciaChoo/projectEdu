@@ -28,10 +28,8 @@ public class DashboardController {
         this.fundService = fundService;
     }
 
-    @GetMapping("/student-dashboard")
-    public String showStudentDashboard(Model model) {
-
-        Long id = 1L;
+    @GetMapping("/student-dashboard/{id}")
+    public String showStudentDashboard(@PathVariable("id") Long id, Model model) {
 
         model.addAttribute("student", studentService.findById(id).orElse(null));
         model.addAttribute("totalProjects", projectService.countByStudentId(id));
@@ -43,9 +41,8 @@ public class DashboardController {
         return "layout";
     }
 
-    @GetMapping("/funder-dashboard")
-    public String showFunderDashboard(Model model) {
-        Long id = 1L;
+    @GetMapping("/funder-dashboard/{id}")
+    public String showFunderDashboard(@PathVariable("id") Long id, Model model) {
 
         model.addAttribute("funder", funderService.findById(id).orElse(null));
         model.addAttribute("fund", fundService.findByFunderId(id));
@@ -72,8 +69,9 @@ public class DashboardController {
     public String deleteProject(@PathVariable("id") Long projectId, Model model) {
         Project project = projectService.findById(projectId).
                 orElseThrow(() -> new IllegalArgumentException("Invalid project Id:" + projectId));
+        Long studentId = project.getStudent().getId();
         projectService.deleteProject(project);
-        return "redirect:/student-dashboard";
+        return "redirect:/student-dashboard/"+ studentId;
     }
 
     @PostMapping("/fund/{id}")

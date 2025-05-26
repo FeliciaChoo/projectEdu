@@ -3,6 +3,8 @@ package com.example.projectEdu.model;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import org.hibernate.validator.constraints.URL;
+import org.springframework.format.annotation.DateTimeFormat;
+
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.LocalDate;
@@ -48,6 +50,7 @@ public class Project {
 
     @NotNull(message = "End date is required")
     @Future(message = "End date must be in the future")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     @Column(nullable = false)
     private LocalDate endDate;
 

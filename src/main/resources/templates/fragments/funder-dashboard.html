@@ -16,6 +16,14 @@
             border: 5px solid white;
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
         }
+        .student-link {
+            color: #000000;
+            text-decoration: none;
+            font-weight: 500;
+        }
+        .student-link:hover {
+            text-decoration: underline;
+        }
     </style>
 
     <!-- Main content container -->
@@ -79,7 +87,11 @@
             <tbody th:if="${fund != null}">
             <tr th:each="fund : ${fund}">
                 <td th:text="${fund.project.title}"></td>
-                <td th:text="${fund.project.student.name}"></td>
+                <td>
+                    <a class="student-link"
+                       th:href="@{/student-dashboard/{id}(id=${fund.project.student.id})}"
+                       th:text="${fund.project.student.name}"></a>
+                </td>
                 <td th:text="${fund.project.category}"></td>
                 <td th:text="'MYR ' + ${fund.amount}"></td>
                 <td th:text="${fund.transactionDate}"></td>
