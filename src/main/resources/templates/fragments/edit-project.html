@@ -10,6 +10,8 @@
                           th:action="@{/update/{id}(id=${project.projectId})}" th:object="${project}" method="post" enctype="multipart/form-data">
 
                         <input type="hidden" th:field="*{student.id}" />
+                        <input type="hidden" th:field="*{currentAmount}"/>
+
                         <!-- Project Details -->
                         <div class="mb-4">
                             <h3 class="h5 mb-3 section-header">
@@ -43,6 +45,11 @@
                                 <label for="surveyLink" class="form-label">Survey Link (if any):</label>
                                 <input type="text" class="form-control" id="surveyLink" th:field="*{surveyLink}" />
                             </div>
+                            <div class="mb-3">
+                                <label for="imageFile" class="form-label">Upload Project Image</label>
+                                <input type="file" class="form-control" id="imageFile" name="imageFile" accept="image/*" />
+                            </div>
+
 
                             <!-- Add this to your form -->
                             <div class="mb-3">
@@ -55,7 +62,7 @@
                             </div>
                             <div class="mb-3">
                                 <label for="endDate" class="form-label">End Date</label>
-                                <input type="date" class="form-control" id="endDate" th:field="*{endDate}" required />
+                                <input type="date" class="form-control" id="endDate" th:field="*{endDate}" readonly />
                             </div>
                             <div class="mb-3">
                                 <label for="amountRequested" class="form-label">Amount Requested (MYR)</label>

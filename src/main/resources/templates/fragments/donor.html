@@ -10,7 +10,7 @@
 
                         <!-- Funder Info -->
                         <div class="mb-4">
-                            <h3 class="h5 section-header"><i class="bi bi-person-vcard text-primary"></i> Student Information</h3>
+                            <h3 class="h5 section-header"><i class="bi bi-person-vcard text-primary"></i> Funder Information</h3>
                             <div class="row g-3">
                                 <div class="col-md-6">
                                     <label for="funderName" class="form-label">Full Name</label>
@@ -38,6 +38,10 @@
                                     <span class="input-group-text">MYR</span>
                                     <input type="number" min="1" class="form-control" id="donationAmount" name="donationAmount" th:field="*{amount}"required>
                                 </div>
+                            </div>
+                            <div class="mb-3">
+                                <label for="projectId" class="form-label">Date</label>
+                                <input type="date" class="form-control" id="transactionDate" name="transactionDate" th:field="*{transactionDate}" readonly>
                             </div>
                         </div>
                         <!-- Payment Methods -->
@@ -108,4 +112,3 @@
         </div>
     </div>
 </div>
-

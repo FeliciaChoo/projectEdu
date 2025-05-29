@@ -95,7 +95,6 @@ public class DashboardController {
                                 @Valid Project project,
                                 BindingResult result,
                                 Model model) {
-        Long id = 1L;
 
         if (result.hasErrors()) {
             System.out.println("Validation errors:");
@@ -105,7 +104,6 @@ public class DashboardController {
             return "redirect:/student-dashboard";
         }
 
-        model.addAttribute("student", studentService.findById(id).orElse(null));
         project.setProjectId(projectId);
         projectService.updateProject(project);
         return "redirect:/student-dashboard";
