@@ -21,6 +21,8 @@ public class StudentServiceImpl implements StudentService {
 
     @Override
     public void saveStudent(Student student) {
+
+        System.out.println("Saving student to DB: " + student);
         studentRepository.save(student);
     }
     public boolean existsByUsername(String username) {

@@ -27,6 +27,9 @@
             <h2 class="mb-4 fw-bold pt-4">REGISTER FORM</h2>
 
             <form action="/register" method="post" id="registerForm">
+                <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+
+
 
                 <!-- User type radio buttons -->
                 <div class="mb-4">
@@ -136,20 +139,27 @@
                     document.getElementById('studentFields').style.display = 'block';
                     document.getElementById('funderFields').style.display = 'none';
 
-                    document.querySelectorAll('#studentFields input').forEach(i => i.required = true);
+                    document.querySelectorAll('#studentFields input, #studentFields select').forEach(i => i.required = true);
                     document.querySelectorAll('#funderFields input').forEach(i => i.required = false);
                 } else {
                     document.getElementById('studentFields').style.display = 'none';
                     document.getElementById('funderFields').style.display = 'block';
 
-                    document.querySelectorAll('#studentFields input').forEach(i => i.required = false);
+                    document.querySelectorAll('#studentFields input, #studentFields select').forEach(i => i.required = false);
                     document.querySelectorAll('#funderFields input').forEach(i => i.required = true);
                 }
             });
         });
 
+
         // Trigger change on page load to set initial required attributes
-        document.querySelector('input[name="userType"]:checked').dispatchEvent(new Event('change'));
+        window.addEventListener('DOMContentLoaded', () => {
+            const selected = document.querySelector('input[name="userType"]:checked');
+            if (selected) {
+                selected.dispatchEvent(new Event('change'));
+            }
+        });
+
 
         function toggleOtherUniversity(select) {
             const otherInput = document.getElementById('otherUniversity');

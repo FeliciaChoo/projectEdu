@@ -9,14 +9,14 @@
 
         <!-- Login Form -->
         <div class="col-md-6">
-            <form>
+            <form th:action="@{/login}" method="post" class="w-100">
                 <div class="mb-3">
                     <label for="email" class="form-label fw-semibold">Email</label>
-                    <input type="email" class="form-control" id="email" placeholder="Enter your email">
+                    <input type="email" class="form-control" id="email" name="email" placeholder="Enter your email">
                 </div>
                 <div class="mb-2">
                     <label for="password" class="form-label fw-semibold">Password</label>
-                    <input type="password" class="form-control" id="password" placeholder="Enter your password">
+                    <input type="password" class="form-control" id="password" name="password" placeholder="Enter your password">
                 </div>
                 <div class="text-end mb-4">
                     <a href="#">Forgot Password?</a>
@@ -25,6 +25,9 @@
             </form>
             <div class="mt-4 text-center">
                 New User? <a th:href="@{/register}"><strong>Sign Up Here</strong></a>
+            </div>
+            <div th:if="${successMessage}" class="alert alert-success" role="alert">
+                <span th:text="${successMessage}"></span>
             </div>
         </div>
     </div>

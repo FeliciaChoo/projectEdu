@@ -5,6 +5,7 @@ import com.example.projectEdu.service.FunderService;
 import com.example.projectEdu.service.ProjectService;
 import com.example.projectEdu.service.StudentService;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import java.nio.file.Files;
@@ -34,18 +35,19 @@ public class MainController {
     private final ProjectRepository projectRepository;
     private final StudentService studentService;
     private final FunderService funderService;
-
+    private final PasswordEncoder passwordEncoder;
     // Constructor injection
     public MainController(ProjectRepository projectRepository,
                           StudentService studentService,
-                          FunderService funderService) {
+                          FunderService funderService, PasswordEncoder passwordEncoder) {
         this.projectRepository = projectRepository;
         this.studentService = studentService;
         this.funderService = funderService;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @PostMapping("/register")
-    public String handleRegister(@RequestParam Map<String, String> params, RedirectAttributes redirectAttributes) {
+    public String handleRegister(@RequestParam Map<String, String> params, RedirectAttributes redirectAttributes, Model model) {
         System.out.println("Received params: " + params);
 
         String userType = params.get("userType");
@@ -78,24 +80,34 @@ public class MainController {
             student.setUsername(username);
             student.setName(fullNameStudent);
             student.setEmail(email);
-            student.setPassword(password);
+            student.setPassword(passwordEncoder.encode(password));
             student.setUniversity("Other".equals(university) ? otherUniversity : university);
             student.setProfileUrl("");
+            try {
+                studentService.saveStudent(student);
+            } catch (Exception e) {
+                e.printStackTrace();
+                redirectAttributes.addFlashAttribute("errorMessage", "Save failed: " + e.getMessage());
+                return "redirect:/register";
+            }
 
-            studentService.saveStudent(student);
+            redirectAttributes.addFlashAttribute("successMessage", "Student registration successful! Please login.");
+            return "redirect:/login";
         } else if ("funder".equalsIgnoreCase(userType)) {
             String fullNameFunder = params.get("fullNameFunder");
 
             Funder funder = new Funder();
             funder.setName(fullNameFunder);
             funder.setEmail(email);
-            funder.setPassword(password);
+            funder.setPassword(passwordEncoder.encode(password));
             funder.setProfileUrl("");
-
             funderService.saveFunder(funder);
+            redirectAttributes.addFlashAttribute("successMessage", "Funder registration successful! Please login.");
+            return "redirect:/login";
         }
 
-        return "register-success"; // render register-success.html
+        return "redirect:/login";
+
     }
 
 
@@ -152,10 +164,6 @@ public class MainController {
         // Set default status if not set
         if (project.getStatus() == null || project.getStatus().isBlank()) {
             project.setStatus("Active");  // or "Upcoming", whichever you prefer
-        }
-        // Set default status if not set
-        if (project.getStatus() == null || project.getStatus().isBlank()) {
-            project.setStatus("Active");
         }
         if (project.getEndDate() == null) {
             project.setEndDate(LocalDate.now().plusMonths(3));

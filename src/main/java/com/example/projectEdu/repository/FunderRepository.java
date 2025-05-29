@@ -8,5 +8,5 @@ import java.util.Optional;
 
 @Repository
 public interface FunderRepository extends JpaRepository<Funder, Long> {
-
+    Optional<Funder> findByEmail(String email);
 }
