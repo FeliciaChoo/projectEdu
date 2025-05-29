@@ -61,4 +61,9 @@ public class ProjectServiceImpl implements ProjectService {
     public void updateProject(Project project) {
         projectRepository.save(project);
     }
+
+    @Override
+    public int countCompletedProjectsByFunderId(Long id) {
+        return projectRepository.countCompletedProjectsByFunderId(id);
+    }
 }

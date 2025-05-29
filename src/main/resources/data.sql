@@ -31,7 +31,7 @@ INSERT INTO project (
       (
           'Organic Fertiliser Campaign', 'Completed',
           'Promoting eco-friendly fertilisers', 'Technology','http://bit.ly/survey002',
-          3000.00, 3000.00, '2025-12-10', 'MAYBANK',
+          3000.00, 3000.00, '2025-04-10', 'MAYBANK',
           '0987-45-123', 'Wong Kai Qi',
           '/images/p2img.jpg',2
       ),

@@ -51,6 +51,7 @@ public class DashboardController {
         model.addAttribute("fund", fundService.findByFunderId(id));
         model.addAttribute("totalProjectsFunded", fundService.countByFunderId(id));
         model.addAttribute("totalAmountFunded", fundService.sumByFunderId(id));
+        model.addAttribute("completedProjects", projectService.countCompletedProjectsByFunderId(id));
         model.addAttribute("content", "fragments/funder-dashboard");
 
         return "layout";
@@ -62,6 +63,11 @@ public class DashboardController {
 
         Project project = projectService.findById(projectId)
                 .orElseThrow(() -> new IllegalArgumentException("Invalid project ID: " + projectId));
+
+        if (project.getEndDate().isBefore(LocalDate.now())) {
+            model.addAttribute("project", project);
+            return "project-ended";
+        }
 
         Fund fund = new Fund();
         fund.setProject(project);
@@ -102,7 +108,7 @@ public class DashboardController {
         return "payment-success";
     }
 
-    @GetMapping("/project/delete/{id}")
+    @GetMapping("/delete/{id}")
     public String deleteProject(@PathVariable("id") Long projectId, Model model) {
         Project project = projectService.findById(projectId).
                 orElseThrow(() -> new IllegalArgumentException("Invalid project Id:" + projectId));
@@ -110,7 +116,6 @@ public class DashboardController {
         projectService.deleteProject(project);
         return "redirect:/student-dashboard/"+ studentId;
     }
-
 
 
     @GetMapping("/edit-project/{id}")
@@ -142,9 +147,14 @@ public class DashboardController {
 
 
     @PostMapping("/payment-success")
-    public String processFund() {
+    public String showPaymentSuccess() {
+
         return "payment-success";
     }
 
+    @GetMapping("/project-ended")
+    public String showProjectEnded() {
+        return "project-ended";
+    }
 
 }

@@ -3,6 +3,7 @@ package com.example.projectEdu.repository;
 import com.example.projectEdu.model.Project;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDate;
@@ -23,6 +24,13 @@ public interface ProjectRepository extends JpaRepository<Project, Long> {
 
     Integer countByStudentId(Long id);
     Integer countByStudentIdAndStatus(Long id, String status);
+
+    @Query(value = "SELECT COUNT(*) FROM fund f " +
+            "JOIN project p ON f.project_id = p.project_id " +
+            "WHERE f.funder_id = :id AND p.status = 'Completed'", nativeQuery = true)
+    Integer countCompletedProjectsByFunderId(@Param("id") Long id);
+
+
 
 
 
