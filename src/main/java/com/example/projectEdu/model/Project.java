@@ -18,6 +18,18 @@ public class Project {
     @JoinColumn(name = "student_id", nullable = false)
     private Student student;
 
+    @PrePersist
+    public void prePersist() {
+        if (this.status == null || this.status.isBlank()) {
+            this.status = "ACTIVE";
+        }
+        if (this.endDate == null) {
+            this.endDate = LocalDate.now().plusMonths(3);
+        }
+        if (this.createdAt == null) {
+            this.createdAt = LocalDateTime.now();
+        }
+    }
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

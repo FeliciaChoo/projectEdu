@@ -20,6 +20,8 @@ public class Student {
     @NotBlank(message = "Student name is required")
     @Column(name = "student_name")
     private String name;
+    @Column(unique = true, nullable = false)
+    private String username;
 
     @NotBlank(message = "Password is required")
     @Column(nullable = false)

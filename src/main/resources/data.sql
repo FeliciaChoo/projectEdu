@@ -1,9 +1,9 @@
-INSERT INTO student (student_name, email, institution, password, profile_url)
+INSERT INTO student (student_name, email, institution,username, password, profile_url)
 VALUES
-    ('Aina Khalid', 'aina.k@upm.edu.my', 'Universiti Putra Malaysia', 'pass1234', NULL),
-    ('Daniel Wong', 'danielw@um.edu.my', 'Universiti Malaya', 'dw2024', NULL),
-    ('Nurul Syafiqah', 'syafiqah@upm.edu.my', 'Universiti Putra Malaysia', 'flower88', NULL),
-    ('Faiz Rahman', 'faiz.r@utm.edu.my', 'Universiti Teknologi Malaysia', 'faizpass', NULL);
+    ('Aina Khalid', 'aina.k@upm.edu.my', 'Universiti Putra Malaysia', 'ainakk01@','pass1234', NULL),
+    ('Daniel Wong', 'danielw@um.edu.my', 'Universiti Malaya', 'ddwkk23','dw2024', NULL),
+    ('Nurul Syafiqah', 'syafiqah@upm.edu.my', 'Universiti Putra Malaysia', 'ssrt54@!','flower88', NULL),
+    ('Faiz Rahman', 'faiz.r@utm.edu.my', 'Universiti Teknologi Malaysia', 'frrgo0!','faizpass', NULL);
 
 INSERT INTO project (
     title,
