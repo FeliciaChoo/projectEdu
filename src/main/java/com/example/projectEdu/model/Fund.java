@@ -26,7 +26,7 @@ public class Fund {
 
     private String paymentMethod;
 
-    private LocalDate transactionDate;
+    private LocalDate transactionDate = LocalDate.now();
 
     // Constructors
     public Fund() {

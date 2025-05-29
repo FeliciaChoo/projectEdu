@@ -13,6 +13,9 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import java.math.BigDecimal;
+import java.time.LocalDate;
+
 @Controller
 public class DashboardController {
 
@@ -57,12 +60,46 @@ public class DashboardController {
     public String showDonationForm(@PathVariable("id") Long projectId, Model model) {
         Long id = 1L;
 
-        model.addAttribute("funder", funderService.findById(id).orElse(null));
-        model.addAttribute("project", projectService.findById(projectId).orElse(null));
-        model.addAttribute("fund", new Fund());
+        Project project = projectService.findById(projectId)
+                .orElseThrow(() -> new IllegalArgumentException("Invalid project ID: " + projectId));
+
+        Fund fund = new Fund();
+        fund.setProject(project);
+        fund.setFunder(funderService.findById(id).orElse(null));
+
+        model.addAttribute("fund", fund);
+        model.addAttribute("funder", fund.getFunder());
+        model.addAttribute("project", project);
         model.addAttribute("content", "fragments/donor");
 
         return "layout";
+    }
+
+    @PostMapping("/add-fund")
+    public String addNewFund(@Valid Fund fund, BindingResult result, Model model) {
+        if (result.hasErrors()) {
+            Project project = projectService.findById(fund.getProject().getProjectId())
+                    .orElseThrow(() -> new IllegalArgumentException("Invalid project ID: " + fund.getProject().getProjectId()));
+            model.addAttribute("project", project);
+            model.addAttribute("funder", funderService.findById(fund.getFunder().getId()).orElse(null));
+            model.addAttribute("content", "fragments/donor");
+
+            return "layout";
+        }
+        Project project = projectService.findById(fund.getProject().getProjectId())
+                        .orElseThrow(()-> new IllegalArgumentException("Invalid project ID: " + fund.getProject().getProjectId()));
+
+        BigDecimal currentAmount = project.getCurrentAmount();
+        if (currentAmount == null) {
+            currentAmount = BigDecimal.ZERO;
+        }
+        BigDecimal newAmount = currentAmount.add(fund.getAmount());
+        project.setCurrentAmount(newAmount);
+
+
+        projectService.updateProject(project);
+        fundService.addNewFund(fund);
+        return "payment-success";
     }
 
     @GetMapping("/project/delete/{id}")
@@ -74,13 +111,7 @@ public class DashboardController {
         return "redirect:/student-dashboard/"+ studentId;
     }
 
-    @PostMapping("/fund/{id}")
-    public String addNewFund(@Valid Fund fund, BindingResult result, Model model) {
-        if (result.hasErrors()) {
-            return "/donor/{projectId}";
-        }
-        return "payment-success";
-    }
+
 
     @GetMapping("/edit-project/{id}")
     public String showUpdateForm(@PathVariable("id") long projectId, Model model) {
