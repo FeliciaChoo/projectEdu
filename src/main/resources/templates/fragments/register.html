@@ -26,19 +26,19 @@
         <div class="col-md-8 login-card text-center">
             <h2 class="mb-4 fw-bold pt-4">REGISTER FORM</h2>
 
-            <!-- User type radio buttons -->
-            <div class="mb-4">
-                <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" name="userType" id="studentRadio" value="student" checked>
-                    <label class="form-check-label" for="studentRadio">Student</label>
-                </div>
-                <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" name="userType" id="funderRadio" value="funder">
-                    <label class="form-check-label" for="funderRadio">Funder</label>
-                </div>
-            </div>
-
             <form action="/register" method="post" id="registerForm">
+
+                <!-- User type radio buttons -->
+                <div class="mb-4">
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="userType" id="studentRadio" value="student" checked>
+                        <label class="form-check-label" for="studentRadio">Student</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="userType" id="funderRadio" value="funder">
+                        <label class="form-check-label" for="funderRadio">Funder</label>
+                    </div>
+                </div>
                 <!-- Student fields -->
                 <div id="studentFields">
                     <div class="mb-3 row align-items-center">
@@ -113,6 +113,11 @@
                 <div class="d-flex justify-content-center">
                     <button type="submit" class="btn btn-register px-4">Register Now</button>
                 </div>
+
+                <div th:if="${successMessage}" class="alert alert-success" role="alert">
+                    <span th:text="${successMessage}"></span>
+                </div>
+
             </form>
         </div>
     </div>

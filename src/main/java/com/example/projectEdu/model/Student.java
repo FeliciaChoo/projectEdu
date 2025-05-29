@@ -34,7 +34,6 @@ public class Student {
     @Column(name = "institution")
     private String university;
 
-
     @Column(name = "profile_url")
     private String profileUrl;
 
@@ -96,6 +95,14 @@ public class Student {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public String getProfileUrl() {

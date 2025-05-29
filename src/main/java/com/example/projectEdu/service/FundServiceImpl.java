@@ -1,6 +1,7 @@
 package com.example.projectEdu.service;
 
 import com.example.projectEdu.model.Fund;
+import com.example.projectEdu.model.Funder;
 import com.example.projectEdu.repository.FundRepository;
 import com.example.projectEdu.repository.FunderRepository;
 import org.springframework.stereotype.Service;
@@ -40,6 +41,9 @@ public class FundServiceImpl implements FundService {
         return fundRepository.findByFunderId(id);
     }
 
-
+    @Override
+    public void saveFunder(Funder funder) {
+        funderRepository.save(funder);
+    }
 
 }

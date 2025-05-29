@@ -44,10 +44,10 @@ INSERT INTO project (
           '/images/p3img.png',3
       );
 
-INSERT INTO funder (funder_name, email, profile_url) VALUES
-('Amelia Tan', 'amelia.tan@gmail.com', NULL),
-('Hafiz Zulkifli', 'hafiz.zul@yahoo.com', NULL),
-('Chloe Lim', 'chloe.lim@outlook.com', NULL);
+INSERT INTO funder (funder_name, email, profile_url, password)
+VALUES ('Amelia Tan', 'amelia.tan@gmail.com', NULL, 'pass123'),
+       ('Hafiz Zulkifli', 'hafiz.zul@yahoo.com', NULL, 'pass123'),
+       ('Chloe Lim', 'chloe.lim@outlook.com', NULL, 'pass123');
 
 
 INSERT INTO fund (amount, payment_method, transaction_date) VALUES

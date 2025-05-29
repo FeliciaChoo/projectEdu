@@ -19,4 +19,9 @@ public class FunderServiceImpl implements FunderService {
     public Optional<Funder> findById(Long id){
         return funderRepository.findById(id);
     }
+
+    @Override
+    public void saveFunder(Funder funder) {
+        funderRepository.save(funder);
+    }
 }

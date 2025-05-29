@@ -1,6 +1,7 @@
 package com.example.projectEdu.service;
 
 import com.example.projectEdu.model.Fund;
+import com.example.projectEdu.model.Funder;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -16,4 +17,5 @@ public interface FundService {
 
     List<Fund> findByFunderId(Long id);
 
+    void saveFunder(Funder funder);
 }
