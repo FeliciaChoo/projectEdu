@@ -23,4 +23,7 @@ public class StudentServiceImpl implements StudentService {
     public void saveStudent(Student student) {
         studentRepository.save(student);
     }
+    public boolean existsByUsername(String username) {
+        return studentRepository.findByUsername(username).isPresent();
+    }
 }

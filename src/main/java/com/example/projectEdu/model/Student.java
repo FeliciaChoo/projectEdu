@@ -20,6 +20,15 @@ public class Student {
     @NotBlank(message = "Student name is required")
     @Column(name = "student_name")
     private String name;
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
     @Column(unique = true, nullable = false)
     private String username;
 
@@ -50,7 +59,7 @@ public class Student {
 
 
     // Updated constructor to include studentUniId
-    public Student( String name, String email, String university, String otherUniversity, String profileUrl) {
+    public Student( String name, String email,String username, String university, String otherUniversity, String profileUrl) {
         this.name = name;
         this.email = email;
         this.university = university;
