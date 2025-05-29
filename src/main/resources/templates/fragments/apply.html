@@ -13,44 +13,6 @@
                 </div>
                 <div class="card-body bg-white">
                     <form th:action="@{/apply}" method="post" enctype="multipart/form-data" th:object="${project}">
-                        <!-- Student Info -->
-                        <div class="mb-4">
-                            <h3 class="h5 section-header"><i class="bi bi-person-vcard text-primary"></i> Student Information</h3>
-                            <div class="row g-3">
-                                <div class="col-md-6">
-                                    <label for="studentName" class="form-label">Full Name</label>
-                                    <input type="text" class="form-control" id="studentName" th:field="*{student.name}" required />
-                                </div>
-                                <!-- University Dropdown with Other Option -->
-                                <div class="col-md-6">
-                                    <label for="university" class="form-label">University</label>
-                                    <select class="form-select" id="university" th:field="*{student.university}" required onchange="toggleOtherUniversity(this)">
-                                        <option value="" selected disabled>Select university</option>
-                                        <optgroup label="Public Universities">
-                                            <option value="Universiti Malaya (UM)">Universiti Malaya (UM)</option>
-                                            <option value="Universiti Kebangsaan Malaysia (UKM)">Universiti Kebangsaan Malaysia (UKM)</option>
-                                            <option value="Universiti Putra Malaysia (UPM)">Universiti Putra Malaysia (UPM)</option>
-                                            <option value="Universiti Sains Malaysia (USM)">Universiti Sains Malaysia (USM)</option>
-                                            <option value="Universiti Teknologi Malaysia (UTM)">Universiti Teknologi Malaysia (UTM)</option>
-                                        </optgroup>
-                                        <optgroup label="Private Universities">
-                                            <option value="Taylor's University">Taylor's University</option>
-                                            <option value="Monash University Malaysia">Monash University Malaysia</option>
-                                            <option value="Sunway University">Sunway University</option>
-                                            <option value="INTI International University">INTI International University</option>
-                                            <option value="HELP University">HELP University</option>
-                                        </optgroup>
-                                        <option value="Other">Other</option>
-                                    </select>
-                                    <input type="text" class="form-control mt-2" id="otherUniversity" th:field="*{student.otherUniversity}" placeholder="Please specify your university" style="display:none;" />
-                                </div>
-                                <div class="col-md-6">
-                                    <label for="email" class="form-label">Email</label>
-                                    <input type="email" class="form-control" id="email" th:field="*{student.email}" required />
-                                </div>
-                            </div>
-                        </div>
-
                         <!-- Project Details Section -->
                         <div class="mb-4">
                             <h3 class="h5 mb-3 section-header">
@@ -82,11 +44,13 @@
 
                                 <input type="text" class="form-control mt-2" id="otherCategory" name="otherCategory" placeholder="Please specify category" style="display:none;" />
 
-                                <div class="mb-3">
-                                <label for="surveyLink" class="form-label">Survey Link (if any):</label>
-                                <input type="text" class="form-control" id="surveyLink" th:field="*{surveyLink}" />
-                            </div>
+                                </div>
                         </div>
+                        <div class="mb-3">
+                            <label for="surveyLink" class="form-label">Survey Link (if any):</label>
+                            <input type="text" class="form-control" id="surveyLink" th:field="*{surveyLink}" />
+                        </div>
+
                         <div class="mb-3">
                             <label for="imageFile" class="form-label">Upload Project Image</label>
                             <input type="file" class="form-control" id="imageFile" name="imageFile" accept="image/*" />
@@ -115,6 +79,14 @@
                             </div>
                         </div>
 
+                        <div class="mb-3 row align-items-center">
+                            <label for="username" class="col-sm-3 col-form-label fw-semibold">Username</label>
+                            <div class="col-sm-9">
+                                <input type="text" name="username" class="form-control" id="username" placeholder="Enter your username" required>
+                            </div>
+                        </div>
+
+
                         <!-- Buttons -->
                         <div class="d-flex justify-content-between mt-4">
                             <button type="submit" class="btn btn-primary">
@@ -123,75 +95,81 @@
                         </div>
 
                     </form>
+                    <script>
 
-    <script>
+                        // University handling
+                        function toggleOtherUniversity(select) {
+                            var otherInput = document.getElementById('otherUniversity');
+                            if (select.value === 'Other') {
+                                otherInput.style.display = 'block';
+                                otherInput.required = true;
+                            } else {
+                                otherInput.style.display = 'none';
+                                otherInput.required = false;
+                                otherInput.value = '';
+                            }
+                        }
 
-            // University handling
-            function toggleOtherUniversity(select) {
-            var otherInput = document.getElementById('otherUniversity');
-            if (select.value === 'Other') {
-            otherInput.style.display = 'block';
-            otherInput.required = true;
-        } else {
-            otherInput.style.display = 'none';
-            otherInput.required = false;
-            otherInput.value = '';
-        }
-        }
+                        // Category handling
+                        document.addEventListener('DOMContentLoaded', function() {
+                            const categorySelect = document.getElementById('category');
+                            const otherCategoryInput = document.getElementById('otherCategory');
 
-            // Category handling
-            document.addEventListener('DOMContentLoaded', function() {
-            const categorySelect = document.getElementById('category');
-            const otherCategoryInput = document.getElementById('otherCategory');
+                            if (categorySelect && otherCategoryInput) {
+                                // Initial check on page load
+                                if (categorySelect.value === 'Other') {
+                                    otherCategoryInput.style.display = 'block';
+                                    otherCategoryInput.required = true;
+                                }
 
-            if (categorySelect && otherCategoryInput) {
-            // Initial check on page load
-            if (categorySelect.value === 'Other') {
-            otherCategoryInput.style.display = 'block';
-            otherCategoryInput.required = true;
-        }
+                                // Change handler
+                                categorySelect.addEventListener('change', function() {
+                                    if (this.value === 'Other') {
+                                        otherCategoryInput.style.display = 'block';
+                                        otherCategoryInput.required = true;
+                                    } else {
+                                        otherCategoryInput.style.display = 'none';
+                                        otherCategoryInput.required = false;
+                                        otherCategoryInput.value = '';
+                                    }
+                                });
+                            }
 
-            // Change handler
-            categorySelect.addEventListener('change', function() {
-            if (this.value === 'Other') {
-            otherCategoryInput.style.display = 'block';
-            otherCategoryInput.required = true;
-        } else {
-            otherCategoryInput.style.display = 'none';
-            otherCategoryInput.required = false;
-            otherCategoryInput.value = '';
-        }
-        });
-        }
+                            // Form submission handling
+                            document.querySelector('form').addEventListener('submit', function(e) {
+                                // Handle university
+                                const uniSelect = document.getElementById('university');
+                                const otherUni = document.getElementById('otherUniversity');
+                                if (uniSelect.value === 'Other' && otherUni.value) {
+                                    uniSelect.value = otherUni.value;
+                                }
 
-            // Form submission handling
-            document.querySelector('form').addEventListener('submit', function(e) {
-            // Handle university
-            const uniSelect = document.getElementById('university');
-            const otherUni = document.getElementById('otherUniversity');
-            if (uniSelect.value === 'Other' && otherUni.value) {
-            uniSelect.value = otherUni.value;
-        }
+                                function toggleOtherCategory(selectElement) {
+                                    var otherInput = document.getElementById("otherCategory");
+                                    if (selectElement.value === "Other") {
+                                        otherInput.style.display = "block";
+                                        otherInput.required = true;
+                                    } else {
+                                        otherInput.style.display = "none";
+                                        otherInput.value = "";
+                                        otherInput.required = false;
+                                    }
+                                }
 
-                function toggleOtherCategory(selectElement) {
-                    var otherInput = document.getElementById("otherCategory");
-                    if (selectElement.value === "Other") {
-                        otherInput.style.display = "block";
-                        otherInput.required = true;
-                    } else {
-                        otherInput.style.display = "none";
-                        otherInput.value = "";
-                        otherInput.required = false;
-                    }
-                }
+                                // Call on page load to set correct state if editing existing data
+                                document.addEventListener("DOMContentLoaded", function() {
+                                    var select = document.getElementById("category");
+                                    toggleOtherCategory(select);
+                                });
 
-                // Call on page load to set correct state if editing existing data
-                document.addEventListener("DOMContentLoaded", function() {
-                    var select = document.getElementById("category");
-                    toggleOtherCategory(select);
-                });
+                            });
+                        });
 
-        });
-        });
-    </script>
+                    </script>
                 </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
