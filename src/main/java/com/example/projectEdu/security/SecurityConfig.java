@@ -9,10 +9,12 @@ import org.springframework.security.authentication.dao.DaoAuthenticationProvider
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
@@ -23,14 +25,19 @@ public class SecurityConfig {
         this.userDetailsService = userDetailsService;
     }
 
+    // Add this new method to ignore static resources
+    @Bean
+    public WebSecurityCustomizer webSecurityCustomizer() {
+        return (web) -> web.ignoring().requestMatchers("/images/**", "/css/**", "/js/**");
+    }
+
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/", "/login", "/css/**", "/js/**", "/h2-console/**").permitAll()
-                        .requestMatchers(HttpMethod.GET, "/register").permitAll()
-                        .requestMatchers(HttpMethod.POST, "/register").permitAll()
-                        .requestMatchers(HttpMethod.GET, "/apply").permitAll()
+                        .requestMatchers("/", "/login", "/css/**", "/js/**", "/images/**", "/h2-console/**", "/test-student-service").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/register", "/apply").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/register", "/apply").permitAll()
                         .anyRequest().authenticated()
                 )
                 .formLogin(form -> form

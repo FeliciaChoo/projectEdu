@@ -5,8 +5,5 @@ import java.util.Optional;
 
 public interface StudentService {
     Optional<Student> findById(Long id);
-    void saveStudent (Student student);
-    boolean existsByUsername(String username);
-
-
+    void saveStudent(Student student);
 }

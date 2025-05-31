@@ -18,6 +18,7 @@ public class Project {
     @JoinColumn(name = "student_id", nullable = false)
     private Student student;
 
+
     @PrePersist
     public void prePersist() {
         if (this.status == null || this.status.isBlank()) {
@@ -40,9 +41,13 @@ public class Project {
     @Column(nullable = false)
     private String title;
 
-    @NotBlank(message = "Status is required")
     @Column(nullable = false)
     private String status;
+
+    @Future(message = "End date must be in the future") // (Optional: keep if you still want to validate it's in the future)
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @Column(nullable = false)
+    private LocalDate endDate;
 
     @NotBlank(message = "Description is required")
     @Lob
@@ -59,12 +64,6 @@ public class Project {
     @DecimalMin(value = "0.00", message = "Current amount cannot be negative")
     @Column(precision = 19, scale = 2)
     private BigDecimal currentAmount = BigDecimal.ZERO;
-
-    @NotNull(message = "End date is required")
-    @Future(message = "End date must be in the future")
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
-    @Column(nullable = false)
-    private LocalDate endDate;
 
     @NotBlank(message = "Bank name is required")
     private String bankName;
