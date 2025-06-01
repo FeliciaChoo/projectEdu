@@ -55,9 +55,6 @@ public class Student {
     public Student() {
     }
 
-
-
-
     // Updated constructor to include studentUniId
     public Student( String name, String email,String username, String university, String otherUniversity, String profileUrl) {
         this.name = name;
@@ -117,9 +114,6 @@ public class Student {
     }
 
     public String getProfileUrl() {
-        if (profileUrl == null || profileUrl.isBlank()) {
-            return "https://cdn-icons-png.flaticon.com/128/3177/3177440.png"; // default profile picture URL
-        }
         return profileUrl;
     }
 

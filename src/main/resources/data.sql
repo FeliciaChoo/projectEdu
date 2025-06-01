@@ -1,9 +1,9 @@
 INSERT INTO student (student_name, email, institution,username, password, profile_url)
 VALUES
-    ('Aina Khalid', 'aina.k@upm.edu.my', 'Universiti Putra Malaysia', 'ainakk01@','pass1234', NULL),
-    ('Daniel Wong', 'danielw@um.edu.my', 'Universiti Malaya', 'ddwkk23','dw2024', NULL),
-    ('Nurul Syafiqah', 'syafiqah@upm.edu.my', 'Universiti Putra Malaysia', 'ssrt54@!','flower88', NULL),
-    ('Faiz Rahman', 'faiz.r@utm.edu.my', 'Universiti Teknologi Malaysia', 'frrgo0!','faizpass', NULL);
+    ('Aina Khalid', 'aina.k@upm.edu.my', 'Universiti Putra Malaysia', 'ainakk01@','$2a$12$JGriZzgFwZNEeuIzFcocjug9wb0/G0EJ1nco27FZoCvVLmfpfiiWe', NULL),
+    ('Daniel Wong', 'danielw@um.edu.my', 'Universiti Malaya', 'ddwkk23','$2a$12$JGriZzgFwZNEeuIzFcocjug9wb0/G0EJ1nco27FZoCvVLmfpfiiWe', NULL),
+    ('Nurul Syafiqah', 'syafiqah@upm.edu.my', 'Universiti Putra Malaysia', 'ssrt54@!','$2a$12$JGriZzgFwZNEeuIzFcocjug9wb0/G0EJ1nco27FZoCvVLmfpfiiWe', NULL),
+    ('Faiz Rahman', 'faiz.r@utm.edu.my', 'Universiti Teknologi Malaysia', 'frrgo0!','$2a$12$JGriZzgFwZNEeuIzFcocjug9wb0/G0EJ1nco27FZoCvVLmfpfiiWe', NULL);
 
 INSERT INTO project (
     title,
@@ -45,9 +45,9 @@ INSERT INTO project (
       );
 
 INSERT INTO funder (funder_name, email, profile_url, password)
-VALUES ('Amelia Tan', 'amelia.tan@gmail.com', NULL, 'pass123'),
-       ('Hafiz Zulkifli', 'hafiz.zul@yahoo.com', NULL, 'pass123'),
-       ('Chloe Lim', 'chloe.lim@outlook.com', NULL, 'pass123');
+VALUES ('Amelia Tan', 'amelia.tan@gmail.com', NULL, '$2a$12$JGriZzgFwZNEeuIzFcocjug9wb0'),
+       ('Hafiz Zulkifli', 'hafiz.zul@yahoo.com', NULL, '$2a$12$JGriZzgFwZNEeuIzFcocjug9wb0'),
+       ('Chloe Lim', 'chloe.lim@outlook.com', NULL, '$2a$12$JGriZzgFwZNEeuIzFcocjug9wb0');
 
 
 INSERT INTO fund (amount, payment_method, transaction_date) VALUES

@@ -84,9 +84,6 @@ public class Funder {
     }
 
     public String getProfileUrl() {
-        if (profileUrl == null || profileUrl.isBlank()) {
-            return "https://cdn-icons-png.flaticon.com/128/3177/3177440.png"; // default profile picture URL
-        }
         return profileUrl;
     }
 
