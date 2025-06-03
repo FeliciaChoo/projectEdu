@@ -45,9 +45,9 @@ INSERT INTO project (
       );
 
 INSERT INTO funder (funder_name, email, profile_url, password)
-VALUES ('Amelia Tan', 'amelia.tan@gmail.com', NULL, '$2a$12$JGriZzgFwZNEeuIzFcocjug9wb0'),
-       ('Hafiz Zulkifli', 'hafiz.zul@yahoo.com', NULL, '$2a$12$JGriZzgFwZNEeuIzFcocjug9wb0'),
-       ('Chloe Lim', 'chloe.lim@outlook.com', NULL, '$2a$12$JGriZzgFwZNEeuIzFcocjug9wb0');
+VALUES ('Amelia Tan', 'amelia.tan@gmail.com', NULL, '$2a$12$JGriZzgFwZNEeuIzFcocjug9wb0/G0EJ1nco27FZoCvVLmfpfiiWe'),
+       ('Hafiz Zulkifli', 'hafiz.zul@yahoo.com', NULL, '$2a$12$JGriZzgFwZNEeuIzFcocjug9wb0/G0EJ1nco27FZoCvVLmfpfiiWe'),
+       ('Chloe Lim', 'chloe.lim@outlook.com', NULL, '$2a$12$JGriZzgFwZNEeuIzFcocjug9wb0/G0EJ1nco27FZoCvVLmfpfiiWe');
 
 
 INSERT INTO fund (amount, payment_method, transaction_date) VALUES
