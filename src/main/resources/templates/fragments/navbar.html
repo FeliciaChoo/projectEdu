@@ -59,7 +59,21 @@
                     <span th:text="${#strings.substring(#authentication.principal.username, 0, 1)}"></span>
                 </a>
                 <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
-                    <li><a class="dropdown-item" th:href="@{/profile}">Profile</a></li>
+                    <!-- Student dashboard link -->
+                    <li sec:authorize="hasRole('STUDENT')">
+                        <a class="dropdown-item"
+                           th:href="@{/student-dashboard/{id}(id=${#authentication.principal.id})}">
+                            Profile
+                        </a>
+                    </li>
+
+                    <!-- Funder dashboard link -->
+                    <li sec:authorize="hasRole('FUNDER')">
+                        <a class="dropdown-item"
+                           th:href="@{/funder-dashboard/{id}(id=${#authentication.principal.id})}">
+                            Profile
+                        </a>
+                    </li>
                     <li><hr class="dropdown-divider"></li>
                     <li><a class="dropdown-item" th:href="@{/logout}">Logout</a></li>
                 </ul>

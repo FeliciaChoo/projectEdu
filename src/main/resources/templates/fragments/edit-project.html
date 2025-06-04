@@ -12,6 +12,7 @@
                         <input type="hidden" th:field="*{student.id}" />
                         <input type="hidden" th:field="*{currentAmount}"/>
                         <input type="hidden" th:field="*{endDate}"/>
+                        <input type="hidden" th:field="*{imageUrl}" />
 
                         <!-- Project Details -->
                         <div class="mb-4">
@@ -47,8 +48,12 @@
                                 <input type="text" class="form-control" id="surveyLink" th:field="*{surveyLink}" />
                             </div>
                             <div class="mb-3">
+                                <label class="form-label">Current Project Image</label><br>
+                                <img th:src="@{${project.imageUrl}}" alt="Project Image" width="200" />
+                            </div>
+                            <div class="mb-3">
                                 <label for="imageFile" class="form-label">Upload Project Image</label>
-                                <input type="file" class="form-control" id="imageFile" name="imageFile" accept="image/*" />
+                                <input type="file" class="form-control" id="imageFile" name="imageFile" accept="image/*"/>
                             </div>
 
 

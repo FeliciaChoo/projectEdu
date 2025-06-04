@@ -1,6 +1,8 @@
 <!-- fragments/login.html -->
 <div th:fragment="content" class="container d-flex justify-content-center align-items-center login-container" style="min-height:80vh; margin-top:35px;">
+
     <div class="row bg-white rounded-4 p-5 shadow w-100" style="max-width: 900px;">
+
         <!-- Image + Title -->
         <div class="col-md-6 text-center d-flex flex-column align-items-center justify-content-center">
             <h2 class="fw-bold">ProjectFunder</h2>
@@ -10,6 +12,16 @@
         <!-- Login Form -->
         <div class="col-md-6">
             <form th:action="@{/login}" method="post" class="w-100">
+                <div class="mb-3">
+                <div th:if="${param.error}">
+                    <div class="alert alert-danger">Invalid Email or Password</div>
+                </div>
+                </div>
+                <div class ="mb-3">
+                <div th:if="${param.logout}">
+                    <div class="alert alert-success">You have been logged out</div>
+                </div>
+                </div>
                 <div class="mb-3">
                     <label for="email" class="form-label fw-semibold">Email</label>
                     <input type="email" class="form-control" id="email" name="email" placeholder="Enter your email">

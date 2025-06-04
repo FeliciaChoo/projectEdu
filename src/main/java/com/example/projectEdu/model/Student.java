@@ -3,15 +3,11 @@ package com.example.projectEdu.model;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
-
 import java.util.List;
 
 @Entity
 @Table(name = "student")
 public class Student {
-
-
-    private  String otherUniversity;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "student_id")
@@ -21,29 +17,20 @@ public class Student {
     @Column(name = "student_name")
     private String name;
 
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    @Column(unique = true, nullable = false)
-    private String username;
-
     @NotBlank(message = "Password is required")
     @Column(nullable = false)
     private String password;
 
     @NotBlank(message = "Email is required")
     @Email(message = "Email should be valid")
-    @Column(name="email")
+    @Column(name = "email", unique = true, nullable = false)
     private String email;
 
     @NotBlank(message = "University is required")
     @Column(name = "institution")
     private String university;
+
+    private String otherUniversity;
 
     @Column(name = "profile_url")
     private String profileUrl;
@@ -55,8 +42,8 @@ public class Student {
     public Student() {
     }
 
-    // Updated constructor to include studentUniId
-    public Student( String name, String email,String username, String university, String otherUniversity, String profileUrl) {
+    public Student(String name, String email, String university,
+                   String otherUniversity, String profileUrl) {
         this.name = name;
         this.email = email;
         this.university = university;
@@ -81,6 +68,22 @@ public class Student {
         this.name = name;
     }
 
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
     public String getUniversity() {
         return university;
     }
@@ -97,23 +100,10 @@ public class Student {
         this.otherUniversity = otherUniversity;
     }
 
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
     public String getProfileUrl() {
+        if (profileUrl == null || profileUrl.isBlank()) {
+            return "https://cdn-icons-png.flaticon.com/128/3177/3177440.png";
+        }
         return profileUrl;
     }
 

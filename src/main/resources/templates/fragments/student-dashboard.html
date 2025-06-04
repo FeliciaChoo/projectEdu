@@ -1,4 +1,4 @@
-<div th:fragment="content">
+<div th:fragment="content" xmlns:sec="http://www.w3.org/1999/xhtml">
 
     <!-- Inline CSS goes here -->
     <style>
@@ -70,13 +70,16 @@
             <tr>
                 <th colspan="6" class="text-center">
                     <div class="d-flex justify-content-between align-items-center">
-                        <span>My Projects</span>
-                        <a th:href="@{/apply}" class="btn btn-success btn-sm">+ Add Project</a>
+                        <span th:text="${isOwner} ? 'My Projects' : ${student.name} + '\'s Projects'"></span>
+                        <a th:if="${isOwner}"
+                           th:href="@{/apply}"
+                           class="btn btn-success btn-sm"> + Add Project
+                        </a>
                     </div>
                 </th>
             </tr>
-            <tr>
-                <th>Title</th>
+
+            <th>Title</th>
                 <th>Status</th>
                 <th>Raised</th>
                 <th>Goal</th>
@@ -99,13 +102,23 @@
                 <td th:text="'MYR ' + ${project.goalAmount}">0.00</td>
                 <td th:text="${project.endDate}">2025-01-01</td>
                 <td>
+                    <!-- View-only button for all roles -->
+                    <a class="btn btn-secondary btn-sm align-items-center text-white"
+                       th:href="@{/project/{id}(id=${project.projectId})}" style="width: 80px">
+                        <i class="bi bi-eye me-1"></i>
+                        View
+                    </a>
+
                     <a class="btn btn-primary btn-sm align-items-center text-white"
-                       th:href="@{/edit-project/{id}(id=${project.projectId})}" style="width: 80px">
+                       th:href="@{/edit-project/{id}(id=${project.projectId})}" style="width: 80px"
+                       th:if="${isOwner}">
                         <i class="bi bi-pencil me-1"></i>
                         Edit
                     </a>
+
                     <a class="btn btn-danger btn-sm align-items-center text-white"
-                       th:href="@{/delete/{id}(id=${project.projectId})}" style="width: 80px">
+                       th:href="@{/delete/{id}(id=${project.projectId})}" style="width: 80px"
+                       th:if="${isOwner}">
                         <i class="bi bi-trash me-1"></i>
                         Delete
                     </a>

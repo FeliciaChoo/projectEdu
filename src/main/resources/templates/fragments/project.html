@@ -82,7 +82,9 @@
             </div>
 
             <!-- Call to Action -->
-            <div class="d-grid mb-4" th:if="${project != null}">
+            <div class="d-grid mb-4"
+                 th:if="${project != null}"
+                 sec:authorize="hasRole('FUNDER')">
               <a th:href="@{/donor/{id}(id=${project.projectId})}"
                  class="btn btn-primary btn-lg py-3 donate-button"
                  role="button"
