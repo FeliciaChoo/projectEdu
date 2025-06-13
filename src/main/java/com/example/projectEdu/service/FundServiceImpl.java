@@ -32,6 +32,12 @@ public class FundServiceImpl implements FundService {
     }
 
     @Override
+    public int countByProjectId(Long projectId) {
+        Integer count = fundRepository.countFundersByProjectId(projectId);
+        return count != null ? count : 0;
+    }
+
+    @Override
     public Fund addNewFund (Fund fund){
         return fundRepository.save(fund);
     }
@@ -46,4 +52,7 @@ public class FundServiceImpl implements FundService {
         funderRepository.save(funder);
     }
 
+    public BigDecimal sumByStudentId(Long id){
+        return fundRepository.sumByStudentId(id);
+    }
 }

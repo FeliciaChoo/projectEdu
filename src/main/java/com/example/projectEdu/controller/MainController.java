@@ -1,6 +1,8 @@
 package com.example.projectEdu.controller;
 import com.example.projectEdu.model.Funder;
 import com.example.projectEdu.model.Student;
+import com.example.projectEdu.repository.FunderRepository;
+import com.example.projectEdu.repository.StudentRepository;
 import com.example.projectEdu.service.CustomUserDetails;
 import com.example.projectEdu.service.FunderService;
 import com.example.projectEdu.service.ProjectService;
@@ -42,14 +44,19 @@ public class MainController {
     private final StudentService studentService;
     private final FunderService funderService;
     private final PasswordEncoder passwordEncoder;
+    private final StudentRepository studentRepository;
+    private final FunderRepository funderRepository;
+
     // Constructor injection
     public MainController(ProjectRepository projectRepository,
                           StudentService studentService,
-                          FunderService funderService, PasswordEncoder passwordEncoder) {
+                          FunderService funderService, PasswordEncoder passwordEncoder, StudentRepository studentRepository, FunderRepository funderRepository) {
         this.projectRepository = projectRepository;
         this.studentService = studentService;
         this.funderService = funderService;
         this.passwordEncoder = passwordEncoder;
+        this.studentRepository = studentRepository;
+        this.funderRepository = funderRepository;
     }
     @GetMapping("/test-student-service")
     public String testStudentService() {
@@ -58,6 +65,7 @@ public class MainController {
         System.out.println("Student found: " + student.orElse(null));
         return "redirect:/"; // Or return a test view if preferred
     }
+
     @PostMapping("/register")
     public String handleRegister(@RequestParam Map<String, String> params, RedirectAttributes redirectAttributes, Model model) {
         System.out.println("Received params: " + params);
@@ -65,9 +73,23 @@ public class MainController {
         String userType = params.get("userType");
         String email = params.get("email");
         String password = params.get("password");
+        String confirmPassword = params.get("confirmPassword");
 
         if (userType == null || email == null || password == null) {
-            redirectAttributes.addFlashAttribute("errorMessage", "Please fill in all required fields.");
+            redirectAttributes.addFlashAttribute("errorMessage", true);
+            return "redirect:/register";
+        }
+
+        if (!password.equals(confirmPassword)){
+            redirectAttributes.addAttribute("passwordError", true);
+            return "redirect:/register";
+        }
+
+        Student existingStudent = studentRepository.findByEmail(email).orElse(null);
+        Funder existingFunder = funderRepository.findByEmail(email).orElse(null);
+
+        if (existingStudent != null || existingFunder != null) {
+            redirectAttributes.addAttribute("emailError", true);
             return "redirect:/register";
         }
 

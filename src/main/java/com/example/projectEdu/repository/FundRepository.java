@@ -14,11 +14,17 @@ import java.util.List;
 public interface FundRepository extends JpaRepository<Fund, Long> {
 
     List<Fund> findByFunderId(Long id);
-    @Query(value = "SELECT SUM(amount) FROM fund WHERE funder_id = :id", nativeQuery = true)
+    @Query(value = "SELECT COALESCE(SUM(amount),0) FROM fund WHERE funder_id = :id", nativeQuery = true)
     BigDecimal sumByFunderId(@Param("id") Long id);
 
     @Query(value = "SELECT COUNT(DISTINCT project_id) FROM fund WHERE funder_id = :id", nativeQuery = true)
     Integer countProjectsByFunderId(@Param("id") Long id);
+
+    @Query(value = "SELECT COUNT(DISTINCT funder_id) FROM fund WHERE project_id = :id", nativeQuery = true)
+    Integer countFundersByProjectId(@Param("id") Long projectId);
+
+    @Query(value = "SELECT COALESCE(SUM(f.amount),0) FROM fund f JOIN project p ON f.project_id = p.project_id WHERE p.student_id = :id", nativeQuery = true)
+    BigDecimal sumByStudentId(@Param("id") Long id);
 
 
 }

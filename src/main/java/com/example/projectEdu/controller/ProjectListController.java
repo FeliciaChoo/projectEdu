@@ -1,6 +1,7 @@
 package com.example.projectEdu.controller;
 
 import com.example.projectEdu.model.Project;
+import com.example.projectEdu.service.FundService;
 import com.example.projectEdu.service.ProjectServiceImpl;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -8,6 +9,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -17,9 +20,11 @@ import java.util.Optional;
 public class ProjectListController {
 
     private final ProjectServiceImpl projectService;
+    private final FundService fundService;
 
-    public ProjectListController(ProjectServiceImpl projectService) {
+    public ProjectListController(ProjectServiceImpl projectService, FundService fundService) {
         this.projectService = projectService;
+        this.fundService = fundService;
     }
 
     @GetMapping("/project/{id}")
@@ -29,8 +34,17 @@ public class ProjectListController {
         if (optionalProject == null) {
             return "error/404";
         }
+
+
         Project project = optionalProject.get();
+        Integer backerCount = fundService.countByProjectId(projectId);
+
+        long daysLeft = ChronoUnit.DAYS.between(LocalDate.now(), project.getEndDate());
+
         model.addAttribute("project", project);
+        model.addAttribute("projectId", projectId);
+        model.addAttribute("backerCount", backerCount);
+        model.addAttribute("daysLeft", daysLeft);
         model.addAttribute("content", "fragments/project");  // Tell layout which fragment to use
         model.addAttribute("title", project.getTitle());    // Optional: set page title
         return "layout";  // Return your main Thymeleaf template

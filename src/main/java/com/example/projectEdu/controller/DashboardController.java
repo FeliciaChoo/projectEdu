@@ -6,12 +6,15 @@ import com.example.projectEdu.model.Student;
 import com.example.projectEdu.service.*;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.io.IOException;
 import java.math.BigDecimal;
@@ -28,6 +31,10 @@ public class DashboardController {
     private final StudentService studentService;
     private final FunderService funderService;
     private final FundService fundService;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
 
     public DashboardController(ProjectService projectService, StudentService studentService, FunderService funderService, FundService fundService) {
         this.projectService = projectService;
@@ -57,6 +64,7 @@ public class DashboardController {
         model.addAttribute("totalProjects", projectService.countByStudentId(id));
         model.addAttribute("completedProjects", projectService.countByStudentIdAndStatus(id, "Completed"));
         model.addAttribute("activeProjects", projectService.countByStudentIdAndStatus(id, "Active"));
+        model.addAttribute("fundRaised", fundService.sumByStudentId(id));
         model.addAttribute("projects", projectService.findByStudentId(id));
         model.addAttribute("content", "fragments/student-dashboard");
 
@@ -125,23 +133,41 @@ public class DashboardController {
         BigDecimal newAmount = currentAmount.add(fund.getAmount());
         project.setCurrentAmount(newAmount);
 
-
         projectService.updateProject(project);
         fundService.addNewFund(fund);
         return "payment-success";
     }
 
-    @GetMapping("/delete/{id}")
-    public String deleteProject(@PathVariable("id") Long projectId, Model model) {
-        Project project = projectService.findById(projectId).
-                orElseThrow(() -> new IllegalArgumentException("Invalid project Id:" + projectId));
-        Long studentId = project.getStudent().getId();
+    @GetMapping("/delete-project/{id}")
+    public String showDeleteProject(@PathVariable("id") long projectId, Model model){
+        Project project = projectService.findById(projectId).orElse(null);
+        model.addAttribute("project", project);
+        return "delete-project";
+    }
+
+    @PostMapping("/delete/{id}")
+    public String deleteProject(@PathVariable("id") Long projectId,
+                                @RequestParam("password") String password,
+                                Model model,
+                                RedirectAttributes redirectAttributes) {
+        Project project = projectService.findById(projectId)
+                .orElseThrow(() -> new IllegalArgumentException("Invalid project ID: " + projectId));
+
+        Student student = project.getStudent();
+
+        if (!passwordEncoder.matches(password, student.getPassword())) {
+            model.addAttribute("project", project);
+            model.addAttribute("error", "Incorrect password.");
+            return "delete-project";
+        }
+
         projectService.deleteProject(project);
-        return "redirect:/student-dashboard/"+ studentId;
+        redirectAttributes.addFlashAttribute("success", "Project deleted successfully.");
+        return "redirect:/student-dashboard/" + student.getId();
     }
 
 
-    @GetMapping("/edit-project/{id}")
+    @PostMapping("/edit-project/{id}")
     public String showUpdateForm(@PathVariable("id") long projectId, Model model) {
         Project project = projectService.findById(projectId).orElseThrow(()-> new IllegalArgumentException("Invalid project Id:" + projectId));
         model.addAttribute("project", project);
@@ -199,7 +225,6 @@ public class DashboardController {
 
     @PostMapping("/payment-success")
     public String showPaymentSuccess() {
-
         return "payment-success";
     }
 

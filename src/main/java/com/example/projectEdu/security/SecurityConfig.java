@@ -53,7 +53,7 @@ public class SecurityConfig {
                 .logout(logout -> logout.permitAll())
                 .exceptionHandling(ex -> ex.accessDeniedPage("/access-denied"))
                 .csrf(csrf -> csrf.ignoringRequestMatchers("/h2-console/**"))
-                .headers(headers -> headers.frameOptions().sameOrigin());
+                .headers((headers) -> headers.disable());
 
         return http.build();
     }
