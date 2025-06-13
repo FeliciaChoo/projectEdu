@@ -234,12 +234,10 @@ public class MainController {
         return "redirect:/projects";
     }
 
-    @GetMapping("/logout")
+    @PostMapping("/logout")
     public String userLogout() {
         return "redirect:/login?logout";
     }
-
-
 
 
 

@@ -66,6 +66,7 @@ public class DashboardController {
         model.addAttribute("activeProjects", projectService.countByStudentIdAndStatus(id, "Active"));
         model.addAttribute("fundRaised", fundService.sumByStudentId(id));
         model.addAttribute("projects", projectService.findByStudentId(id));
+        model.addAttribute("title", "Student Dashboard");
         model.addAttribute("content", "fragments/student-dashboard");
 
         return "layout";
@@ -81,13 +82,14 @@ public class DashboardController {
         model.addAttribute("totalProjectsFunded", fundService.countByFunderId(id));
         model.addAttribute("totalAmountFunded", fundService.sumByFunderId(id));
         model.addAttribute("completedProjects", projectService.countCompletedProjectsByFunderId(id));
+        model.addAttribute("title", "Funder Dashboard");
         model.addAttribute("content", "fragments/funder-dashboard");
 
         return "layout";
     }
 
     //done
-    @GetMapping("/donor/{id}")
+    @GetMapping("/donate-project/{id}")
     public String showDonationForm(@PathVariable("id") Long projectId, Model model, Principal principal) {
         CustomUserDetails userDetails = (CustomUserDetails) ((Authentication) principal).getPrincipal();
         Long id = userDetails.getId();
@@ -107,6 +109,7 @@ public class DashboardController {
         model.addAttribute("fund", fund);
         model.addAttribute("funder", fund.getFunder());
         model.addAttribute("project", project);
+        model.addAttribute("title", "Donate to Project");
         model.addAttribute("content", "fragments/donor");
 
         return "layout";
@@ -167,10 +170,11 @@ public class DashboardController {
     }
 
 
-    @PostMapping("/edit-project/{id}")
+    @GetMapping("/edit-project/{id}")
     public String showUpdateForm(@PathVariable("id") long projectId, Model model) {
         Project project = projectService.findById(projectId).orElseThrow(()-> new IllegalArgumentException("Invalid project Id:" + projectId));
         model.addAttribute("project", project);
+        model.addAttribute("title", "Edit Project");
         model.addAttribute("content", "fragments/edit-project");
         return "layout";
     }
