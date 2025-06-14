@@ -36,7 +36,12 @@
                                th:classappend="${currentUri == '/apply'} ? ' active'"
                                th:href="@{/apply}" style="color: black;">Apply</a>
                         </li>
-                        <li><a class="dropdown-item" href="#">Funding Guidelines</a></li>
+                        <li>
+                            <a class="dropdown-item"
+                               href="/pdf/Project_Funding_Guidelines.pdf"
+                               target="_blank"
+                               style="color: black;">Funding Guideline</a>
+                        </li>
                     </ul>
                 </li>
             </ul>

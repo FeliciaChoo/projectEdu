@@ -38,6 +38,7 @@ public class SecurityConfig {
                         .requestMatchers("/", "/login", "/css/**", "/js/**", "/images/**", "/h2-console/**", "/test-student-service").permitAll()
                         .requestMatchers(HttpMethod.GET, "/register", "/apply").permitAll()
                         .requestMatchers(HttpMethod.POST, "/register", "/apply").permitAll()
+                        .requestMatchers("/pdf/**").permitAll()
                         .requestMatchers("/student-dashboard/**").hasAnyRole("STUDENT", "FUNDER")
                         .requestMatchers("/funder-dashboard/**").hasRole("FUNDER")
                         .requestMatchers("/donate-project/**").hasRole("FUNDER")
