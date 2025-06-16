@@ -239,6 +239,16 @@ public class MainController {
         return "redirect:/login?logout";
     }
 
+    @GetMapping("/project-ended")
+    public String showProjectEnded() {
+        return "project-ended";
+    }
+
+    @GetMapping("/access-denied")
+    public String showAccessDenied() {
+        return "access-denied";
+    }
+
 
 
 

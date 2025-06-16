@@ -67,7 +67,7 @@
                     <!-- Student dashboard link -->
                     <li sec:authorize="hasRole('STUDENT')">
                         <a class="dropdown-item"
-                           th:href="@{/student-dashboard/{id}(id=${#authentication.principal.id})}">
+                           th:href="@{/student/student-dashboard/{id}(id=${#authentication.principal.id})}">
                             Profile
                         </a>
                     </li>
@@ -75,7 +75,7 @@
                     <!-- Funder dashboard link -->
                     <li sec:authorize="hasRole('FUNDER')">
                         <a class="dropdown-item"
-                           th:href="@{/funder-dashboard/{id}(id=${#authentication.principal.id})}">
+                           th:href="@{/funder/funder-dashboard/{id}(id=${#authentication.principal.id})}">
                             Profile
                         </a>
                     </li>

@@ -39,11 +39,8 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.GET, "/register", "/apply").permitAll()
                         .requestMatchers(HttpMethod.POST, "/register", "/apply").permitAll()
                         .requestMatchers("/pdf/**").permitAll()
-                        .requestMatchers("/student-dashboard/**").hasAnyRole("STUDENT", "FUNDER")
-                        .requestMatchers("/funder-dashboard/**").hasRole("FUNDER")
-                        .requestMatchers("/donate-project/**").hasRole("FUNDER")
-                        .requestMatchers("/edit-project/**").hasRole("STUDENT")
-                        .requestMatchers("/delete-project/**").hasRole("STUDENT")
+                        .requestMatchers("/student/**").hasRole("STUDENT")
+                        .requestMatchers("/funder/**").hasRole("FUNDER")
                         .anyRequest().authenticated()
                 )
                 .formLogin(form -> form

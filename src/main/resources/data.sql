@@ -1,6 +1,6 @@
 INSERT INTO student (student_name, email, institution, password, profile_url)
 VALUES
-    ('Aina Khalid', 'aina.k@upm.edu.my', 'Universiti Putra Malaysia', '$2a$10$xdvi1q0X5mTten4dNOoS9OyM.39LTvMn6vZAuO7dIgRRVEGk5pF4y', NULL),
+    ('Aina Khalid', 'aina.k@upm.edu.my', 'Universiti Putra Malaysia', '$2a$10$xdvi1q0X5mTten4dNOoS9OyM.39LTvMn6vZAuO7dIgRRVEGk5pF4y', '/images/pfp1.png'),
     ('Daniel Wong', 'danielw@um.edu.my', 'Universiti Malaya', '$2a$10$0XrENLuhcOFtzdLeswLBLekkYjVGxkok9YqgwjiwpjlbzL5EXGS3G', NULL),
     ('Nurul Syafiqah', 'syafiqah@upm.edu.my', 'Universiti Putra Malaysia', '$2a$10$qgvR/vHVzrj2a7nAM8kB5.4UCzZhIqE5mS7JrvGSH7rc2O3mMVUXW', NULL),
     ('Faiz Rahman', 'faiz.r@utm.edu.my', 'Universiti Teknologi Malaysia', '$2a$10$oaeiv1qdCLNBLRw3EYA0uu1eO5kDxvpQEagvz.P3jaXf38d0EKmem', NULL);
@@ -48,7 +48,7 @@ VALUES
 
 INSERT INTO funder (funder_name, email, profile_url, password)
 VALUES ('Amelia Tan', 'amelia.tan@gmail.com', NULL, '$2a$12$JGriZzgFwZNEeuIzFcocjug9wb0/G0EJ1nco27FZoCvVLmfpfiiWe'),
-       ('Hafiz Zulkifli', 'hafiz.zul@yahoo.com', NULL, '$2a$12$JGriZzgFwZNEeuIzFcocjug9wb0/G0EJ1nco27FZoCvVLmfpfiiWe'),
+       ('Hafiz Zulkifli', 'hafiz.zul@yahoo.com', '/images/pfp2.png', '$2a$12$JGriZzgFwZNEeuIzFcocjug9wb0/G0EJ1nco27FZoCvVLmfpfiiWe'),
        ('Chloe Lim', 'chloe.lim@outlook.com', NULL, '$2a$12$JGriZzgFwZNEeuIzFcocjug9wb0/G0EJ1nco27FZoCvVLmfpfiiWe');
 
 

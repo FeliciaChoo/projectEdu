@@ -40,6 +40,7 @@ public class ProjectListController {
         Integer backerCount = fundService.countByProjectId(projectId);
 
         long daysLeft = ChronoUnit.DAYS.between(LocalDate.now(), project.getEndDate());
+        if (daysLeft < 0) daysLeft = 0;
 
         model.addAttribute("project", project);
         model.addAttribute("projectId", projectId);

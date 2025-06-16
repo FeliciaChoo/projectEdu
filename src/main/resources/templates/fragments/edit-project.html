@@ -7,7 +7,7 @@
                 </div>
                 <div class="card-body bg-white">
                     <form action="#"
-                          th:action="@{/update/{id}(id=${project.projectId})}" th:object="${project}" method="post" enctype="multipart/form-data">
+                          th:action="@{/student/update/{id}(id=${project.projectId})}" th:object="${project}" method="post" enctype="multipart/form-data">
 
                         <input type="hidden" th:field="*{student.id}" />
                         <input type="hidden" th:field="*{currentAmount}"/>
