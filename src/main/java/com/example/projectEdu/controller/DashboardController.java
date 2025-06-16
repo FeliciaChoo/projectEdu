@@ -97,10 +97,11 @@ public class DashboardController {
         Project project = projectService.findById(projectId)
                 .orElseThrow(() -> new IllegalArgumentException("Invalid project ID: " + projectId));
 
-        if (project.getEndDate().isBefore(LocalDate.now())) {
+        if (project.getEndDate().isBefore(LocalDate.now()) || project.getStatus().equals("Completed")) {
             model.addAttribute("project", project);
             return "project-ended";
         }
+
 
         Fund fund = new Fund();
         fund.setProject(project);

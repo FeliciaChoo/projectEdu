@@ -23,8 +23,9 @@
     </style>
 
     <div class="container d-flex justify-content-center align-items-center" style="min-height: 80vh;">
-        <div class="col-md-8 login-card text-center">
-            <h2 class="mb-4 fw-bold pt-4">REGISTRATION FORM</h2>
+        <div class="col-md-8 login-card">
+            <div class="text-center"><h2 class="mb-4 fw-bold pt-4">REGISTRATION FORM</h2>
+            </div>
 
             <form action="/register" method="post" id="registerForm">
                 <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
@@ -34,7 +35,7 @@
 
 
                 <!-- User type radio buttons -->
-                <div class="mb-4">
+                <div class="mb-4 text-center">
                     <div class="form-check form-check-inline">
                         <input class="form-check-input" type="radio" name="userType" id="studentRadio" value="student" checked>
                         <label class="form-check-label" for="studentRadio">Student</label>
@@ -44,6 +45,7 @@
                         <label class="form-check-label" for="funderRadio">Funder</label>
                     </div>
                 </div>
+
                 <!-- Student fields -->
                 <div id="studentFields">
                     <div class="mb-3 row align-items-center">
