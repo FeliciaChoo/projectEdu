@@ -67,70 +67,82 @@ public class MainController {
     }
 
     @PostMapping("/register")
-    public String handleRegister(@RequestParam Map<String, String> params, RedirectAttributes redirectAttributes, Model model) {
-        System.out.println("Received params: " + params);
-
-        String userType = params.get("userType");
-        String email = params.get("email");
-        String password = params.get("password");
-        String confirmPassword = params.get("confirmPassword");
-
-        if (userType == null || email == null || password == null) {
-            redirectAttributes.addFlashAttribute("errorMessage", true);
+    public String handleRegister(
+            @RequestParam("userType") String userType,
+            @RequestParam("email") String email,
+            @RequestParam("password") String password,
+            @RequestParam("confirmPassword") String confirmPassword,
+            @RequestParam("imageFile") MultipartFile imageFile,
+            @RequestParam Map<String, String> params,
+            RedirectAttributes redirectAttributes,
+            Model model
+    ) {
+        // Validate passwords
+        if (!password.equals(confirmPassword)) {
+            redirectAttributes.addFlashAttribute("errorMessage", "Passwords do not match.");
             return "redirect:/register";
         }
 
-        if (!password.equals(confirmPassword)){
-            redirectAttributes.addAttribute("passwordError", true);
+        // Check if email already exists
+        boolean emailExists = studentRepository.findByEmail(email).isPresent()
+                || funderRepository.findByEmail(email).isPresent();
+        if (emailExists) {
+            redirectAttributes.addFlashAttribute("errorMessage", "Email already registered.");
             return "redirect:/register";
         }
 
-        Student existingStudent = studentRepository.findByEmail(email).orElse(null);
-        Funder existingFunder = funderRepository.findByEmail(email).orElse(null);
+        // Handle image upload
+        String profileImageUrl = "";
+        if (!imageFile.isEmpty()) {
+            try {
+                String uploadDir = "uploads/profile/";
+                Path uploadPath = Paths.get(uploadDir);
+                if (!Files.exists(uploadPath)) {
+                    Files.createDirectories(uploadPath);
+                }
 
-        if (existingStudent != null || existingFunder != null) {
-            redirectAttributes.addAttribute("emailError", true);
-            return "redirect:/register";
+                String originalFilename = imageFile.getOriginalFilename();
+                String safeFilename = originalFilename != null ?
+                        originalFilename.replaceAll("[^a-zA-Z0-9.-]", "_") :
+                        "profile_img";
+
+                String filename = "profile_" + System.currentTimeMillis() + "_" + safeFilename;
+                imageFile.transferTo(uploadPath.resolve(filename));
+                profileImageUrl = "/uploads/profile/" + filename;
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
 
+        // Create and save student or funder
         if ("student".equalsIgnoreCase(userType)) {
-            String fullNameStudent = params.get("fullNameStudent");
-            String university = params.get("university");
-            String otherUniversity = params.get("otherUniversity");
-
             Student student = new Student();
-            student.setName(fullNameStudent);
+            student.setName(params.get("fullNameStudent"));
             student.setEmail(email);
             student.setPassword(passwordEncoder.encode(password));
-            student.setUniversity("Other".equals(university) ? otherUniversity : university);
-            student.setProfileUrl("");
-            try {
-                studentService.saveStudent(student);
-            } catch (Exception e) {
-                e.printStackTrace();
-                redirectAttributes.addFlashAttribute("errorMessage", "Save failed: " + e.getMessage());
-                return "redirect:/register";
-            }
+            student.setUniversity("Other".equals(params.get("university")) ?
+                    params.get("otherUniversity") : params.get("university"));
+            student.setProfileUrl(profileImageUrl);
 
+            studentService.saveStudent(student);
             redirectAttributes.addFlashAttribute("successMessage", "Student registration successful! Please login.");
             return "redirect:/login";
-        } else if ("funder".equalsIgnoreCase(userType)) {
-            String fullNameFunder = params.get("fullNameFunder");
 
+        } else if ("funder".equalsIgnoreCase(userType)) {
             Funder funder = new Funder();
-            funder.setName(fullNameFunder);
+            funder.setName(params.get("fullNameFunder"));
             funder.setEmail(email);
             funder.setPassword(passwordEncoder.encode(password));
-            funder.setProfileUrl("");
+            funder.setProfileUrl(profileImageUrl);
+
             funderService.saveFunder(funder);
             redirectAttributes.addFlashAttribute("successMessage", "Funder registration successful! Please login.");
             return "redirect:/login";
-        } else {
-            redirectAttributes.addFlashAttribute("errorMessage", "Invalid user type.");
-            return "redirect:/register";
         }
-    }
 
+        redirectAttributes.addFlashAttribute("errorMessage", "Invalid user type.");
+        return "redirect:/register";
+    }
 
     @GetMapping("/")
     public String home(Model model, HttpServletRequest request) {
