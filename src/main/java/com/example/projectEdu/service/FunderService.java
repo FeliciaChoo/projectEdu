@@ -9,6 +9,7 @@ public interface FunderService {
 
     Optional<Funder> findById(Long id);
     void saveFunder(Funder funder);
+    void deleteById(Long id);
 
 
 

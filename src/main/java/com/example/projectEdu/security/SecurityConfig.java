@@ -41,6 +41,7 @@ public class SecurityConfig {
                         .requestMatchers("/pdf/**").permitAll()
                         .requestMatchers("/student/**").hasRole("STUDENT")
                         .requestMatchers("/funder/**").hasRole("FUNDER")
+                        .requestMatchers("/admin/**").hasRole("ADMIN")
                         .anyRequest().authenticated()
                 )
                 .formLogin(form -> form

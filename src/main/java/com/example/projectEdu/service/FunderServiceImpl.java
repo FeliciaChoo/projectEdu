@@ -24,4 +24,9 @@ public class FunderServiceImpl implements FunderService {
     public void saveFunder(Funder funder) {
         funderRepository.save(funder);
     }
+
+    public void deleteById(Long id) {
+        funderRepository.deleteById(id);
+    }
+
 }

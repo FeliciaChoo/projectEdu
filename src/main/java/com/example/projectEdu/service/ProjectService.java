@@ -26,5 +26,5 @@ public interface ProjectService {
     void updateProject(Project project);
 
     int countCompletedProjectsByFunderId(Long id);
-
+    void deleteById(Long id);
 }

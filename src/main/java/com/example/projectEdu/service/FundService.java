@@ -24,5 +24,4 @@ public interface FundService {
 
     void saveFunder(Funder funder);
 
-
 }
