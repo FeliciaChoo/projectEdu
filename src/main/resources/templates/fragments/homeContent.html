@@ -1,17 +1,16 @@
-<!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>ProjectEdu</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
 </head>
 <body>
 <div th:fragment="content">
     <div class="container">
         <div class="text-center mb-5">
-            <h1 class="display-4">Welcome to ProjectEdu!</h1>
+            <h1 style="font-family: 'Poppins', sans-serif; font-size: 60px;">Welcome to ProjectEdu!</h1>
             <p class="lead">Funding educational innovation for a better tomorrow</p>
             <a th:href="@{/apply}" class="btn btn-primary btn-lg mt-3">
                 <i class="bi bi-pencil-square"></i> Apply Now
@@ -45,10 +44,10 @@
             </div>
         </div>
 
-        <div class="row justify-content-center">
-            <div class="col-md-5 d-flex flex-column align-items-center justify-content-center text-center">
+        <div class="row justify-content-end">
+            <div class="col-md-5 d-flex flex-column align-items-end text-end">
                 <img th:src="@{/images/SDG4.png}" alt="Project Image"
-                     class="mb-4" style="max-width: 150px; width: 100%;"/>
+                     class="mb-4" style="max-width: 70px; width: 70%;">
             </div>
         </div>
     </div>

@@ -38,6 +38,9 @@ public class SecurityConfig {
                         .requestMatchers("/", "/login", "/css/**", "/js/**", "/images/**", "/h2-console/**", "/test-student-service").permitAll()
                         .requestMatchers(HttpMethod.GET, "/register", "/apply").permitAll()
                         .requestMatchers(HttpMethod.POST, "/register", "/apply").permitAll()
+                        .requestMatchers("/pdf/**").permitAll()
+                        .requestMatchers("/student/**").hasRole("STUDENT")
+                        .requestMatchers("/funder/**").hasRole("FUNDER")
                         .anyRequest().authenticated()
                 )
                 .formLogin(form -> form
@@ -50,7 +53,7 @@ public class SecurityConfig {
                 .logout(logout -> logout.permitAll())
                 .exceptionHandling(ex -> ex.accessDeniedPage("/access-denied"))
                 .csrf(csrf -> csrf.ignoringRequestMatchers("/h2-console/**"))
-                .headers(headers -> headers.frameOptions().sameOrigin());
+                .headers((headers) -> headers.disable());
 
         return http.build();
     }

@@ -1,0 +1,109 @@
+<div th:fragment="content">
+    <style>
+        .btn-check:checked + .btn-outline-primary {
+            background-color: #0d6efd;
+            color: white;
+            border-color: #0d6efd;
+        }
+
+        .btn-check:checked + .btn-outline-primary i {
+            color: white !important;
+        }
+    </style>
+    <div class="row justify-content-center">
+        <div class="col-lg-10">
+            <div class="card shadow">
+                <div class="card-header text-white" style="background:#3a7bd5;">
+                    <h2 class="h4 mb-0"><i class="bi bi-cash-stack"></i> Project Funding Application</h2>
+                </div>
+                <div class="card-body bg-white">
+                    <form th:action="@{/funder/add-fund}" th:object="${fund}" method="post">
+                        <input type="hidden" th:field="*{project.projectId}" />
+                        <input type="hidden" th:field="*{funder.id}" />
+
+                        <!-- Funder Info -->
+                        <div class="mb-4">
+                            <h3 class="h5 section-header"><i class="bi bi-person-vcard text-primary"></i> Funder Information</h3>
+                            <div class="row g-3">
+                                <div class="col-md-6">
+                                    <label for="funderName" class="form-label">Full Name</label>
+                                    <input type="text" class="form-control" th:value = "${funder.name}" id="funderName" name="funderName" readonly>
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="funderEmail" class="form-label">Email</label>
+                                    <input type="email" class="form-control" th:value = "${funder.email}" id="funderEmail" name="funderEmail" readonly>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Project Details Section -->
+                        <div class="mb-4">
+                            <h3 class="h5 mb-3 section-header">
+                                <i class="bi bi-clipboard2-pulse text-primary"></i> Donation Information
+                            </h3>
+                            <div class="mb-3">
+                                <label for="projectTitle" class="form-label">Project Title</label>
+                                <input type="text" class="form-control" id="projectTitle" name="projectTitle" th:value="${project.title}" readonly>
+                            </div>
+                            <div class="mb-3">
+                                <label for="donationAmount" class="form-label">Donation Amount (MYR)</label>
+                                <div class="input-group">
+                                    <span class="input-group-text">MYR</span>
+                                    <input type="number" min="1" class="form-control" id="donationAmount" name="donationAmount" th:field="*{amount}"required>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Payment Methods -->
+                        <div class="mb-4">
+                            <h3 class="h5 mb-3 section-header">
+                                <i class="bi bi-wallet2 text-primary"></i> Payment Methods
+                            </h3>
+
+                            <div class="row g-3">
+                                <!-- E-wallet -->
+                                <div class="col-md-3">
+                                    <input type="radio" class="btn-check" name="paymentMethod" id="e-wallet" value="E-wallet" th:field="*{paymentMethod}" required>
+                                    <label class="btn btn-outline-primary w-100 py-3" for="e-wallet">
+                                        <i class="bi bi-phone text-dark me-2"></i> E-wallet
+                                    </label>
+                                </div>
+                                <!-- Credit Card -->
+                                <div class="col-md-3">
+                                    <input type="radio" class="btn-check" name="paymentMethod" id="credit" value="Credit Card" th:field="*{paymentMethod}" required>
+                                    <label class="btn btn-outline-primary w-100 py-3" for="credit">
+                                        <i class="bi bi-credit-card text-dark me-2"></i> Credit Card
+                                    </label>
+                                </div>
+                                <!-- Online Banking -->
+                                <div class="col-md-3">
+                                    <input type="radio" class="btn-check" name="paymentMethod" id="transfer" value="Online Banking" th:field="*{paymentMethod}" required>
+                                    <label class="btn btn-outline-primary w-100 py-3" for="transfer">
+                                        <i class="bi bi-bank text-dark me-2"></i> Online Banking
+                                    </label>
+                                </div>
+                                <!-- Paypal -->
+                                <div class="col-md-3">
+                                    <input type="radio" class="btn-check" name="paymentMethod" id="paypal" value="Paypal" th:field="*{paymentMethod}" required>
+                                    <label class="btn btn-outline-primary w-100 py-3" for="paypal">
+                                        <i class="bi bi-globe text-dark me-2"></i> PayPal
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Buttons -->
+                        <div class="d-flex justify-content-between mt-4">
+                            <a th:href="@{/project/{id}(id=${project.projectId})}" class="btn btn-outline-secondary">
+                                <i class="bi bi-x"></i> Cancel Payment
+                            </a>
+                            <button type="submit" class="btn btn-primary">
+                                <i class="bi bi-credit-card"></i> Submit Application
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

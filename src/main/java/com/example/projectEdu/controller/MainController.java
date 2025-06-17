@@ -1,6 +1,8 @@
 package com.example.projectEdu.controller;
 import com.example.projectEdu.model.Funder;
 import com.example.projectEdu.model.Student;
+import com.example.projectEdu.repository.FunderRepository;
+import com.example.projectEdu.repository.StudentRepository;
 import com.example.projectEdu.service.CustomUserDetails;
 import com.example.projectEdu.service.FunderService;
 import com.example.projectEdu.service.ProjectService;
@@ -42,14 +44,19 @@ public class MainController {
     private final StudentService studentService;
     private final FunderService funderService;
     private final PasswordEncoder passwordEncoder;
+    private final StudentRepository studentRepository;
+    private final FunderRepository funderRepository;
+
     // Constructor injection
     public MainController(ProjectRepository projectRepository,
                           StudentService studentService,
-                          FunderService funderService, PasswordEncoder passwordEncoder) {
+                          FunderService funderService, PasswordEncoder passwordEncoder, StudentRepository studentRepository, FunderRepository funderRepository) {
         this.projectRepository = projectRepository;
         this.studentService = studentService;
         this.funderService = funderService;
         this.passwordEncoder = passwordEncoder;
+        this.studentRepository = studentRepository;
+        this.funderRepository = funderRepository;
     }
     @GetMapping("/test-student-service")
     public String testStudentService() {
@@ -58,95 +65,122 @@ public class MainController {
         System.out.println("Student found: " + student.orElse(null));
         return "redirect:/"; // Or return a test view if preferred
     }
+
     @PostMapping("/register")
-    public String handleRegister(@RequestParam Map<String, String> params, RedirectAttributes redirectAttributes, Model model) {
-        System.out.println("Received params: " + params);
-
-        String userType = params.get("userType");
-        String email = params.get("email");
-        String password = params.get("password");
-
-        if (userType == null || email == null || password == null) {
-            redirectAttributes.addFlashAttribute("errorMessage", "Please fill in all required fields.");
+    public String handleRegister(
+            @RequestParam("userType") String userType,
+            @RequestParam("email") String email,
+            @RequestParam("password") String password,
+            @RequestParam("confirmPassword") String confirmPassword,
+            @RequestParam("imageFile") MultipartFile imageFile,
+            @RequestParam Map<String, String> params,
+            RedirectAttributes redirectAttributes,
+            Model model
+    ) {
+        // Validate passwords
+        if (!password.equals(confirmPassword)) {
+            redirectAttributes.addFlashAttribute("errorMessage", "Passwords do not match.");
             return "redirect:/register";
         }
 
-        if ("student".equalsIgnoreCase(userType)) {
-            String fullNameStudent = params.get("fullNameStudent");
-            String university = params.get("university");
-            String otherUniversity = params.get("otherUniversity");
+        // Check if email already exists
+        boolean emailExists = studentRepository.findByEmail(email).isPresent()
+                || funderRepository.findByEmail(email).isPresent();
+        if (emailExists) {
+            redirectAttributes.addFlashAttribute("errorMessage", "Email already registered.");
+            return "redirect:/register";
+        }
 
+        // Handle image upload
+        String profileImageUrl = "";
+        if (!imageFile.isEmpty()) {
+            try {
+                String uploadDir = "uploads/profile/";
+                Path uploadPath = Paths.get(uploadDir);
+                if (!Files.exists(uploadPath)) {
+                    Files.createDirectories(uploadPath);
+                }
+
+                String originalFilename = imageFile.getOriginalFilename();
+                String safeFilename = originalFilename != null ?
+                        originalFilename.replaceAll("[^a-zA-Z0-9.-]", "_") :
+                        "profile_img";
+
+                String filename = "profile_" + System.currentTimeMillis() + "_" + safeFilename;
+                imageFile.transferTo(uploadPath.resolve(filename));
+                profileImageUrl = "/uploads/profile/" + filename;
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+        // Create and save student or funder
+        if ("student".equalsIgnoreCase(userType)) {
             Student student = new Student();
-            student.setName(fullNameStudent);
+            student.setName(params.get("fullNameStudent"));
             student.setEmail(email);
             student.setPassword(passwordEncoder.encode(password));
-            student.setUniversity("Other".equals(university) ? otherUniversity : university);
-            student.setProfileUrl("");
-            try {
-                studentService.saveStudent(student);
-            } catch (Exception e) {
-                e.printStackTrace();
-                redirectAttributes.addFlashAttribute("errorMessage", "Save failed: " + e.getMessage());
-                return "redirect:/register";
-            }
+            student.setUniversity("Other".equals(params.get("university")) ?
+                    params.get("otherUniversity") : params.get("university"));
+            student.setProfileUrl(profileImageUrl);
 
+            studentService.saveStudent(student);
             redirectAttributes.addFlashAttribute("successMessage", "Student registration successful! Please login.");
             return "redirect:/login";
-        } else if ("funder".equalsIgnoreCase(userType)) {
-            String fullNameFunder = params.get("fullNameFunder");
 
+        } else if ("funder".equalsIgnoreCase(userType)) {
             Funder funder = new Funder();
-            funder.setName(fullNameFunder);
+            funder.setName(params.get("fullNameFunder"));
             funder.setEmail(email);
             funder.setPassword(passwordEncoder.encode(password));
-            funder.setProfileUrl("");
+            funder.setProfileUrl(profileImageUrl);
+
             funderService.saveFunder(funder);
             redirectAttributes.addFlashAttribute("successMessage", "Funder registration successful! Please login.");
             return "redirect:/login";
-        } else {
-            redirectAttributes.addFlashAttribute("errorMessage", "Invalid user type.");
-            return "redirect:/register";
         }
-    }
 
+        redirectAttributes.addFlashAttribute("errorMessage", "Invalid user type.");
+        return "redirect:/register";
+    }
 
     @GetMapping("/")
     public String home(Model model, HttpServletRequest request) {
-    model.addAttribute("title", "Home");
-    model.addAttribute("content", "fragments/homeContent");
-    // Add current URI to model for active link highlight
-    model.addAttribute("currentUri", request.getRequestURI());
-    return "layout";
+        model.addAttribute("title", "Home");
+        model.addAttribute("content", "fragments/homeContent");
+        // Add current URI to model for active link highlight
+        model.addAttribute("currentUri", request.getRequestURI());
+        return "layout";
     }
 
     @GetMapping("/apply")
-public String showApplicationForm(Model model, HttpServletRequest request) {
-    Project project = new Project();
-    project.setStudent(new Student());  // initialize nested Student object
-    model.addAttribute("title", "Apply for Funding");
-    model.addAttribute("content", "fragments/apply");
-    model.addAttribute("currentUri", request.getRequestURI());
-    model.addAttribute("project", project);
-    return "layout";
-}
+    public String showApplicationForm(Model model, HttpServletRequest request) {
+        Project project = new Project();
+        project.setStudent(new Student());  // initialize nested Student object
+        model.addAttribute("title", "Apply for Funding");
+        model.addAttribute("content", "fragments/apply");
+        model.addAttribute("currentUri", request.getRequestURI());
+        model.addAttribute("project", project);
+        return "layout";
+    }
 
 
 
 
-@GetMapping("/login")
-public String loginPage(Model model) {
-    model.addAttribute("title", "Log In Page");
-    model.addAttribute("content", "fragments/login");  // Example fragment for login form
-    return "layout";  // returns layout.html
-}
+    @GetMapping("/login")
+    public String loginPage(Model model) {
+        model.addAttribute("title", "Log In Page");
+        model.addAttribute("content", "fragments/login");  // Example fragment for login form
+        return "layout";  // returns layout.html
+    }
 
 
-@GetMapping("/register")
-public String showRegisterPage(Model model) {
-    model.addAttribute("title", "Register Page");
-    model.addAttribute("content", "fragments/register");
-    return "layout"; // Your main layout template
-}
+    @GetMapping("/register")
+    public String showRegisterPage(Model model) {
+        model.addAttribute("title", "Register Page");
+        model.addAttribute("content", "fragments/register");
+        return "layout"; // Your main layout template
+    }
 
     @PostMapping("/apply")
     public String submitApplication(@Valid @ModelAttribute("project") Project project,
@@ -166,7 +200,7 @@ public String showRegisterPage(Model model) {
 
         project.setStudent(student);
         if (project.getStatus() == null || project.getStatus().isBlank()) {
-            project.setStatus("ACTIVE");
+            project.setStatus("Active");
         }
         if (project.getEndDate() == null) {
             project.setEndDate(LocalDate.now().plusMonths(3));
@@ -209,10 +243,23 @@ public String showRegisterPage(Model model) {
 
         redirectAttributes.addFlashAttribute("successMessage", "Successfully submitted!");
 
-        return "redirect:/apply";
+        return "redirect:/projects";
     }
 
+    @PostMapping("/logout")
+    public String userLogout() {
+        return "redirect:/login?logout";
+    }
 
+    @GetMapping("/project-ended")
+    public String showProjectEnded() {
+        return "project-ended";
+    }
+
+    @GetMapping("/access-denied")
+    public String showAccessDenied() {
+        return "access-denied";
+    }
 
 
 

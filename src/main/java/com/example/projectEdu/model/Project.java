@@ -300,6 +300,4 @@ public class Project {
                 ", imageUrl='" + imageUrl + '\'' +
                 '}';
     }
-
-
 }

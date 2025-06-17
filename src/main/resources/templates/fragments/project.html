@@ -69,21 +69,23 @@
               </div>
               <div class="col-4">
                 <div class="stat text-center">
-                  <div class="stat-value fw-bold">45</div>
+                  <div class="stat-value fw-bold" th:text="${backerCount}"></div>
                   <div class="stat-label small text-muted">Backers</div>
                 </div>
               </div>
               <div class="col-4">
                 <div class="stat text-center">
-                  <div class="stat-value fw-bold">21</div>
+                  <div class="stat-value fw-bold" th:text="${daysLeft}"></div>
                   <div class="stat-label small text-muted">Days left</div>
                 </div>
               </div>
             </div>
 
             <!-- Call to Action -->
-            <div class="d-grid mb-4" th:if="${project != null}">
-              <a th:href="@{/donor/{id}(id=${project.projectId})}"
+            <div class="d-grid mb-4"
+                 th:if="${project != null}"
+                 sec:authorize="hasRole('FUNDER')">
+              <a th:href="@{/funder/donate-project/{id}(id=${project.projectId})}"
                  class="btn btn-primary btn-lg py-3 donate-button"
                  role="button"
                  aria-label="Donate Now">

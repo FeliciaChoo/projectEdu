@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 
 <head>
-    <title>Project Ended</title>
+    <title>Confirm Deletion</title>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
 
@@ -12,14 +12,14 @@
 
     <style>
         body {
-            background-color: #e6f2ff;
+            background-color: #fff3f3;
             display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh;
             margin: 0;
         }
-        .ended-card {
+        .danger-card {
             background: white;
             padding: 30px 40px;
             border-radius: 15px;
@@ -27,20 +27,30 @@
             text-align: center;
             max-width: 400px;
         }
-        .ended-icon {
+        .danger-icon {
             font-size: 60px;
             color: #dc3545;
             margin-bottom: 20px;
         }
     </style>
 </head>
+
 <body>
-<div class="ended-card text-center">
-    <i class="bi bi-x-circle-fill ended-icon"></i>
-    <h2>Project Has Ended</h2>
-    <p>This campaign has concluded and is no longer accepting donations.</p>
-    <a th:href="@{/projects}" class="btn btn-primary mt-3">Back to Home</a>
-</div>
+<div class="danger-card text-center">
+    <i class="bi bi-exclamation-triangle-fill danger-icon"></i>
+    <h2>Confirm Deletion</h2>
+    <p>Please enter your password to confirm this action.</p>
+
+    <div th:if="${error}" class="alert alert-danger" th:text="${error}"></div>
+
+    <form th:action="@{/student/delete/{id}(id=${project.projectId})}" method="post">
+        <div class="mb-3">
+            <input type="password" name="password" class="form-control" placeholder="Enter your password" required />
+        </div>
+        <button type="submit" class="btn btn-danger">Confirm Delete</button>
+        <a th:href="@{/student/student-dashboard/{id}(id=${project.student.id})}" class="btn btn-secondary ms-2">Cancel</a>
+    </form>
+
 </div>
 </body>
-<html>
+</html>

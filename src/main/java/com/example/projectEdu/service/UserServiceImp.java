@@ -10,14 +10,15 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 public class UserServiceImp implements UserDetailsService {
 
     @Autowired
-    private StudentRepository studentRepo;
-    @Autowired private FunderRepository funderRepo;
+    private StudentRepository studentRepository;
+
+    @Autowired private FunderRepository funderRepository;
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        return studentRepo.findByEmail(email)
+        return studentRepository.findByEmail(email)
                 .map(CustomUserDetails::new)
-                .or(() -> funderRepo.findByEmail(email).map(CustomUserDetails::new))
+                .or(() -> funderRepository.findByEmail(email).map(CustomUserDetails::new))
                 .orElseThrow(() -> new UsernameNotFoundException("Email not found: " + email));
     }
 }
