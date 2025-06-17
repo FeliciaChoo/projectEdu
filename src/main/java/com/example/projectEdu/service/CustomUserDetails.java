@@ -17,7 +17,7 @@ public class CustomUserDetails implements UserDetails {
     private final String email;
     private final String password;
     private final List<GrantedAuthority> authorities;
-    private final Long id;
+
 
     public CustomUserDetails(Student student) {
         this.id = student.getId();
@@ -47,7 +47,7 @@ public class CustomUserDetails implements UserDetails {
     @Override public boolean isAccountNonLocked() { return true; }
     @Override public boolean isCredentialsNonExpired() { return true; }
     @Override public boolean isEnabled() { return true; }
-     public Long getId() { return id;}
+
 
 }
 

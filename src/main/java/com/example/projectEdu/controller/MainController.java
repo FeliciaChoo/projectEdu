@@ -155,14 +155,18 @@ public class MainController {
 
     @GetMapping("/apply")
     public String showApplicationForm(Model model, HttpServletRequest request) {
-        Project project = new Project();
-        project.setStudent(new Student());  // initialize nested Student object
+        if (!model.containsAttribute("project")) {
+            Project project = new Project();
+            project.setStudent(new Student());  // initialize nested Student object
+            model.addAttribute("project", project);
+        }
+
         model.addAttribute("title", "Apply for Funding");
         model.addAttribute("content", "fragments/apply");
         model.addAttribute("currentUri", request.getRequestURI());
-        model.addAttribute("project", project);
         return "layout";
     }
+
 
 
 
@@ -242,8 +246,8 @@ public class MainController {
         projectRepository.save(project);
 
         redirectAttributes.addFlashAttribute("successMessage", "Successfully submitted!");
+        return "redirect:/apply";
 
-        return "redirect:/projects";
     }
 
     @PostMapping("/logout")
