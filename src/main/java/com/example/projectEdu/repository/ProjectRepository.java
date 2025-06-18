@@ -30,6 +30,8 @@ public interface ProjectRepository extends JpaRepository<Project, Long> {
             "WHERE f.funder_id = :id AND p.status = 'Completed'", nativeQuery = true)
     Integer countCompletedProjectsByFunderId(@Param("id") Long id);
 
+    @Query(value = "SELECT COUNT(*) FROM project", nativeQuery = true)
+    Integer totalProjects();
 
 
 

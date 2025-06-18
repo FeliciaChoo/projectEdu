@@ -55,4 +55,5 @@ public class FundServiceImpl implements FundService {
     public BigDecimal sumByStudentId(Long id){
         return fundRepository.sumByStudentId(id);
     }
+
 }

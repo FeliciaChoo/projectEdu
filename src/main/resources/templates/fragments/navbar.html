@@ -31,7 +31,7 @@
                         Funding
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="fundingDropdown">
-                        <li>
+                        <li sec:authorize="hasRole('STUDENT')">
                             <a class="dropdown-item"
                                th:classappend="${currentUri == '/apply'} ? ' active'"
                                th:href="@{/apply}" style="color: black;">Apply</a>
@@ -58,11 +58,18 @@
 
             <!-- If user is authenticated -->
             <div class="dropdown" sec:authorize="isAuthenticated()">
-                <a href="#" id="userDropdown" class="d-flex align-items-center text-white text-decoration-none rounded-circle"
+                <a href="#" id="userDropdown"
+                   class="d-flex align-items-center text-white text-decoration-none rounded-circle"
                    data-bs-toggle="dropdown" aria-expanded="false"
-                   style="cursor: pointer; width: 40px; height: 40px; justify-content: center; font-weight: bold; font-size: 20px; text-transform: uppercase; background-color: #003366;">
-                    <span th:text="${#strings.substring(#authentication.principal.username, 0, 1)}"></span>
+                   style="cursor: pointer; width: 40px; height: 40px; padding: 0; overflow: hidden; background-color: #003366;">
+
+                    <img th:src="${#authentication.principal.profileUrl != null} ? ${#authentication.principal.profileUrl} : '/images/default-pfp.png'"
+                         alt="Profile"
+                         class="rounded-circle"
+                         style="width: 100%; height: 100%; object-fit: cover; border: 2px solid white;" />
                 </a>
+
+
                 <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
                     <!-- Student dashboard link -->
                     <li sec:authorize="hasRole('STUDENT')">
@@ -79,6 +86,15 @@
                             Profile
                         </a>
                     </li>
+
+                    <!-- Admin dashboard link -->
+                    <li sec:authorize="hasRole('ADMIN')">
+                        <a class="dropdown-item"
+                           th:href="@{/admin/admin-dashboard}">
+                            Admin Panel
+                        </a>
+                    </li>
+
                     <li><hr class="dropdown-divider"></li>
                     <li>
                         <form th:action="@{/logout}" method="post" class="m-0">

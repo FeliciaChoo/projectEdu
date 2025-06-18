@@ -1,6 +1,7 @@
 package com.example.projectEdu.security;
 
 import com.example.projectEdu.service.CustomUserDetailsService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -20,12 +21,14 @@ import org.springframework.security.web.SecurityFilterChain;
 public class SecurityConfig {
 
     private final CustomUserDetailsService userDetailsService;
+    private final CustomLoginSuccessHandler customLoginSuccessHandler;
 
-    public SecurityConfig(CustomUserDetailsService userDetailsService) {
+    @Autowired
+    public SecurityConfig(CustomUserDetailsService userDetailsService, CustomLoginSuccessHandler customLoginSuccessHandler) {
         this.userDetailsService = userDetailsService;
+        this.customLoginSuccessHandler = customLoginSuccessHandler;
     }
 
-    // Add this new method to ignore static resources
     @Bean
     public WebSecurityCustomizer webSecurityCustomizer() {
         return (web) -> web.ignoring().requestMatchers("/images/**", "/css/**", "/js/**");
@@ -48,13 +51,13 @@ public class SecurityConfig {
                         .loginPage("/login")
                         .usernameParameter("email")
                         .passwordParameter("password")
-                        .defaultSuccessUrl("/", true)
+                        .successHandler(customLoginSuccessHandler)
                         .permitAll()
                 )
                 .logout(logout -> logout.permitAll())
                 .exceptionHandling(ex -> ex.accessDeniedPage("/access-denied"))
                 .csrf(csrf -> csrf.ignoringRequestMatchers("/h2-console/**"))
-                .headers((headers) -> headers.disable());
+                .headers(headers -> headers.disable());
 
         return http.build();
     }

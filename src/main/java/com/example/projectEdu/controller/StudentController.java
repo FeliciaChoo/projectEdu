@@ -38,7 +38,7 @@ public class StudentController {
         this.fundService = fundService;
     }
 
-    //done
+
     @GetMapping("/student-dashboard/{id}")
     public String showStudentDashboard(@PathVariable("id") Long id, Model model, Authentication authentication) {
         Student student = studentService.findById(id).orElse(null);

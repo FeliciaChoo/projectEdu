@@ -1,0 +1,229 @@
+<div th:fragment="content" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+    <style>
+        .main-content-container {
+            background-color: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            margin: 20px;
+        }
+
+        .profile-img {
+            width: 120px;
+            height: 120px;
+            object-fit: cover;
+            border: 5px solid white;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .profile-img-sm {
+            width: 60px;
+            height: 60px;
+            object-fit: cover;
+            border-radius: 50%;
+            border: 2px solid white;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        th, td {
+            vertical-align: middle;
+        }
+
+        .hidden-section {
+            display: none;
+        }
+    </style>
+
+    <div style="margin: 20px;">
+        <div class="card bg-primary text-white mb-4">
+            <div class="card-body p-4">
+                <h3 class="mb-0">Admin Dashboard</h3>
+            </div>
+        </div>
+    </div>
+
+    <div class="main-content-container">
+        <div class="d-flex align-items-center gap-3">
+            <img th:src="${#authentication.principal.profileUrl != null ? #authentication.principal.profileUrl : '/images/default-pfp.png'}"
+                 alt="Profile"
+                 class="profile-img rounded-circle shadow"/>
+            <div>
+                <h2 class="mb-1" th:text="${#authentication.principal.name}"></h2>
+                <p class="mb-0">
+                    <i class="bi bi-envelope"></i>
+                    <span th:text="${#authentication.principal.email}"></span>
+                </p>
+            </div>
+        </div>
+
+        <div class="row mb-4 mt-4">
+            <div class="col-md-4">
+                <div class="card p-3 text-center bg-success text-white">
+                    <h5 class="card-title">Total Students</h5>
+                    <p class="card-text fs-5 fw-bold" th:text="${totalStudents}"></p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card p-3 text-center bg-primary text-white">
+                    <h5 class="card-title">Total Funders</h5>
+                    <p class="card-text fs-5 fw-bold" th:text="${totalFunders}"></p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card p-3 text-center bg-warning text-black">
+                    <h5 class="card-title">Total Projects</h5>
+                    <p class="card-text fs-5 fw-bold" th:text="${totalProjects}"></p>
+                </div>
+            </div>
+        </div>
+
+        <hr/>
+
+        <!-- Dropdown to select view -->
+        <div class="row mb-4">
+            <div class="col-md-4">
+                <select id="tableSelector" class="form-select" onchange="showSection(this.value)">
+                    <option value="students" selected>Student</option>
+                    <option value="funders">Funder</option>
+                    <option value="projects">Project</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- Student Table -->
+        <div id="students" class="table-section">
+            <h4 class="section-title">Students</h4>
+            <div class="table-responsive">
+                <table class="table table-bordered align-middle">
+                    <thead class="table-secondary">
+                    <tr>
+                        <th></th>
+                        <th>Photo</th>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>University</th>
+                        <th>Actions</th>
+                    </tr>
+                    </thead>
+                    <tbody th:each="student, stat : ${students}">
+                    <tr>
+                        <td th:text="${stat.index + 1}">1</td>
+                        <td>
+                            <img th:src="${student.profileUrl != null ? student.profileUrl : '/images/default-pfp.png'}" class="profile-img-sm" />
+                        </td>
+                        <td th:text="${student.name}">Student Name</td>
+                        <td th:text="${student.email}">email@example.com</td>
+                        <td th:text="${student.university}">University</td>
+                        <td>
+                            <a th:href="@{/admin/student-dashboard/{id}(id=${student.id})}" class="btn btn-sm btn-outline-primary">View</a>
+                            <form th:action="@{/admin/delete-student/{id}(id=${student.id})}" method="post" class="d-inline" onsubmit="return confirm('Delete this student?');">
+                                <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+                                <button type="submit" class="btn btn-sm btn-outline-danger">Delete</button>
+                            </form>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Funder Table -->
+        <div id="funders" class="table-section hidden-section">
+            <h4 class="section-title">Funders</h4>
+            <div class="table-responsive">
+                <table class="table table-hover table-bordered align-middle">
+                    <thead class="table-light">
+                    <tr>
+                        <th></th>
+                        <th>Photo</th>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Actions</th>
+                    </tr>
+                    </thead>
+                    <tbody th:each="funder, stat : ${funders}">
+                    <tr>
+                        <td th:text="${stat.index + 1}">1</td>
+                        <td>
+                            <img th:src="${funder.profileUrl != null ? funder.profileUrl : '/images/default-pfp.png'}" class="profile-img-sm" />
+                        </td>
+                        <td th:text="${funder.name}">Funder Name</td>
+                        <td th:text="${funder.email}">email@org.com</td>
+                        <td>
+                            <a th:href="@{/admin/funder-dashboard/{id}(id=${funder.id})}" class="btn btn-sm btn-outline-primary">View</a>
+                            <form th:action="@{/admin/delete-funder/{id}(id=${funder.id})}" method="post" class="d-inline" onsubmit="return confirm('Delete this funder?');">
+                                <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+                                <button type="submit" class="btn btn-sm btn-outline-danger">Delete</button>
+                            </form>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Project Table -->
+        <div id="projects" class="table-section hidden-section">
+            <h4 class="section-title">Projects</h4>
+            <div class="table-responsive">
+                <table class="table table-hover table-bordered align-middle">
+                    <thead class="table-light">
+                    <tr>
+                        <th></th>
+                        <th>Title</th>
+                        <th>Status</th>
+                        <th>Owner</th>
+                        <th>Raised</th>
+                        <th>Goal</th>
+                        <th>End Date</th>
+                        <th>Actions</th>
+                    </tr>
+                    </thead>
+                    <tbody th:each="project, stat : ${projects}">
+                    <tr>
+                        <td th:text="${stat.index + 1}">1</td>
+                        <td th:text="${project.title}">Project Title</td>
+                        <td>
+                            <span class="btn btn-sm"
+                                  th:text="${project.status}"
+                                  th:classappend="${project.status == 'Active'} ? 'btn-success' :
+                                                  (${project.status == 'Completed'} ? 'btn-primary' :
+                                                  (${project.status == 'Pending'} ? 'btn-warning' : 'btn-secondary'))">
+                            </span>
+                        </td>
+                        <td th:text="${project.student.name}">Owner Name</td>
+                        <td th:text="'MYR ' + ${project.currentAmount}">MYR 0</td>
+                        <td th:text="'MYR ' + ${project.goalAmount}">MYR 0</td>
+                        <td th:text="${project.endDate}">Date</td>
+                        <td>
+                            <a th:href="@{/project/{id}(id=${project.projectId})}" class="btn btn-sm btn-outline-primary">View</a>
+                            <form th:action="@{/admin/delete-project/{id}(id=${project.projectId})}" method="post" class="d-inline" onsubmit="return confirm('Delete this project?');">
+                                <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+                                <button type="submit" class="btn btn-sm btn-outline-danger">Delete</button>
+                            </form>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div> <!-- End main-content-container -->
+
+    <script>
+        function showSection(sectionId) {
+            const sections = document.querySelectorAll('.table-section');
+            sections.forEach(section => {
+                section.classList.add('hidden-section');
+            });
+
+            const selected = document.getElementById(sectionId);
+            if (selected) {
+                selected.classList.remove('hidden-section');
+            }
+        }
+
+        document.addEventListener("DOMContentLoaded", function () {
+            showSection('students');
+        });
+    </script>
+</div>

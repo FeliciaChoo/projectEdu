@@ -66,4 +66,14 @@ public class ProjectServiceImpl implements ProjectService {
     public int countCompletedProjectsByFunderId(Long id) {
         return projectRepository.countCompletedProjectsByFunderId(id);
     }
+
+    @Override
+    public int totalProjects() {
+        return projectRepository.totalProjects();
+    }
+
+    @Override
+    public List<Project> findAll(){
+        return projectRepository.findAll();
+    }
 }

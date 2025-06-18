@@ -21,6 +21,9 @@
                 <div th:if="${param.logout}">
                     <div class="alert alert-success">You have been successfully logged out</div>
                 </div>
+                <div th:if="${successMessage}" class="alert alert-success" role="alert">
+                    <span th:text="${successMessage}"></span>
+                </div>
                 </div>
                 <div class="mb-3">
                     <label for="email" class="form-label fw-semibold">Email</label>
@@ -37,9 +40,6 @@
             </form>
             <div class="mt-4 text-center">
                 New User? <a th:href="@{/register}"><strong>Sign Up Here</strong></a>
-            </div>
-            <div th:if="${successMessage}" class="alert alert-success" role="alert">
-                <span th:text="${successMessage}"></span>
             </div>
         </div>
     </div>

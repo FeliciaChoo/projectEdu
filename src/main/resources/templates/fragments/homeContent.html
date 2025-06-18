@@ -51,6 +51,74 @@
             </div>
         </div>
     </div>
+
+    <!-- Contact Section -->
+    <div class="row g-4">
+        <!-- Contact Info -->
+        <div class="col-lg-5 mb-4 mb-lg-0">
+            <div class="bg-primary text-white p-4 rounded-4 h-100">
+                <h4>Contact Info</h4>
+                <p>Have questions or need assistance? Our team is here to help with project applications,
+                    donations, or general inquiries. Reach out to us, and we’ll get back to you as soon as possible.</p>
+                <div class="mb-3">
+                    <i class="bi bi-geo-alt-fill me-2"></i>
+                    <strong>Our Location</strong><br>
+                    UPM Serdang Campus<br>43400 Serdang, Selangor
+                </div>
+                <div class="mb-3">
+                    <i class="bi bi-telephone-fill me-2"></i>
+                    <strong>Phone Number</strong><br>
+                    +1 5589 55488 55<br>+1 6678 254445 41
+                </div>
+                <div>
+                    <i class="bi bi-envelope-fill me-2"></i>
+                    <strong>Email Address</strong><br>
+                    info@example.com<br>contact@example.com
+                </div>
+            </div>
+        </div>
+
+        <!-- Contact Form -->
+        <div class="col-lg-7">
+            <div class="bg-white p-4 shadow-sm rounded-4 h-100">
+                <h4>Get In Touch</h4>
+                <p>Send us a message to learn more about ProjectEdu, get support with your application,
+                    or share your thoughts. We're always happy to hear from you.</p>
+                <form id="contactForm">
+                    <div class="row mb-3">
+                        <div class="col">
+                            <input type="text" class="form-control" placeholder="Your Name" name="name" required>
+                        </div>
+                        <div class="col">
+                            <input type="email" class="form-control" placeholder="Your Email" name="email" required>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <input type="text" class="form-control" placeholder="Subject" name="subject" required>
+                    </div>
+                    <div class="mb-3">
+                        <textarea class="form-control" rows="4" placeholder="Message" name="message" required></textarea>
+                    </div>
+                    <div class="text-end">
+                        <button type="submit" class="btn btn-primary">Send Message</button>
+                    </div>
+                </form>
+                <div id="formAlert" class="alert alert-success mt-3 d-none" role="alert">
+                    Message sent successfully!
+                </div>
+            </div>
+        </div>
+    </div>
+
 </div>
+
+<!-- JavaScript to simulate form submission -->
+<script>
+    document.getElementById("contactForm").addEventListener("submit", function (e) {
+        e.preventDefault();
+        document.getElementById("formAlert").classList.remove("d-none");
+        this.reset();
+    });
+</script>
 </body>
 </html>

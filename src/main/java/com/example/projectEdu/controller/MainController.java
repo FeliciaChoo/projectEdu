@@ -30,9 +30,11 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import jakarta.validation.Validator;
 import java.io.IOException;
 import java.time.LocalDate;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -117,7 +119,9 @@ public class MainController {
         // Create and save student or funder
         if ("student".equalsIgnoreCase(userType)) {
             Student student = new Student();
-            student.setName(params.get("fullNameStudent"));
+            student.setName(Arrays.stream(params.get("fullNameStudent").toLowerCase().split("\\s+"))
+                    .map(s -> s.substring(0, 1).toUpperCase() + s.substring(1))
+                    .collect(Collectors.joining(" ")));
             student.setEmail(email);
             student.setPassword(passwordEncoder.encode(password));
             student.setUniversity("Other".equals(params.get("university")) ?
@@ -166,9 +170,6 @@ public class MainController {
         model.addAttribute("currentUri", request.getRequestURI());
         return "layout";
     }
-
-
-
 
 
     @GetMapping("/login")

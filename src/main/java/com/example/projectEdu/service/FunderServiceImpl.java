@@ -4,6 +4,8 @@ import com.example.projectEdu.model.Funder;
 import com.example.projectEdu.model.Student;
 import com.example.projectEdu.repository.FunderRepository;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -25,8 +27,16 @@ public class FunderServiceImpl implements FunderService {
         funderRepository.save(funder);
     }
 
-    public void deleteById(Long id) {
-        funderRepository.deleteById(id);
+    public void deleteFunder(Funder funder){
+        funderRepository.delete(funder);
+    }
+
+    public Integer totalFunders() {
+        return funderRepository.totalFunders();
+    }
+
+    public List<Funder> findAll() {
+        return funderRepository.findAll();
     }
 
 }

@@ -7,6 +7,7 @@ VALUES
 
 INSERT INTO project (title, status, description, category, survey_link, goal_amount, current_amount, end_date, bank_name,
                      account_no, account_holder_name, image_url, student_id)
+
 VALUES
       (
           'Smart Hydroponics System', 'Active',
