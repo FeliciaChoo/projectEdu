@@ -152,4 +152,18 @@ public class StudentController {
         projectService.updateProject(project);
         return "redirect:/student/student-dashboard/" + id;
     }
+
+    @GetMapping("/apply")
+    public String showApplicationForm(Model model, HttpServletRequest request) {
+        if (!model.containsAttribute("project")) {
+            Project project = new Project();
+            project.setStudent(new Student());
+            model.addAttribute("project", project);
+        }
+
+        model.addAttribute("title", "Apply for Funding");
+        model.addAttribute("content", "fragments/apply");
+        model.addAttribute("currentUri", request.getRequestURI());
+        return "layout";
+    }
 }

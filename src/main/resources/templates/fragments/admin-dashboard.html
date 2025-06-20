@@ -79,35 +79,40 @@
 
         <hr/>
 
-        <!-- Dropdown to select view -->
-        <div class="row mb-4">
-            <div class="col-md-4">
-                <select id="tableSelector" class="form-select" onchange="showSection(this.value)">
-                    <option value="students" selected>Student</option>
-                    <option value="funders">Funder</option>
-                    <option value="projects">Project</option>
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h5 class="mb-2">
+                <i class="bi bi-table me-2"></i> Manage Records
+            </h5>
+            <div class="d-flex align-items-center">
+                <label for="tableSelector" class="me-2 mb-0 fw-semibold text-secondary">
+                    View:
+                </label>
+                <select id="tableSelector" class="form-select form-select-sm rounded-pill px-3" style="width: 160px;" onchange="showSection(this.value)">
+                    <option value="students" selected>Students</option>
+                    <option value="funders">Funders</option>
+                    <option value="projects">Projects</option>
                 </select>
             </div>
         </div>
 
+
         <!-- Student Table -->
         <div id="students" class="table-section">
-            <h4 class="section-title">Students</h4>
             <div class="table-responsive">
                 <table class="table table-bordered align-middle">
-                    <thead class="table-secondary">
+                    <thead class="table-light">
                     <tr>
-                        <th></th>
+                        <th style="width: 40px"></th>
                         <th>Photo</th>
                         <th>Name</th>
                         <th>Email</th>
-                        <th>University</th>
-                        <th>Actions</th>
+                        <th>Institution</th>
+                        <th style="width: 240px"></th>
                     </tr>
                     </thead>
                     <tbody th:each="student, stat : ${students}">
                     <tr>
-                        <td th:text="${stat.index + 1}">1</td>
+                        <td th:text="${stat.index + 1}" class="text-center"></td>
                         <td>
                             <img th:src="${student.profileUrl != null ? student.profileUrl : '/images/default-pfp.png'}" class="profile-img-sm" />
                         </td>
@@ -115,12 +120,23 @@
                         <td th:text="${student.email}">email@example.com</td>
                         <td th:text="${student.university}">University</td>
                         <td>
-                            <a th:href="@{/admin/student-dashboard/{id}(id=${student.id})}" class="btn btn-sm btn-outline-primary">View</a>
-                            <form th:action="@{/admin/delete-student/{id}(id=${student.id})}" method="post" class="d-inline" onsubmit="return confirm('Delete this student?');">
+                            <!-- View button -->
+                            <a th:href="@{/admin/student-dashboard/{id}(id=${student.id})}"
+                               class="btn btn-outline-secondary btn-sm px-3 py-1">
+                                <i class="bi bi-eye me-1"></i> View
+                            </a>
+
+                            <!-- Delete button form -->
+                            <form th:action="@{/admin/delete-student/{id}(id=${student.id})}"
+                                  method="post" class="d-inline"
+                                  onsubmit="return confirm('Delete this student?');">
                                 <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
-                                <button type="submit" class="btn btn-sm btn-outline-danger">Delete</button>
+                                <button type="submit" class="btn btn-outline-danger btn-sm px-3 py-1">
+                                    <i class="bi bi-trash me-1"></i> Delete
+                                </button>
                             </form>
                         </td>
+
                     </tr>
                     </tbody>
                 </table>
@@ -129,31 +145,40 @@
 
         <!-- Funder Table -->
         <div id="funders" class="table-section hidden-section">
-            <h4 class="section-title">Funders</h4>
             <div class="table-responsive">
                 <table class="table table-hover table-bordered align-middle">
                     <thead class="table-light">
                     <tr>
-                        <th></th>
+                        <th style="width: 40px"></th>
                         <th>Photo</th>
                         <th>Name</th>
                         <th>Email</th>
-                        <th>Actions</th>
+                        <th style="width: 220px"></th>
                     </tr>
                     </thead>
                     <tbody th:each="funder, stat : ${funders}">
                     <tr>
-                        <td th:text="${stat.index + 1}">1</td>
+                        <td th:text="${stat.index + 1}" class="text-center"></td>
                         <td>
                             <img th:src="${funder.profileUrl != null ? funder.profileUrl : '/images/default-pfp.png'}" class="profile-img-sm" />
                         </td>
                         <td th:text="${funder.name}">Funder Name</td>
                         <td th:text="${funder.email}">email@org.com</td>
                         <td>
-                            <a th:href="@{/admin/funder-dashboard/{id}(id=${funder.id})}" class="btn btn-sm btn-outline-primary">View</a>
-                            <form th:action="@{/admin/delete-funder/{id}(id=${funder.id})}" method="post" class="d-inline" onsubmit="return confirm('Delete this funder?');">
+                            <!-- View button -->
+                            <a th:href="@{/admin/funder-dashboard/{id}(id=${funder.id})}"
+                               class="btn btn-outline-secondary btn-sm px-3 py-1">
+                                <i class="bi bi-eye me-1"></i> View
+                            </a>
+
+                            <!-- Delete button -->
+                            <form th:action="@{/admin/delete-funder/{id}(id=${funder.id})}"
+                                  method="post" class="d-inline"
+                                  onsubmit="return confirm('Delete this student?');">
                                 <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
-                                <button type="submit" class="btn btn-sm btn-outline-danger">Delete</button>
+                                <button type="submit" class="btn btn-outline-danger btn-sm px-3 py-1">
+                                    <i class="bi bi-trash me-1"></i> Delete
+                                </button>
                             </form>
                         </td>
                     </tr>
@@ -164,27 +189,26 @@
 
         <!-- Project Table -->
         <div id="projects" class="table-section hidden-section">
-            <h4 class="section-title">Projects</h4>
             <div class="table-responsive">
                 <table class="table table-hover table-bordered align-middle">
                     <thead class="table-light">
                     <tr>
-                        <th></th>
+                        <th style="width: 40px"></th>
                         <th>Title</th>
                         <th>Status</th>
                         <th>Owner</th>
                         <th>Raised</th>
                         <th>Goal</th>
                         <th>End Date</th>
-                        <th>Actions</th>
+                        <th style="width: 220px"></th>
                     </tr>
                     </thead>
                     <tbody th:each="project, stat : ${projects}">
                     <tr>
-                        <td th:text="${stat.index + 1}">1</td>
+                        <td th:text="${stat.index + 1}" class="text-center"></td>
                         <td th:text="${project.title}">Project Title</td>
                         <td>
-                            <span class="btn btn-sm"
+                            <span class="btn btn-sm text-center"
                                   th:text="${project.status}"
                                   th:classappend="${project.status == 'Active'} ? 'btn-success' :
                                                   (${project.status == 'Completed'} ? 'btn-primary' :
@@ -196,10 +220,20 @@
                         <td th:text="'MYR ' + ${project.goalAmount}">MYR 0</td>
                         <td th:text="${project.endDate}">Date</td>
                         <td>
-                            <a th:href="@{/project/{id}(id=${project.projectId})}" class="btn btn-sm btn-outline-primary">View</a>
-                            <form th:action="@{/admin/delete-project/{id}(id=${project.projectId})}" method="post" class="d-inline" onsubmit="return confirm('Delete this project?');">
+                            <!-- View button -->
+                            <a th:href="@{/project/{id}(id=${project.projectId})}"
+                               class="btn btn-outline-secondary btn-sm px-3 py-1">
+                                <i class="bi bi-eye me-1"></i> View
+                            </a>
+
+                            <!-- Delete button -->
+                            <form th:action="@{/admin/delete-project/{id}(id=${project.projectId})}"
+                                  method="post" class="d-inline"
+                                  onsubmit="return confirm('Delete this student?');">
                                 <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
-                                <button type="submit" class="btn btn-sm btn-outline-danger">Delete</button>
+                                <button type="submit" class="btn btn-outline-danger btn-sm px-3 py-1">
+                                    <i class="bi bi-trash me-1"></i> Delete
+                                </button>
                             </form>
                         </td>
                     </tr>

@@ -45,15 +45,18 @@ public class MainController {
     private final ProjectRepository projectRepository;
     private final StudentService studentService;
     private final FunderService funderService;
+
+    private final ProjectService projectService;
     private final PasswordEncoder passwordEncoder;
     private final StudentRepository studentRepository;
     private final FunderRepository funderRepository;
 
     // Constructor injection
-    public MainController(ProjectRepository projectRepository,
+    public MainController(ProjectRepository projectRepository, ProjectService projectService,
                           StudentService studentService,
                           FunderService funderService, PasswordEncoder passwordEncoder, StudentRepository studentRepository, FunderRepository funderRepository) {
         this.projectRepository = projectRepository;
+        this.projectService = projectService;
         this.studentService = studentService;
         this.funderService = funderService;
         this.passwordEncoder = passwordEncoder;
@@ -65,7 +68,7 @@ public class MainController {
         // Test with a known ID or use 1L as a test case
         Optional<Student> student = studentService.findById(1L);
         System.out.println("Student found: " + student.orElse(null));
-        return "redirect:/"; // Or return a test view if preferred
+        return "redirect:/";
     }
 
     @PostMapping("/register")
@@ -150,23 +153,13 @@ public class MainController {
 
     @GetMapping("/")
     public String home(Model model, HttpServletRequest request) {
+
+        model.addAttribute("totalProjects", projectService.totalProjects());
+        model.addAttribute("totalFunders",  funderService.totalFunders());
+        model.addAttribute("totalStudents", studentService.totalStudents());
         model.addAttribute("title", "Home");
         model.addAttribute("content", "fragments/homeContent");
         // Add current URI to model for active link highlight
-        model.addAttribute("currentUri", request.getRequestURI());
-        return "layout";
-    }
-
-    @GetMapping("/apply")
-    public String showApplicationForm(Model model, HttpServletRequest request) {
-        if (!model.containsAttribute("project")) {
-            Project project = new Project();
-            project.setStudent(new Student());  // initialize nested Student object
-            model.addAttribute("project", project);
-        }
-
-        model.addAttribute("title", "Apply for Funding");
-        model.addAttribute("content", "fragments/apply");
         model.addAttribute("currentUri", request.getRequestURI());
         return "layout";
     }

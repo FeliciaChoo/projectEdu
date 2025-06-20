@@ -8,13 +8,50 @@
 </head>
 <body>
 <div th:fragment="content">
+
+    <div class="p-5 text-center bg-image rounded-3" style="
+    background: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), url('/images/header.jpg');
+    height: 300px;
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    position: relative;">
+
+        <div class="d-flex justify-content-center align-items-center h-100">
+            <div style="color: white;">
+                <h1 class="mb-4 display-3 fw-bold" style="text-shadow: 3px 3px 8px rgba(0, 0, 0, 0.8);">
+                    Welcome to ProjectFunder!
+                </h1>
+                <h4 class="mb-4 fs-3" style="text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.7);">
+                    Funding educational innovation for a better tomorrow
+                </h4>
+                <a th:href="@{/register}" class="btn btn-primary text-white btn-lg" role="button">
+                    <i class="bi bi-pencil-square me-1"></i> Register Now
+                </a>
+            </div>
+        </div>
+    </div>
+
+
+
     <div class="container">
-        <div class="text-center mb-5">
-            <h1 style="font-family: 'Poppins', sans-serif; font-size: 60px;">Welcome to ProjectEdu!</h1>
-            <p class="lead">Funding educational innovation for a better tomorrow</p>
-            <a th:href="@{/apply}" class="btn btn-primary btn-lg mt-3">
-                <i class="bi bi-pencil-square"></i> Apply Now
-            </a>
+        <!-- About Us Section -->
+        <div class="container py-5">
+            <div class="row align-items-center">
+                <!-- Text -->
+                <div class="col-md-6 mb-4 mb-md-0">
+                    <h2 class="fw-bold display-5 mb-4">About <span class="text-primary">ProjectFunder</span></h2>
+                    <p class="lead text-muted" style="text-align: justify;">
+                        ProjectFunder is a platform designed for tertiary‑level students to showcase their academic or innovation projects and receive funding support from individuals, organisations, or alumni. This website empowers students to bring their ideas to life by connecting them with funders who believe in education, creativity, and impact. We proudly align with <strong>SDG 4: Quality Education</strong>
+                        to foster skills, knowledge, and opportunities for all.
+                    </p>
+                </div>
+                <!-- Image or Illustration -->
+                <div class="col-md-6 text-center">
+                    <img src="/images/planning.png" alt="About ProjectFunder"
+                         class="img-fluid mb-4" style="max-height: 350px">
+                </div>
+            </div>
         </div>
 
         <div class="row">
@@ -43,27 +80,119 @@
                 </div>
             </div>
         </div>
+    </div>
 
-        <div class="row justify-content-end">
-            <div class="col-md-5 d-flex flex-column align-items-end text-end">
-                <img th:src="@{/images/SDG4.png}" alt="Project Image"
-                     class="mb-4" style="max-width: 70px; width: 70%;">
+    <section class="stats-section py-5">
+        <div class="container">
+            <!-- Section Header -->
+            <div class="text-center mb-5">
+                <h2 class="text-center fw-bold mb-2">
+                    <i class="bi bi-bar-chart-fill me-2 text-primary"></i>
+                    Our <span class="text-primary">Impact</span>
+                </h2>
+                <p class="lead text-muted">Explore our growing community and achievements</p>
+            </div>
+
+            <!-- Statistic Cards -->
+            <div class="row justify-content-center text-center g-4">
+                <div class="col-6 col-md-3">
+                    <div class="card border-0 shadow-sm h-100">
+                        <div class="card-body">
+                            <h2 class="fw-bold display-6 text-primary mb-2" th:text="${totalStudents}">0</h2>
+                            <p class="text-muted mb-0">Empowered Students</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-6 col-md-3">
+                    <div class="card border-0 shadow-sm h-100">
+                        <div class="card-body">
+                            <h2 class="fw-bold display-6 text-warning mb-2" th:text="${totalFunders}">0</h2>
+                            <p class="text-muted mb-0">Dedicated Funders</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-6 col-md-3">
+                    <div class="card border-0 shadow-sm h-100">
+                        <div class="card-body">
+                            <h2 class="fw-bold display-6 text-success mb-2" th:text="${totalProjects}">0</h2>
+                            <p class="text-muted mb-0">Total Projects</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-6 col-md-3">
+                    <div class="card border-0 shadow-sm h-100">
+                        <div class="card-body">
+                            <h2 class="fw-bold display-6 text-info mb-2">100%</h2>
+                            <p class="text-muted mb-0">Transparent Funding</p>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
-    </div>
+    </section>
+
+
+    <section class="py-2 bg-white" style="border-radius: 25px" >
+        <div class="container my-5">
+            <h2 class="text-center fw-bold mb-2">
+                <i class="bi bi-chat-quote me-2 text-primary"></i>What People Say
+            </h2>
+            <p class="text-center lead text-muted">Hear from our community of students and funders</p>
+            <div class="highlight-bar"></div>
+            <div class="row mt-5 g-4 justify-content-center">
+                <div class="col-md-4">
+                    <div class="testimonial-card text-center">
+                        <img src="/images/pfp1.png" class="rounded-circle mb-3" style="width: 100px; height: 100px; object-fit: cover; border: 3px solid #0d6efd;">
+                        <h5 class="fw-bold">Aina K.</h5>
+                        <p class="text-muted small">Biotechnology Student at UPM</p>
+                        <div class="text-warning mb-3">
+                            <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-half"></i>
+                        </div>
+                        <p class="fst-italic">"ProjectFunder transformed my final year project into a funded research initiative that's now making real-world impact."</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="testimonial-card text-center">
+                        <img src="/images/pfp2.png" class="rounded-circle mb-3" style="width: 100px; height: 100px; object-fit: cover; border: 3px solid #0d6efd;">
+                        <h5 class="fw-bold">Mr. Hafiz</h5>
+                        <p class="text-muted small">Alumni & Serial Funder</p>
+                        <div class="text-warning mb-3">
+                            <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
+                        </div>
+                        <p class="fst-italic">"As an alumni, I've funded several projects through ProjectFunder. Seeing students succeed is the best return on investment."</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="testimonial-card text-center">
+                        <img src="/images/pfp3.png" class="rounded-circle mb-3" style="width: 100px; height: 100px; object-fit: cover; border: 3px solid #0d6efd;">
+                        <h5 class="fw-bold">Syafiqah</h5>
+                        <p class="text-muted small">Engineering Graduate</p>
+                        <div class="text-warning mb-3">
+                            <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
+                        </div>
+                        <p class="fst-italic">"The funding I received helped patent my invention. ProjectFunder was the launchpad for my startup journey."</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
 
     <!-- Contact Section -->
     <div class="container my-5">
         <div class="text-center mb-4">
-            <h2 class="fw-bold fs-1">Contact</h2>
-            <p class="text-muted">If you have any inquiries, feel free to contact us here.</p>
-            <hr style="width: 60px; height: 3px; background-color: #0d6efd; margin: 0 auto;">
+            <h2 class="text-center fw-bold mb-2">
+                <i class="bi bi-envelope-paper-fill me-2 text-primary"></i>
+                Get In Touch
+            </h2>
+            <p class="lead text-muted">If you have any inquiries, feel free to contact us here.</p>
         </div>
-        <div class="row">
+
+        <div class="row g-4">
             <!-- Contact Info -->
-            <div class="col-lg-5 mb-4">
-                <div class="bg-primary text-white p-4 rounded-4 h-100">
-                    <h4>Contact Info</h4>
+            <div class="col-lg-5 d-flex flex-column">
+                <div class="bg-primary text-white p-4 rounded-4 flex-grow-1">
+                    <h4>Contact Information</h4>
                     <p>Have questions or need assistance? Our team is here to help with project applications,
                         donations, or general inquiries. Reach out to us and we’ll get back to you as soon as possible.</p>
                     <div class="mb-3">
@@ -85,9 +214,9 @@
             </div>
 
             <!-- Contact Form -->
-            <div class="col-lg-7">
-                <div class="bg-white p-4 shadow-sm rounded-4 h-100">
-                    <h4>Get In Touch</h4>
+            <div class="col-lg-7 d-flex flex-column">
+                <div class="bg-white p-4 shadow-sm rounded-4 flex-grow-1">
+                    <h4>Send Us a Message</h4>
                     <p>Send us a message to learn more about ProjectEdu, get support with your application,
                         or share your thoughts. We're always happy to hear from you.</p>
                     <form id="contactForm">
@@ -115,7 +244,12 @@
                 </div>
             </div>
         </div>
+        <div class="text-center mt-5 pt-4">
+            <img th:src="@{/images/SDG4.png}" alt="SDG 4: Quality Education" style="max-width: 120px;">
+            <p class="mt-3 lead text-muted">Proudly supporting Sustainable Development Goal 4: Quality Education</p>
+        </div>
     </div>
+
 </div>
 
 <!-- JavaScript to simulate form submission -->

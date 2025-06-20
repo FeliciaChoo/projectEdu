@@ -34,7 +34,7 @@
                         <li sec:authorize="hasRole('STUDENT')">
                             <a class="dropdown-item"
                                th:classappend="${currentUri == '/apply'} ? ' active'"
-                               th:href="@{/apply}" style="color: black;">Apply</a>
+                               th:href="@{/student/apply}" style="color: black;">Apply</a>
                         </li>
                         <li>
                             <a class="dropdown-item"
