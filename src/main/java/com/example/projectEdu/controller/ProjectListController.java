@@ -121,6 +121,7 @@ public class ProjectListController {
         model.addAttribute("selectedCategory", category);
         model.addAttribute("searchTerm", search);
         model.addAttribute("activeTab", status != null ? status : "all");
+        model.addAttribute("title", "Projects");
         model.addAttribute("content", "fragments/project-list");
 
         return "layout";

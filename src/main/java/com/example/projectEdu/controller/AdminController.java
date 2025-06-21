@@ -3,6 +3,7 @@ package com.example.projectEdu.controller;
 import com.example.projectEdu.model.Funder;
 import com.example.projectEdu.model.Project;
 import com.example.projectEdu.model.Student;
+import com.example.projectEdu.repository.ProjectRepository;
 import com.example.projectEdu.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -20,17 +21,21 @@ public class AdminController {
     private final ProjectService projectService;
     private final FundService fundService;
 
+    private final ProjectRepository projectRepository;
+
     @Autowired
     public AdminController(
             StudentService studentService,
             FunderService funderService,
             ProjectService projectService,
-            FundService fundService
+            FundService fundService,
+            ProjectRepository projectRepository
     ) {
         this.studentService = studentService;
         this.funderService  = funderService;
         this.projectService = projectService;
         this.fundService    = fundService;
+        this.projectRepository = projectRepository;
     }
 
     @GetMapping("/admin-dashboard")
@@ -99,4 +104,20 @@ public class AdminController {
 
         return "layout";
     }
+
+    @PostMapping("/update-status/{id}")
+    public String updateProjectStatus(@PathVariable("id") Long projectId,
+                                      @RequestParam String status,
+                                      RedirectAttributes ra) {
+        Project project = projectService.findById(projectId)
+                .orElseThrow(() -> new IllegalArgumentException("Invalid project ID: " + projectId));
+
+        project.setStatus(status);
+        projectRepository.save(project);
+        ra.addFlashAttribute("successMessage", "Project status updated successfully.");
+
+        return "redirect:/admin/admin-dashboard";
+    }
+
+
 }
