@@ -174,7 +174,7 @@
                             <!-- Delete button -->
                             <form th:action="@{/admin/delete-funder/{id}(id=${funder.id})}"
                                   method="post" class="d-inline"
-                                  onsubmit="return confirm('Delete this student?');">
+                                  onsubmit="return confirm('Delete this funder?');">
                                 <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
                                 <button type="submit" class="btn btn-outline-danger btn-sm px-3 py-1">
                                     <i class="bi bi-trash me-1"></i> Delete
@@ -229,7 +229,7 @@
                             <!-- Delete button -->
                             <form th:action="@{/admin/delete-project/{id}(id=${project.projectId})}"
                                   method="post" class="d-inline"
-                                  onsubmit="return confirm('Delete this student?');">
+                                  onsubmit="return confirm('Delete this project?');">
                                 <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
                                 <button type="submit" class="btn btn-outline-danger btn-sm px-3 py-1">
                                     <i class="bi bi-trash me-1"></i> Delete
