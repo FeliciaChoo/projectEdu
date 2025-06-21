@@ -1,3 +1,5 @@
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
     <title>ProjectEdu</title>
@@ -25,9 +27,30 @@
                 <h4 class="mb-4 fs-3" style="text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.7);">
                     Funding educational innovation for a better tomorrow
                 </h4>
-                <a th:href="@{/register}" class="btn btn-primary text-white btn-lg" role="button">
+                <!-- Shown only when user is NOT logged in -->
+                <a sec:authorize="isAnonymous()" th:href="@{/register}"
+                   class="btn btn-primary text-white btn-lg" role="button">
                     <i class="bi bi-pencil-square me-1"></i> Register Now
                 </a>
+
+                <!-- Student: Apply Now -->
+                <a sec:authorize="hasRole('STUDENT')" th:href="@{/student/apply}"
+                   class="btn btn-success text-white btn-lg" role="button">
+                    <i class="bi bi-upload me-1"></i> Apply Now
+                </a>
+
+                <!-- Funder: Donate Now -->
+                <a sec:authorize="hasRole('FUNDER')" th:href="@{/funder/donate-project}"
+                   class="btn btn-warning text-white btn-lg" role="button">
+                    <i class="bi bi-cash-coin me-1"></i> Donate Now
+                </a>
+
+                <!-- Admin: Go to Dashboard -->
+                <a sec:authorize="hasRole('ADMIN')" th:href="@{/admin/dashboard}"
+                   class="btn btn-dark text-white btn-lg" role="button">
+                    <i class="bi bi-speedometer2 me-1"></i> Dashboard
+                </a>
+
             </div>
         </div>
     </div>
@@ -99,7 +122,7 @@
                     <div class="card border-0 shadow-sm h-100">
                         <div class="card-body">
                             <h2 class="fw-bold display-6 text-primary mb-2" th:text="${totalStudents}">0</h2>
-                            <p class="text-muted mb-0">Empowered Students</p>
+                            <p>Empowered Students</p>
                         </div>
                     </div>
                 </div>
@@ -107,7 +130,7 @@
                     <div class="card border-0 shadow-sm h-100">
                         <div class="card-body">
                             <h2 class="fw-bold display-6 text-warning mb-2" th:text="${totalFunders}">0</h2>
-                            <p class="text-muted mb-0">Dedicated Funders</p>
+                            <p>Dedicated Funders</p>
                         </div>
                     </div>
                 </div>
@@ -115,7 +138,7 @@
                     <div class="card border-0 shadow-sm h-100">
                         <div class="card-body">
                             <h2 class="fw-bold display-6 text-success mb-2" th:text="${totalProjects}">0</h2>
-                            <p class="text-muted mb-0">Total Projects</p>
+                            <p>Total Projects</p>
                         </div>
                     </div>
                 </div>
@@ -123,7 +146,7 @@
                     <div class="card border-0 shadow-sm h-100">
                         <div class="card-body">
                             <h2 class="fw-bold display-6 text-info mb-2">100%</h2>
-                            <p class="text-muted mb-0">Transparent Funding</p>
+                            <p>Transparent Funding</p>
                         </div>
                     </div>
                 </div>
