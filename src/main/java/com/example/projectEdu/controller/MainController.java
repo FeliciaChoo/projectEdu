@@ -125,7 +125,7 @@ public class MainController {
             student.setName(Arrays.stream(params.get("fullNameStudent").toLowerCase().split("\\s+"))
                     .map(s -> s.substring(0, 1).toUpperCase() + s.substring(1))
                     .collect(Collectors.joining(" ")));
-            student.setEmail(email);
+            student.setEmail(email.toLowerCase());
             student.setPassword(passwordEncoder.encode(password));
             student.setUniversity("Other".equals(params.get("university")) ?
                     params.get("otherUniversity") : params.get("university"));
@@ -137,8 +137,10 @@ public class MainController {
 
         } else if ("funder".equalsIgnoreCase(userType)) {
             Funder funder = new Funder();
-            funder.setName(params.get("fullNameFunder"));
-            funder.setEmail(email);
+            funder.setName(Arrays.stream(params.get("fullNameFunder").toLowerCase().split("\\s+"))
+                    .map(s -> s.substring(0, 1).toUpperCase() + s.substring(1))
+                    .collect(Collectors.joining(" ")));
+            funder.setEmail(email.toLowerCase());
             funder.setPassword(passwordEncoder.encode(password));
             funder.setProfileUrl(profileImageUrl);
 
@@ -178,70 +180,6 @@ public class MainController {
         model.addAttribute("title", "Register Page");
         model.addAttribute("content", "fragments/register");
         return "layout"; // Your main layout template
-    }
-
-    @PostMapping("/apply")
-    public String submitApplication(@Valid @ModelAttribute("project") Project project,
-                                    BindingResult bindingResult,
-                                    @RequestParam("imageFile") MultipartFile imageFile,
-                                    Model model,
-                                    RedirectAttributes redirectAttributes) {
-
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
-
-
-        Long studentId = userDetails.getId();
-
-        Student student = studentService.findById(studentId)
-                .orElseThrow(() -> new RuntimeException("Student not found with id: " + studentId));
-
-        project.setStudent(student);
-        if (project.getStatus() == null || project.getStatus().isBlank()) {
-            project.setStatus("Active");
-        }
-        if (project.getEndDate() == null) {
-            project.setEndDate(LocalDate.now().plusMonths(3));
-        }
-
-        if (bindingResult.hasErrors()) {
-            bindingResult.getAllErrors().forEach(System.out::println);
-            model.addAttribute("title", "Apply for Funding");
-            model.addAttribute("content", "fragments/apply");
-            return "layout";
-        }
-
-
-
-        if (!imageFile.isEmpty()) {
-            try {
-                String uploadDir = "uploads/";
-                Path uploadPath = Paths.get(uploadDir);
-
-                if (!Files.exists(uploadPath)) {
-                    Files.createDirectories(uploadPath);
-                }
-
-                String originalFilename = imageFile.getOriginalFilename();
-                String safeFilename = originalFilename != null ?
-                        originalFilename.replaceAll("[^a-zA-Z0-9.-]", "_") :
-                        "uploaded_file";
-
-                String filename = "upload_" + System.currentTimeMillis() + "_" + safeFilename;
-                imageFile.transferTo(uploadPath.resolve(filename));
-                project.setImageUrl("/uploads/" + filename);
-
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-
-        System.out.println("Saving project: " + project.getTitle());
-        projectRepository.save(project);
-
-        redirectAttributes.addFlashAttribute("successMessage", "Successfully submitted!");
-        return "redirect:/apply";
-
     }
 
     @PostMapping("/logout")

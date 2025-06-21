@@ -15,7 +15,7 @@
     background: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), url('/images/header.jpg');
     height: 300px;
     background-size: cover;
-    background-position: center;
+    background-position: bottom;
     background-attachment: fixed;
     position: relative;">
 
@@ -40,7 +40,7 @@
                 </a>
 
                 <!-- Funder: Donate Now -->
-                <a sec:authorize="hasRole('FUNDER')" th:href="@{/funder/donate-project}"
+                <a sec:authorize="hasRole('FUNDER')" th:href="@{/projects}"
                    class="btn btn-warning text-white btn-lg" role="button">
                     <i class="bi bi-cash-coin me-1"></i> Donate Now
                 </a>

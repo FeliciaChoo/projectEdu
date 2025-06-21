@@ -1,12 +1,14 @@
 package com.example.projectEdu.controller;
 import com.example.projectEdu.model.Project;
 import com.example.projectEdu.model.Student;
+import com.example.projectEdu.repository.ProjectRepository;
 import com.example.projectEdu.service.*;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -20,20 +22,24 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.security.Principal;
+import java.time.LocalDate;
 
 @Controller
 @RequestMapping("/student")
 public class StudentController {
 
     private final ProjectService projectService;
+
+    private final ProjectRepository projectRepository;
     private final StudentService studentService;
     private final FundService fundService;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-    public StudentController(ProjectService projectService, StudentService studentService, FundService fundService) {
+    public StudentController(ProjectService projectService, ProjectRepository projectRepository, StudentService studentService, FundService fundService) {
         this.projectService = projectService;
+        this.projectRepository = projectRepository;
         this.studentService = studentService;
         this.fundService = fundService;
     }
@@ -165,5 +171,70 @@ public class StudentController {
         model.addAttribute("content", "fragments/apply");
         model.addAttribute("currentUri", request.getRequestURI());
         return "layout";
+    }
+
+    @PostMapping("/apply")
+    public String submitApplication(@Valid @ModelAttribute("project") Project project,
+                                    BindingResult bindingResult,
+                                    @RequestParam("imageFile") MultipartFile imageFile,
+                                    Model model,
+                                    RedirectAttributes redirectAttributes) {
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
+
+
+        Long studentId = userDetails.getId();
+
+        Student student = studentService.findById(studentId)
+                .orElseThrow(() -> new RuntimeException("Student not found with id: " + studentId));
+
+        project.setStudent(student);
+        if (project.getStatus() == null || project.getStatus().isBlank()) {
+            project.setStatus("Active");
+        }
+        if (project.getEndDate() == null) {
+            project.setEndDate(LocalDate.now().plusMonths(3));
+        }
+
+        if (bindingResult.hasErrors()) {
+            bindingResult.getAllErrors().forEach(System.out::println);
+            model.addAttribute("title", "Apply for Funding");
+            model.addAttribute("content", "fragments/apply");
+            return "layout";
+        }
+
+
+
+        if (!imageFile.isEmpty()) {
+            try {
+                String uploadDir = "uploads/";
+                Path uploadPath = Paths.get(uploadDir);
+
+                if (!Files.exists(uploadPath)) {
+                    Files.createDirectories(uploadPath);
+                }
+
+                String originalFilename = imageFile.getOriginalFilename();
+                String safeFilename = originalFilename != null ?
+                        originalFilename.replaceAll("[^a-zA-Z0-9.-]", "_") :
+                        "uploaded_file";
+
+                String filename = "upload_" + System.currentTimeMillis() + "_" + safeFilename;
+                imageFile.transferTo(uploadPath.resolve(filename));
+                project.setImageUrl("/uploads/" + filename);
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+        System.out.println("Saving project: " + project.getTitle());
+        projectRepository.save(project);
+
+        redirectAttributes.addFlashAttribute("successMessage", "Successfully submitted!");
+        return "redirect:/student/apply";
+
+
     }
 }

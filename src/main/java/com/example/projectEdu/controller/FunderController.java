@@ -27,14 +27,12 @@ public class FunderController {
     private final FunderService funderService;
     private final FundService fundService;
 
-
     public FunderController(ProjectService projectService, StudentService studentService, FunderService funderService, FundService fundService) {
         this.projectService = projectService;
         this.studentService = studentService;
         this.funderService = funderService;
         this.fundService = fundService;
     }
-
 
     @GetMapping("/funder-dashboard/{id}")
     public String showFunderDashboard(@PathVariable("id") Long id, Model model) {
