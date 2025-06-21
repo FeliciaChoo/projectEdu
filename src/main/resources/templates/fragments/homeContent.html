@@ -56,7 +56,7 @@
     </div>
 
 
-
+    <section class="py-5">
     <div class="container">
         <!-- About Us Section -->
         <div class="container py-5">
@@ -104,49 +104,77 @@
             </div>
         </div>
     </div>
+    </section>
 
-    <section class="stats-section py-5">
+    <section class="py-5 px-4 bg-white" style="border-radius: 25px">
         <div class="container">
             <!-- Section Header -->
             <div class="text-center mb-5">
                 <h2 class="text-center fw-bold mb-2">
-                    <i class="bi bi-bar-chart-fill me-2 text-primary"></i>
+                    <i class="bi bi-bar-chart-line me-2 text-primary"></i>
                     Our <span class="text-primary">Impact</span>
                 </h2>
-                <p class="lead text-muted">Explore our growing community and achievements</p>
+                <p class="lead text-muted">Join our growing community of innovators and supporters</p>
             </div>
 
             <!-- Statistic Cards -->
             <div class="row justify-content-center text-center g-4">
+                <!-- Students Card -->
                 <div class="col-6 col-md-3">
-                    <div class="card border-0 shadow-sm h-100">
-                        <div class="card-body">
+                    <div class="card border-0 shadow-sm h-100 rounded-4 hover-scale"
+                         style="background: linear-gradient(135deg, #f8f9fa 0%, #e9f5ff 100%);">
+                        <div class="card-body py-4">
+                            <div class="icon-wrapper bg-primary bg-opacity-10 rounded-circle mb-3 mx-auto"
+                                 style="width: 60px; height: 60px; line-height: 60px;">
+                                <i class="bi bi-people-fill text-primary fs-4"></i>
+                            </div>
                             <h2 class="fw-bold display-6 text-primary mb-2" th:text="${totalStudents}">0</h2>
-                            <p>Empowered Students</p>
+                            <p class="text-muted mb-0">Empowered<br>Students</p>
                         </div>
                     </div>
                 </div>
+
+                <!-- Funders Card -->
                 <div class="col-6 col-md-3">
-                    <div class="card border-0 shadow-sm h-100">
-                        <div class="card-body">
+                    <div class="card border-0 shadow-sm h-100 rounded-4 hover-scale"
+                         style="background: linear-gradient(135deg, #f8f9fa 0%, #fff8e9 100%);">
+                        <div class="card-body py-4">
+                            <div class="icon-wrapper bg-warning bg-opacity-10 rounded-circle mb-3 mx-auto"
+                                 style="width: 60px; height: 60px; line-height: 60px;">
+                                <i class="bi bi-hand-thumbs-up-fill text-warning fs-4"></i>
+                            </div>
                             <h2 class="fw-bold display-6 text-warning mb-2" th:text="${totalFunders}">0</h2>
-                            <p>Dedicated Funders</p>
+                            <p class="text-muted mb-0">Dedicated<br>Funders</p>
                         </div>
                     </div>
                 </div>
+
+                <!-- Projects Card -->
                 <div class="col-6 col-md-3">
-                    <div class="card border-0 shadow-sm h-100">
-                        <div class="card-body">
+                    <div class="card border-0 shadow-sm h-100 rounded-4 hover-scale"
+                         style="background: linear-gradient(135deg, #f8f9fa 0%, #e9ffe9 100%);">
+                        <div class="card-body py-4">
+                            <div class="icon-wrapper bg-success bg-opacity-10 rounded-circle mb-3 mx-auto"
+                                 style="width: 60px; height: 60px; line-height: 60px;">
+                                <i class="bi bi-lightbulb-fill text-success fs-4"></i>
+                            </div>
                             <h2 class="fw-bold display-6 text-success mb-2" th:text="${totalProjects}">0</h2>
-                            <p>Total Projects</p>
+                            <p class="text-muted mb-0">Supported<br>Projects</p>
                         </div>
                     </div>
                 </div>
+
+                <!-- Success Rate Card -->
                 <div class="col-6 col-md-3">
-                    <div class="card border-0 shadow-sm h-100">
-                        <div class="card-body">
+                    <div class="card border-0 shadow-sm h-100 rounded-4 hover-scale"
+                         style="background: linear-gradient(135deg, #f8f9fa 0%, #e9f5ff 100%);">
+                        <div class="card-body py-4">
+                            <div class="icon-wrapper bg-info bg-opacity-10 rounded-circle mb-3 mx-auto"
+                                 style="width: 60px; height: 60px; line-height: 60px;">
+                                <i class="bi bi-check-circle-fill text-info fs-4"></i>
+                            </div>
                             <h2 class="fw-bold display-6 text-info mb-2">100%</h2>
-                            <p>Transparent Funding</p>
+                            <p class="text-muted mb-0">Transparent<br>Funding</p>
                         </div>
                     </div>
                 </div>
@@ -154,8 +182,91 @@
         </div>
     </section>
 
+    <section class="py-5">
+        <div class="container">
+            <div class="text-center mb-5">
+                <h2 class="fw-bold mb-3">
+                    <i class="bi bi-images me-2 text-primary"></i>Project <span class="text-primary">Gallery</span>
+                </h2>
+                <p class="lead text-muted">Discover some of the impactful student projects supported through our platform</p>
+            </div>
 
-    <section class="py-2 bg-white" style="border-radius: 25px" >
+            <div id="projectGalleryCarousel" class="carousel slide" data-bs-ride="carousel">
+                <div class="carousel-inner">
+
+                    <!-- Slide 1 -->
+                    <div class="carousel-item active">
+                        <div class="row justify-content-center g-4">
+                            <div class="col-md-4">
+                                <div class="card shadow-sm h-100">
+                                    <img src="/images/p1img.jpg" class="card-img-top" alt="Smart Hydroponics System" style="height: 200px; object-fit: cover;">
+                                    <div class="card-body">
+                                        <h5 class="card-title">Smart Hydroponics System</h5>
+                                        <p class="card-text text-muted">IoT-based system for vertical farming</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="card shadow-sm h-100">
+                                    <img src="/images/p2img.jpg" class="card-img-top" alt="Organic Fertiliser Campaign" style="height: 200px; object-fit: cover;">
+                                    <div class="card-body">
+                                        <h5 class="card-title">Organic Fertiliser Campaign</h5>
+                                        <p class="card-text text-muted">Promoting eco-friendly fertilisers</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="card shadow-sm h-100">
+                                    <img src="/images/p3img.png" class="card-img-top" alt="Urban Farming Education App" style="height: 200px; object-fit: cover;">
+                                    <div class="card-body">
+                                        <h5 class="card-title">Urban Farming Education App</h5>
+                                        <p class="card-text text-muted">Educational app for urban agriculture</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Slide 2 -->
+                    <div class="carousel-item">
+                        <div class="row justify-content-center g-4">
+                            <div class="col-md-4">
+                                <div class="card shadow-sm h-100">
+                                    <img src="/images/p4img.jpg" class="card-img-top" alt="Smart Rainwater Harvesting System" style="height: 200px; object-fit: cover;">
+                                    <div class="card-body">
+                                        <h5 class="card-title">Smart Rainwater Harvesting System</h5>
+                                        <p class="card-text text-muted">Automated rainwater collection for sustainable use</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="card shadow-sm h-100">
+                                    <img src="/images/p5img.jpg" class="card-img-top" alt="Compost Recycling Program" style="height: 200px; object-fit: cover;">
+                                    <div class="card-body">
+                                        <h5 class="card-title">Compost Recycling Program</h5>
+                                        <p class="card-text text-muted">Community composting initiative to reduce waste</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- Controls -->
+                <button class="carousel-control-prev" type="button" data-bs-target="#projectGalleryCarousel" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Previous</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#projectGalleryCarousel" data-bs-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Next</span>
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <section class="py-2 px-4 bg-white" style="border-radius: 25px" >
         <div class="container my-5">
             <h2 class="text-center fw-bold mb-2">
                 <i class="bi bi-chat-quote me-2 text-primary"></i>What People Say
