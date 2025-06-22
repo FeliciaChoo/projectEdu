@@ -11,7 +11,6 @@
 
                         <input type="hidden" th:field="*{student.id}" />
                         <input type="hidden" th:field="*{currentAmount}"/>
-                        <input type="hidden" th:field="*{endDate}"/>
                         <input type="hidden" th:field="*{imageUrl}" />
 
                         <!-- Project Details -->
@@ -21,7 +20,22 @@
                             </h3>
                             <div class="mb-3">
                                 <label for="projectTitle" class="form-label">Project Title</label>
-                                <input type="text" class="form-control" id="projectTitle" th:field="*{title}" required />
+                                <input type="text"
+                                       id="projectTitle"
+                                       name="title"
+                                       th:value="${project.title}"
+                                       class="form-control"
+                                       th:disabled="${project.currentAmount > 0}"
+                                       th:title="${project.currentAmount > 0 ? 'Cannot edit title after funding has started.' : ''}" />
+
+                                <input type="hidden"
+                                       name="title"
+                                       th:if="${project.currentAmount > 0}"
+                                       th:value="${project.title}" />
+
+                                <div th:if="${project.currentAmount > 0}" class="form-text text-danger">
+                                    <i class="bi bi-lock-fill"></i> This field is locked because funding has started.
+                                </div>
                             </div>
                             <div class="mb-3">
                                 <label for="projectDesc" class="form-label">Project Description</label>
@@ -29,8 +43,14 @@
                             </div>
                             <div class="mb-3">
                                 <label for="category" class="form-label">Category</label>
-                                <select class="form-select" id="category" th:field="*{category}" required>
-                                    <option value="" selected disabled>Select category</option>
+
+                                <select class="form-select"
+                                        id="category"
+                                        name="category"
+                                        th:field="*{category}"
+                                        th:disabled="${project.currentAmount > 0}"
+                                        th:title="${project.currentAmount > 0 ? 'Cannot edit category after funding has started.' : ''}">
+                                    <option value="" disabled>Select category</option>
                                     <option value="Technology">Technology</option>
                                     <option value="Science">Science</option>
                                     <option value="Social Impact">Social Impact</option>
@@ -41,8 +61,19 @@
                                     <option value="Business & Entrepreneurship">Business & Entrepreneurship</option>
                                     <option value="Other">Other</option>
                                 </select>
+
+                                <input type="hidden"
+                                       name="category"
+                                       th:if="${project.currentAmount > 0}"
+                                       th:value="${project.category}" />
+
+                                <div th:if="${project.currentAmount > 0}" class="form-text text-danger">
+                                    <i class="bi bi-lock-fill"></i> This field is locked because funding has started.
+                                </div>
+
                                 <input type="text" class="form-control mt-2" id="otherCategory" name="otherCategory" placeholder="Please specify category" style="display:none;" />
                             </div>
+
                             <div class="mb-3">
                                 <label for="surveyLink" class="form-label">Survey Link (if any):</label>
                                 <input type="text" class="form-control" id="surveyLink" th:field="*{surveyLink}" />
@@ -56,8 +87,6 @@
                                 <input type="file" class="form-control" id="imageFile" name="imageFile" accept="image/*"/>
                             </div>
 
-
-                            <!-- Add this to your form -->
                             <div class="mb-3">
                                 <label for="status" class="form-label">Status</label>
                                 <select class="form-select" id="status" th:field="*{status}" disabled>
@@ -65,14 +94,32 @@
                                     <option value="Inactive">Inactive</option>
                                     <option value="Completed">Completed</option>
                                 </select>
+                                <input type="hidden" th:field="*{status}" />
                             </div>
                             <div class="mb-3">
                                 <label for="endDate" class="form-label">End Date</label>
-                                <input type="date" class="form-control" id="endDate" th:field="*{endDate}" readonly />
+                                <input type="date" class="form-control" id="endDate" th:field="*{endDate}" disabled />
+                                <input type="hidden" th:field="*{endDate}"/>
                             </div>
                             <div class="mb-3">
                                 <label for="amountRequested" class="form-label">Amount Requested (MYR)</label>
-                                <input type="number" class="form-control" id="amountRequested" th:field="*{goalAmount}"  />
+
+                                <input type="number"
+                                       class="form-control"
+                                       id="amountRequested"
+                                       name="goalAmount"
+                                       th:value="${project.goalAmount}"
+                                       th:disabled="${project.currentAmount > 0}"
+                                       th:title="${project.currentAmount > 0 ? 'Cannot edit goal amount after funding has started.' : ''}" />
+
+                                <input type="hidden"
+                                       name="goalAmount"
+                                       th:if="${project.currentAmount > 0}"
+                                       th:value="${project.goalAmount}" />
+
+                                <div th:if="${project.currentAmount > 0}" class="form-text text-danger">
+                                    <i class="bi bi-lock-fill"></i> This field is locked because funding has started.
+                                </div>
                             </div>
                             <div class="mb-3">
                                 <label for="bankName" class="form-label">Bank Name</label>
@@ -95,74 +142,29 @@
                             </button>
                         </div>
                     </form>
+
                     <script>
-
-                        // University handling
-                        function toggleOtherUniversity(select) {
-                            var otherInput = document.getElementById('otherUniversity');
-                            if (select.value === 'Other') {
-                                otherInput.style.display = 'block';
-                                otherInput.required = true;
-                            } else {
-                                otherInput.style.display = 'none';
-                                otherInput.required = false;
-                                otherInput.value = '';
-                            }
-                        }
-
-                        // Category handling
                         document.addEventListener('DOMContentLoaded', function() {
                             const categorySelect = document.getElementById('category');
                             const otherCategoryInput = document.getElementById('otherCategory');
 
-                            if (categorySelect && otherCategoryInput) {
-                                // Initial check on page load
+                            function toggleOtherCategory() {
                                 if (categorySelect.value === 'Other') {
                                     otherCategoryInput.style.display = 'block';
                                     otherCategoryInput.required = true;
+                                } else {
+                                    otherCategoryInput.style.display = 'none';
+                                    otherCategoryInput.required = false;
+                                    otherCategoryInput.value = '';
                                 }
-
-                                // Change handler
-                                categorySelect.addEventListener('change', function() {
-                                    if (this.value === 'Other') {
-                                        otherCategoryInput.style.display = 'block';
-                                        otherCategoryInput.required = true;
-                                    } else {
-                                        otherCategoryInput.style.display = 'none';
-                                        otherCategoryInput.required = false;
-                                        otherCategoryInput.value = '';
-                                    }
-                                });
                             }
 
-                            // Form submission handling
-                            document.querySelector('form').addEventListener('submit', function(e) {
-                                // Handle university
-                                const uniSelect = document.getElementById('university');
-                                const otherUni = document.getElementById('otherUniversity');
-                                if (uniSelect.value === 'Other' && otherUni.value) {
-                                    uniSelect.value = otherUni.value;
-                                }
-
-                                function toggleOtherCategory(selectElement) {
-                                    var otherInput = document.getElementById("otherCategory");
-                                    if (selectElement.value === "Other") {
-                                        otherInput.style.display = "block";
-                                        otherInput.required = true;
-                                    } else {
-                                        otherInput.style.display = "none";
-                                        otherInput.value = "";
-                                        otherInput.required = false;
-                                    }
-                                }
-
-                                // Call on page load to set correct state if editing existing data
-                                document.addEventListener("DOMContentLoaded", function() {
-                                    var select = document.getElementById("category");
-                                    toggleOtherCategory(select);
-                                });
-
-                            });
+                            toggleOtherCategory(); // Initial check
+                            categorySelect.addEventListener('change', toggleOtherCategory);
                         });
                     </script>
                 </div>
+            </div>
+        </div>
+    </div>
+</div>

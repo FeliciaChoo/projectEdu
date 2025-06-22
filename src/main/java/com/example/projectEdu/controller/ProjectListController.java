@@ -31,10 +31,10 @@ public class ProjectListController {
     public String getProjectById(@PathVariable("id") Long projectId, Model model) {
         System.out.println("Project controller called with id = " + projectId);
         Optional<Project> optionalProject = projectService.findById(projectId);
-        if (optionalProject == null) {
-            return "error/404";
-        }
 
+        if (optionalProject.isEmpty()) {
+            return "project-not-found";
+        }
 
         Project project = optionalProject.get();
         Integer backerCount = fundService.countByProjectId(projectId);

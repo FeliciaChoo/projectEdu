@@ -1,4 +1,4 @@
-<div th:fragment="content">
+<div th:fragment="content" xmlns:sec="http://www.w3.org/1999/xhtml">
 
     <!-- Inline CSS goes here -->
     <style>
@@ -96,10 +96,25 @@
             <tr th:each="fund : ${fund}">
                 <td th:text="${fund.project.title}"></td>
                 <td>
-                    <a class="student-link"
+                    <span sec:authorize="hasRole('ADMIN')">
+                       <a class="student-link"
+                       th:href="@{/admin/student-dashboard/{id}(id=${fund.project.student.id})}"
+                       th:text="${fund.project.student.name}"></a>
+                    </span>
+
+                    <span sec:authorize="hasRole('FUNDER')">
+                       <a class="student-link"
                        th:href="@{/funder/student-dashboard/{id}(id=${fund.project.student.id})}"
                        th:text="${fund.project.student.name}"></a>
+                    </span>
+
+                    <span sec:authorize="hasRole('STUDENT')">
+                        <a class="student-link"
+                        th:href="@{/student/student-dashboard/{id}(id=${fund.project.student.id})}"
+                        th:text="${fund.project.student.name}"></a>
+                    </span>
                 </td>
+
                 <td th:text="${fund.project.category}"></td>
                 <td th:text="'MYR ' + ${fund.amount}"></td>
                 <td th:text="${fund.transactionDate}"></td>

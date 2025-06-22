@@ -1,8 +1,8 @@
 INSERT INTO student (student_name, email, institution, password, profile_url) VALUES
 ('Aina Khalid', 'aina.k@upm.edu.my', 'Universiti Putra Malaysia', '$2a$10$xdvi1q0X5mTten4dNOoS9OyM.39LTvMn6vZAuO7dIgRRVEGk5pF4y', '/images/pfp1.png'),
-('Daniel Wong', 'danielw@um.edu.my', 'Universiti Malaya', '$2a$10$0XrENLuhcOFtzdLeswLBLekkYjVGxkok9YqgwjiwpjlbzL5EXGS3G', NULL),
-('Nurul Syafiqah', 'syafiqah@upm.edu.my', 'Universiti Putra Malaysia', '$2a$10$qgvR/vHVzrj2a7nAM8kB5.4UCzZhIqE5mS7JrvGSH7rc2O3mMVUXW', NULL),
-('Faiz Rahman', 'faiz.r@utm.edu.my', 'Universiti Teknologi Malaysia', '$2a$10$oaeiv1qdCLNBLRw3EYA0uu1eO5kDxvpQEagvz.P3jaXf38d0EKmem', NULL);
+('Daniel Wong', 'danielw@um.edu.my', 'Universiti Malaya', '$2a$10$xdvi1q0X5mTten4dNOoS9OyM.39LTvMn6vZAuO7dIgRRVEGk5pF4y', NULL),
+('Nurul Syafiqah', 'syafiqah@upm.edu.my', 'Universiti Putra Malaysia', '$2a$10$xdvi1q0X5mTten4dNOoS9OyM.39LTvMn6vZAuO7dIgRRVEGk5pF4y', NULL),
+('Faiz Rahman', 'faiz.r@utm.edu.my', 'Universiti Teknologi Malaysia', '$2a$10$xdvi1q0X5mTten4dNOoS9OyM.39LTvMn6vZAuO7dIgRRVEGk5pF4y', NULL);
 
 INSERT INTO project (title, status, description, category, survey_link, goal_amount, current_amount, end_date, bank_name,
                      account_no, account_holder_name, image_url, student_id) VALUES

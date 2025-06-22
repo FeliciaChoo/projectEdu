@@ -219,7 +219,6 @@
                                 <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
 
                                 <select name="status" class="form-select form-select-sm me-2" th:value="${project.status}">
-                                    <option value="Pending" th:selected="${project.status == 'Pending'}">Pending</option>
                                     <option value="Active" th:selected="${project.status == 'Active'}">Active</option>
                                     <option value="Completed" th:selected="${project.status == 'Completed'}">Completed</option>
                                     <option value="Inactive" th:selected="${project.status == 'Inactive'}">Inactive</option>

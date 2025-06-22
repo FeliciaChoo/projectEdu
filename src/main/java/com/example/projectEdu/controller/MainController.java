@@ -9,6 +9,7 @@ import com.example.projectEdu.service.ProjectService;
 import com.example.projectEdu.service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
@@ -195,6 +196,29 @@ public class MainController {
     @GetMapping("/access-denied")
     public String showAccessDenied() {
         return "access-denied";
+    }
+
+    @GetMapping("/project-not-found")
+    public String showProjectNotFound() {
+        return "project-not-found";
+    }
+
+    @GetMapping("/edit-not-allowed")
+    public String showEditNotAllowedForm(@AuthenticationPrincipal CustomUserDetails userDetails, Model model) {
+        model.addAttribute("id", userDetails.getId());
+        return "edit-not-allowed";
+    }
+
+    @GetMapping("/user-not-found")
+    public String showUserNotFound(@AuthenticationPrincipal CustomUserDetails userDetails, Model model) {
+        model.addAttribute("id", userDetails.getId());
+        return "user-not-found";
+    }
+
+    @GetMapping("/delete-not-allowed")
+    public String showDeleteNotAllowed(@AuthenticationPrincipal CustomUserDetails userDetails, Model model) {
+        model.addAttribute("id", userDetails.getId());
+        return "delete-not-allowed";
     }
 
 
