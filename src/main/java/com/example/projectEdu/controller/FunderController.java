@@ -103,7 +103,7 @@ public class FunderController {
         project.setCurrentAmount(newAmount);
 
         projectService.updateProject(project);
-        fundService.addNewFund(fund);
+        fundService.saveFund(fund);
         return "payment-success";
     }
 

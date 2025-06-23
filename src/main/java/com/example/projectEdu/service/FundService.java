@@ -4,7 +4,6 @@ import com.example.projectEdu.model.Fund;
 import com.example.projectEdu.model.Funder;
 
 import java.math.BigDecimal;
-import java.util.Date;
 import java.util.List;
 
 public interface FundService {
@@ -18,7 +17,7 @@ public interface FundService {
 
     int countByProjectId(Long projectId);
 
-    Fund addNewFund (Fund fund);
+    Fund saveFund(Fund fund);
 
     List<Fund> findByFunderId(Long id);
 

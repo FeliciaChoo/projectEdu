@@ -38,7 +38,7 @@ public class FundServiceImpl implements FundService {
     }
 
     @Override
-    public Fund addNewFund (Fund fund){
+    public Fund saveFund(Fund fund){
         return fundRepository.save(fund);
     }
 

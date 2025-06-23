@@ -55,4 +55,5 @@ INSERT INTO fund (amount, payment_method, transaction_date, funder_id, project_i
 (1500.00, 'Online Banking', '2024-10-12', 3, 3),
 (1000.00, 'e-Wallet', '2024-07-13', 1, 2),
 (2000.00, 'Online Banking', '2024-09-08', 3, 2),
-(1400.00, 'e-Wallet', '2024-07-28', 1, 5);
+(1400.00, 'e-Wallet', '2024-07-28', 1, 5),
+(1500.00, 'Paypal', '2024-07-28', 3, 4);
